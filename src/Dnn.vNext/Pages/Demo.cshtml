@@ -6,9 +6,9 @@
 
 <h2>Dnn.vNext Demo</h2>
 
-<div id="module-1" class="new-module">
+@*<div id="module-1" class="new-module">
     Demo
-</div>
+</div>*@
 
 <div class="row">
     <div id="content_1" class="col-md-7 module"></div>
@@ -20,6 +20,15 @@
 @section scripts{
     <script>
         $(function () {
+            //$('#add-module').click(function () {
+            //    /* call add module logic */
+            //    $('body').append("<div id=\"module-1\" class=\"new-module\"></div>");
+            //    $('#module-1').draggable({
+            //        start: function (e, u) {
+            //            $('#module-1').css({ width: '150px', 'background-color': '#c8c8c8', border: 'gray solid' });
+            //        }
+            //    });
+            //});
             $.ajax({
                 url: '@Model.Module.path',
                 type: 'GET',
@@ -28,11 +37,6 @@
                 }
             });
             $('#@Model.Module.id').html()
-            $('#module-1').draggable({
-                start: function (e, u) {
-                    $('#module-1').css({ width: '150px', 'background-color': '#c8c8c8', border: 'gray solid' });
-                }
-            });
             $('.module').droppable({
                 drop: function (e, u) {
                     $('#module-1').detach().css({ top: 0, left: 0, width: '100%', 'background-color': 'transparent', border: 'none' }).appendTo(this);

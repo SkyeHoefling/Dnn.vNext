@@ -46,3 +46,43 @@ body {
     background-color:#c8c8c8;
     border: gray solid;
 }
+div.admin {
+    margin-bottom:5em;
+}
+
+footer.admin {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5em;
+    line-height: 5em;
+    background-color: #2f2f2f;
+    color: #b1b1b1;
+}
+
+span.admin {
+    text-decoration: none;
+    color: #b1b1b1;
+    background-color: #2f2f2f;
+}
+
+span.admin:hover{
+    cursor:pointer;
+}
+
+.thumbnail-module{
+    display:block;
+    text-align:center;
+    padding:3em 0;
+}
+
+.thumbnail-module > .glyphicon {
+    font-size: 3em;
+}
+
+.thumbnail-module:hover{
+    background-color:#a8a8a8;
+    cursor:pointer;
+}
