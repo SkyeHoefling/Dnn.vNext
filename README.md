@@ -28,5 +28,6 @@ This prototype is designed for testing and will not have feature parity with the
 ## Created By: @Andrew_Hoefling
 Twitter: @Andrew_Hoefling
 Blog: andrewhoefling.com
-License
+
+## License
 The MIT License (MIT) see License File
