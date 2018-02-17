@@ -1,0 +1,44 @@
+﻿@using Dnn.vNext.Models
+@model NewModule
+
+<!-- Modal -->
+<div class="modal fade" id="module-list" tabindex="-1" role="dialog" aria-labelledby="module-list-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="module-list-label">Add Module</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    @foreach (var module in Model.Moduels)
+                    {
+                        <div class="col-md-4">
+                            <div id="new-module-@module.Id" class="thumbnail thumbnail-module">
+                                <span class="glyphicon glyphicon-@module.Icon" aria-hidden="true"></span>
+                                <h4>@module.Name</h4>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    @foreach (var module in Model.Moduels)
+    {
+        <text>
+            $('#new-module-@module.Id').click(function () {
+                $('#module-list').modal('hide');
+                $('body').append("<div id=\"module-1\" class=\"new-module\"></div>");
+                $('#module-1').draggable({
+                    start: function (e, u) {
+                        $('#module-1').css({ width: '150px', 'background-color': '#c8c8c8', border: 'gray solid' });
+                    }
+                })
+            })
+        </text>
+    }
+</script>
