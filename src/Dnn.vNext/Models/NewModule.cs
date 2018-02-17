@@ -4,6 +4,6 @@ namespace Dnn.vNext.Models
 {
     public class NewModule
     {
-        public IEnumerable<Module> Moduels { get; set; }
+        public IEnumerable<Module> Modules { get; set; }
     }
 }
