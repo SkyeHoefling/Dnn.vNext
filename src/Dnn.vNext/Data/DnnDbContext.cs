@@ -12,5 +12,7 @@ namespace Dnn.vNext.Data
 
         public DbSet<Page> Pages { get; set; }
         public DbSet<Module> Modules { get; set; }
+
+
     }
 }

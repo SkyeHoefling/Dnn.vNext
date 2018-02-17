@@ -12,14 +12,22 @@
 
 <div class="row">
     <div id="content_1" class="col-md-7 module"></div>
-    <div class="col-md-4 module"></div>
-    <div class="col-md-7 module"></div>
-    <div class="col-md-4 module"></div>
+    <div id="content_2" class="col-md-4 module"></div>
+    <div id="content_3" class="col-md-7 module"></div>
+    <div id="content_4" class="col-md-4 module"></div>
 </div>
 
 @section scripts{
     <script>
         $(function () {
+            $.ajax({
+                url: '@Model.Module.path',
+                type: 'GET',
+                success: function (data) {
+                    $('#@Model.Module.id').html(data);
+                }
+            });
+            $('#@Model.Module.id').html()
             $('#module-1').draggable({
                 start: function (e, u) {
                     $('#module-1').css({ width: '150px', 'background-color': '#c8c8c8', border: 'gray solid' });
