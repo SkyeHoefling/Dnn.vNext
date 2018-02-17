@@ -1,4 +1,7 @@
-﻿<!-- Modal -->
+﻿@using Dnn.vNext.Models
+@model NewModule
+
+<!-- Modal -->
 <div class="modal fade" id="module-list" tabindex="-1" role="dialog" aria-labelledby="module-list-label">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -8,42 +11,15 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="thumbnail thumbnail-module">
-                            <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
-                            <h4>Simple Form</h4>
+                    @foreach (var module in Model.Moduels)
+                    {
+                        <div class="col-md-4">
+                            <div id="new-module-@module.Id" class="thumbnail thumbnail-module">
+                                <span class="glyphicon glyphicon-@module.Icon" aria-hidden="true"></span>
+                                <h4>@module.Name</h4>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="thumbnail thumbnail-module">
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                            <h4>HTML Editor</h4>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="thumbnail thumbnail-module">
-                            <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
-                            <h4>Simple Form</h4>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="thumbnail thumbnail-module">
-                            <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
-                            <h4>Simple Form</h4>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="thumbnail thumbnail-module">
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                            <h4>HTML Editor</h4>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="thumbnail thumbnail-module">
-                            <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
-                            <h4>Simple Form</h4>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>
