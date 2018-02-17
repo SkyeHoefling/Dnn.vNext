@@ -46,6 +46,20 @@ body {
     background-color:#c8c8c8;
     border: gray solid;
 }
+
+.btn-add-module {
+    background-image: url(/images/AddModule_Sprite.png);
+    background-position: -1px -1px;
+    height: 33px;
+    width: 47px;
+    color: #727272;
+}
+
+.btn-add-module:hover {
+        background-image: url(/images/AddModule_Sprite.png);
+        background-position: 0px -33px;
+        border: 0 none;
+    }
 div.admin {
     margin-bottom:5em;
 }
