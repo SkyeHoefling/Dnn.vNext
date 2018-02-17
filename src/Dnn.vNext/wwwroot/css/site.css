@@ -81,3 +81,8 @@ span.admin:hover{
 .thumbnail-module > .glyphicon {
     font-size: 3em;
 }
+
+.thumbnail-module:hover{
+    background-color:#a8a8a8;
+    cursor:pointer;
+}
