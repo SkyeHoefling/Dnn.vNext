@@ -20,7 +20,11 @@
 @section scripts{
     <script>
         $(function () {
-            $('#module-1').draggable();
+            $('#module-1').draggable({
+                start: function (e, u) {
+                    $('#module-1').css({ width: '150px' });
+                }
+            });
             $('.module').droppable({
                 drop: function (e, u) {
                     $('#module-1').detach().css({ top: 0, left: 0, width: '100%' }).appendTo(this);
