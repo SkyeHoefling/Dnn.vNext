@@ -71,3 +71,13 @@ span.admin {
 span.admin:hover{
     cursor:pointer;
 }
+
+.thumbnail-module{
+    display:block;
+    text-align:center;
+    padding:3em 0;
+}
+
+.thumbnail-module > .glyphicon {
+    font-size: 3em;
+}

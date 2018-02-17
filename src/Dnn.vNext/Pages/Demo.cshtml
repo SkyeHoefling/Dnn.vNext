@@ -20,15 +20,15 @@
 @section scripts{
     <script>
         $(function () {
-            $('#add-module').click(function () {
-                /* call add module logic */
-                $('body').append("<div id=\"module-1\" class=\"new-module\"></div>");
-                $('#module-1').draggable({
-                    start: function (e, u) {
-                        $('#module-1').css({ width: '150px', 'background-color': '#c8c8c8', border: 'gray solid' });
-                    }
-                });
-            });
+            //$('#add-module').click(function () {
+            //    /* call add module logic */
+            //    $('body').append("<div id=\"module-1\" class=\"new-module\"></div>");
+            //    $('#module-1').draggable({
+            //        start: function (e, u) {
+            //            $('#module-1').css({ width: '150px', 'background-color': '#c8c8c8', border: 'gray solid' });
+            //        }
+            //    });
+            //});
             $.ajax({
                 url: '@Model.Module.path',
                 type: 'GET',
