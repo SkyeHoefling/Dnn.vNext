@@ -50,24 +50,6 @@
             </div>
         </footer>
     </div>
-    @Html.Partial("_AddNewModule", new NewModule
-{
-    Moduels = new []
-        {
-            new Module
-            {
-                Id = "0",
-                Icon = "tasks",
-                Name = "Simple Form"
-            },
-            new Module
-            {
-                Id = "1",
-                Icon = "pencil",
-                Name = "HTML Editor"
-            }
-        }
-})
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
@@ -92,5 +74,23 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
+    @Html.Partial("_AddNewModule", new NewModule
+    {
+        Moduels = new []
+            {
+                new Module
+                {
+                    Id = "0",
+                    Icon = "tasks",
+                    Name = "Simple Form"
+                },
+                new Module
+                {
+                    Id = "1",
+                    Icon = "pencil",
+                    Name = "HTML Editor"
+                }
+            }
+    })
 </body>
 </html>
