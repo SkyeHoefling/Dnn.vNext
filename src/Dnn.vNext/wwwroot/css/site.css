@@ -61,3 +61,13 @@ footer.admin {
     background-color: #2f2f2f;
     color: #b1b1b1;
 }
+
+span.admin {
+    text-decoration: none;
+    color: #b1b1b1;
+    background-color: #2f2f2f;
+}
+
+span.admin:hover{
+    cursor:pointer;
+}
