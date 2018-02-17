@@ -21,6 +21,11 @@
     <script>
         $(function () {
             $('#module-1').draggable();
+            $('.module').droppable({
+                drop: function (e, u) {
+                    $('#module-1').detach().css({ top: 0, left: 0, width: '100%' }).appendTo(this);
+                }
+            });
         });
     </script>
 }
