@@ -64,7 +64,7 @@ body {
 .btn-add-existing-module {
     background-image: url(/images/AddExistingModule_Sprite.png);
     margin-left: 7px;
-    background-position: 0px -1px;
+    background-position: -1px -1px;
     height: 33px;
     width: 47px;
 }
@@ -77,13 +77,13 @@ body {
 .btn-page-settings {
     background-image: url(/images/Settings_Sprite.png);
     margin-left:7px;
-    background-position: 0px -1px;
+    background-position: -1px -1px;
     height: 33px;
     width: 47px;
 }
 
 .btn-page-settings:hover {
-   background-position: 0px -33px;
+   background-position: -1px -34px;
 }
 
 .hoverMenu {
