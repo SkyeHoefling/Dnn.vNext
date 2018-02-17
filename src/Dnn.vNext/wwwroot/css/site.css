@@ -39,3 +39,10 @@ body {
     border:gray dotted;
     margin:1em;
 }
+
+.new-module {
+    height: 150px;
+    width: 150px;
+    background-color:#c8c8c8;
+    border: gray solid;
+}

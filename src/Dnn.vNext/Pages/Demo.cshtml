@@ -6,6 +6,10 @@
 
 <h2>Dnn.vNext Demo</h2>
 
+<div id="module-1" class="new-module">
+    Demo
+</div>
+
 <div class="row">
     <div class="col-md-7 module"></div>
     <div class="col-md-4 module"></div>
@@ -13,3 +17,10 @@
     <div class="col-md-4 module"></div>
 </div>
 
+@section scripts{
+    <script>
+        $(function () {
+            $('#module-1').draggable();
+        });
+    </script>
+}
