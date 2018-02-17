@@ -22,12 +22,13 @@
         $(function () {
             $('#module-1').draggable({
                 start: function (e, u) {
-                    $('#module-1').css({ width: '150px' });
+                    $('#module-1').css({ width: '150px', 'background-color': '#c8c8c8', border: 'gray solid' });
                 }
             });
             $('.module').droppable({
                 drop: function (e, u) {
-                    $('#module-1').detach().css({ top: 0, left: 0, width: '100%' }).appendTo(this);
+                    $('#module-1').detach().css({ top: 0, left: 0, width: '100%', 'background-color': 'transparent', border: 'none' }).appendTo(this);
+                    $('#module-1').html('test');
                 }
             });
         });
