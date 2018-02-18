@@ -3,12 +3,9 @@
 @{
     ViewData["Title"] = "Demo";
 }
+@Html.AntiForgeryToken()
 
 <h2>Dnn.vNext Demo</h2>
-
-@*<div id="module-1" class="new-module">
-    Demo
-</div>*@
 
 <div class="row">
     <div id="content_1" class="col-md-7 module"></div>
@@ -17,38 +14,51 @@
     <div id="content_4" class="col-md-4 module"></div>
 </div>
 
+
 @section scripts{
-    <script>
-        $(function () {
-            //$('#add-module').click(function () {
-            //    /* call add module logic */
-            //    $('body').append("<div id=\"module-1\" class=\"new-module\"></div>");
-            //    $('#module-1').draggable({
-            //        start: function (e, u) {
-            //            $('#module-1').css({ width: '150px', 'background-color': '#c8c8c8', border: 'gray solid' });
-            //        }
-            //    });
-            //});
-            $.ajax({
-                url: '@Model.Module.path',
-                type: 'GET',
-                success: function (data) {
-                    $('#@Model.Module.id').html(data);
-                }
-            });
-            $('#@Model.Module.id').html()
-            $('.module').droppable({
-                drop: function (e, u) {
-                    $('#module-1').detach().css({ top: 0, left: 0, width: '100%', 'background-color': 'transparent', border: 'none' }).appendTo(this);
-                    $.ajax({
-                        url: '@Model.ModulePath',
-                        type: 'GET',
-                        success: function (data) {
-                            $('#module-1').html(data);
-                        }
-                    });
-                }
-            });
+<script>
+    $(function () {
+        @foreach (var module in Model.Modules)
+        {
+            <text>
+                $.ajax({
+                    url: '@module.path',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#@module.id').html(data);
+                    }
+                });
+                $('#@module.id').html();
+            </text>
+        }
+        $('.module').droppable({
+            drop: function (e, u) {
+                $('#module-1').detach().css({ top: 0, left: 0, width: '100%', 'background-color': 'transparent', border: 'none' }).appendTo(this);
+
+                var data = {
+                    pageId: "this page name",
+                    elementId: this.id,
+                    modulePath: "Modules/SimpleForm"
+                };
+
+                $.ajax({
+                    url: '/api/page/AddModule',
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    headers: {
+                        'RequestVerificationToken':  $('input:hidden[name="__RequestVerificationToken"]').val()
+                    },
+                    data: JSON.stringify(data)
+                });
+                $.ajax({
+                    url: '@Model.ModulePath',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#module-1').html(data);
+                    }
+                });
+            }
         });
-    </script>
+    });
+</script>
 }

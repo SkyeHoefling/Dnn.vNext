@@ -1,5 +1,7 @@
 ﻿using Dnn.vNext.Data;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Dnn.vNext.Pages
@@ -12,13 +14,16 @@ namespace Dnn.vNext.Pages
             _context = context;
         }
 
-        public (string id, string path) Module { get; set; }
+        public IEnumerable<(string id, string path)> Modules { get; set; }
         public string ModulePath { get; } = "Modules/SimpleForm";
 
         public void OnGet()
         {
-            var module = _context.Modules.FirstOrDefault();
-            Module = (module.ElementId, module.Path);
+            var page = _context.Pages
+                .Include(p => p.Modules)
+                .FirstOrDefault();
+            var modules = page.Modules;
+            Modules = page.Modules.Select(x => (x.ElementId, x.Path));
         }
     }
 }
