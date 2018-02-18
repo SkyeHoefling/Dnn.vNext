@@ -43,9 +43,95 @@ body {
 .new-module {
     height: 150px;
     width: 150px;
-    background-color:#c8c8c8;
+    background-color: #c8c8c8;
     border: gray solid;
+    position: absolute !important;
+    top: 40%;
+    left: 45%;
 }
+
+    .new-module:hover {
+        animation:none;
+        border:green solid;
+    }
+
+
+.new-module-add-animation {
+    -webkit-animation: myfirst linear 2s infinite alternate; /* Safari 4.0 - 8.0 */
+    animation: myfirst linear 2s infinite alternate;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes myfirst {
+    0% {
+        left: 0px;
+        top: 0px;
+    }
+
+    25% {
+        left: 5px;
+        top: 0px;
+    }
+
+    50% {
+        left: 5px;
+        top: 5px;
+    }
+
+    75% {
+        left: 0px;
+        top: 5px;
+    }
+
+    100% {
+        left: 0px;
+        top: 0px;
+    }
+}
+
+/* Standard syntax */
+@keyframes myfirst {
+    0% {
+        left: 45%;
+        top: 40%;
+        box-shadow: 0px 0px 37px 3px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 0px 0px 37px 3px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 37px 3px rgba(0,0,0,0.75);
+    }
+
+    25% {
+        left: 46%;
+        top: 40%;
+        box-shadow: 0px 0px 37px 3px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 0px 0px 37px 3px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 37px 3px rgba(0,0,0,0.75);
+    }
+
+    50% {
+        left: 46%;
+        top: 41%;
+        box-shadow: 0px 0px 37px 3px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 0px 0px 37px 3px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 37px 3px rgba(0,0,0,0.75);
+    }
+
+    75% {
+        left: 45%;
+        top: 41%;
+        box-shadow: 0px 0px 37px 3px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 0px 0px 37px 3px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 37px 3px rgba(0,0,0,0.75);
+    }
+
+    100% {
+        left: 45%;
+        top: 40%;
+        box-shadow: 0px 0px 37px 3px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 0px 0px 37px 3px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 37px 3px rgba(0,0,0,0.75);
+    }
+}
+
 
 .btn-add-module {
     background-image: url(/images/AddModule_Sprite.png);
