@@ -73,20 +73,20 @@
     @Html.Partial("_AddNewModule", new NewModule
     {
         Modules = new[]
-                {
-        new Module
-        {
-            Id = "0",
-            Icon = "tasks",
-            Name = "Simple Form"
-        },
-        new Module
-        {
-            Id = "1",
-            Icon = "pencil",
-            Name = "HTML Editor"
-        }
-    }
+                    {
+new Module
+{
+    Id = "0",
+    Icon = "tasks",
+    Name = "Simple Form"
+},
+new Module
+{
+    Id = "1",
+    Icon = "pencil",
+    Name = "HTML Editor"
+}
+}
     })
     <script>
         $(function () {
@@ -99,12 +99,58 @@
                             $('footer').remove();
                         }
                         else {
-                            $('#main').append(data);    
-                        }                        
+                            $('#main').append(data);
+                        }
                     }
                 });
             });
         });
     </script>
+
+
+    <script type="text/javascript">
+        var closeAllMenus = function(){
+            $('.persona-bar-content-menu').hide();
+            $('.persona-bar-manage-menu').hide();
+            $('.persona-bar-settings-menu').hide();
+        };
+
+        //**************
+
+        $('.persona-bar-content-icon').hover(function () {
+            closeAllMenus();
+            $('.persona-bar-content-menu').show()
+        });
+
+        $('.persona-bar-content-menu').mouseleave(function () {
+            $('.persona-bar-content-menu').hide()
+        });
+
+        //**************
+
+        $('.persona-bar-manage-icon').hover(function () {
+            closeAllMenus();
+            $('.persona-bar-manage-menu').show()
+        });
+
+        $('.persona-bar-manage-menu').mouseleave(function () {
+            $('.persona-bar-manage-menu').hide()
+        });
+
+        //**************
+
+        $('.persona-bar-settings-icon').hover(function () {
+            closeAllMenus();
+            $('.persona-bar-settings-menu').show()
+        });
+
+        $('.persona-bar-settings-menu').mouseleave(function () {
+            $('.persona-bar-settings-menu').hide()
+        });
+
+    </script>
+
+
+
 </body>
 </html>
