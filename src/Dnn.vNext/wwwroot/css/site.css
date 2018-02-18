@@ -200,3 +200,10 @@ footer.admin {
     background-color:black;
     cursor:pointer;
 }
+
+.persona-edit {
+    bottom:0;
+    color:white;
+    position:absolute;
+    margin-bottom: 10em;
+}
