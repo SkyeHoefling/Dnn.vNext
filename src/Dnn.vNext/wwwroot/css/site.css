@@ -30,9 +30,9 @@ body {
 }
 
 .module {
-    height:200px;
     border:gray dotted;
     margin:1em;
+    min-height:200px;
 }
 
 .new-module {
