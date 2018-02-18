@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Dnn.vNext.Data;
+﻿using Dnn.vNext.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,7 +13,7 @@ namespace Dnn.vNext.Controllers
     public class PageModule
     {
         [JsonProperty("pageId")]
-        public string PageId { get; set; }
+        public int PageId { get; set; }
 
         [JsonProperty("elementId")]
         public string ElementId { get; set; }
@@ -38,13 +36,19 @@ namespace Dnn.vNext.Controllers
         public IActionResult AddModule([FromBody]PageModule pageModule)
         {
             var page = _context.Pages
-                .Include(p => p.Modules)
+                .Include(p => p.PageModules)
                 .FirstOrDefault();
-            page.Modules.Add(new Module
+
+            var findModule = _context.Modules
+                .FirstOrDefault(x => x.Path == pageModule.ModulePath);
+
+            page.PageModules.Add(new Data.PageModule
             {
+                PageId = pageModule.PageId,
                 ElementId = pageModule.ElementId,
-                Path = pageModule.ModulePath
+                ModuleId = findModule.Id
             });
+
             _context.SaveChanges();
             return Json("done");
         }

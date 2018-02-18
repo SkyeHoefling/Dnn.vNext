@@ -37,7 +37,7 @@
                 $('#module-1').detach().css({ top: 0, left: 0, width: '100%', 'background-color': 'transparent', border: 'none' }).appendTo(this);
 
                 var data = {
-                    pageId: "this page name",
+                    pageId: @Model.PageId,
                     elementId: this.id,
                     modulePath: "Modules/SimpleForm"
                 };

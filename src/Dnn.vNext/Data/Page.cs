@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Dnn.vNext.Data
 {
@@ -10,6 +7,6 @@ namespace Dnn.vNext.Data
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<Module> Modules { get; set; }
+        public virtual ICollection<PageModule> PageModules { get; set; }
     }
 }

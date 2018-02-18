@@ -16,14 +16,17 @@ namespace Dnn.vNext.Pages
 
         public IEnumerable<(string id, string path)> Modules { get; set; }
         public string ModulePath { get; } = "Modules/SimpleForm";
+        public int PageId { get; set; }
 
         public void OnGet()
         {
             var page = _context.Pages
-                .Include(p => p.Modules)
+                .Include(p => p.PageModules)
+                    .ThenInclude(pm => pm.Module)
                 .FirstOrDefault();
-            var modules = page.Modules;
-            Modules = page.Modules.Select(x => (x.ElementId, x.Path));
+
+            PageId = page.Id;
+            Modules = page.PageModules.Select(x => (x.ElementId, x.Module.Path));
         }
     }
 }

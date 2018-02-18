@@ -17,15 +17,33 @@ namespace Dnn.vNext.Data
                 context.Pages.Add(page);
                 context.SaveChanges();
 
-                var module = new Module
-                {
-                    PageId = context.Pages.FirstOrDefault().Id,
-                    ElementId = "content_3",
-                    Path = "Modules/SimpleForm"
+                var modules = new[] {
+                    new Module
+                    {
+                        Icon = "tasks",
+                        Name = "Simple Form",
+                        Path = "Modules/SimpleForm"
+                    },
+                    new Module
+                    {
+                        Icon = "pencil",
+                        Name = "HTML Editor",
+                        Path = "Modules/SimpleForm"
+                    }
                 };
-
-                context.Modules.Add(module);
+                context.Modules.AddRange(modules);
                 context.SaveChanges();
+
+                // todo - cleanup
+                //var module = new PageModule
+                //{
+                //    PageId = context.Pages.FirstOrDefault().Id,
+                //    ElementId = "content_3",
+                //    Path = "Modules/SimpleForm"
+                //};
+
+                //context.Modules.Add(module);
+                //context.SaveChanges();
             }
         }
     }
