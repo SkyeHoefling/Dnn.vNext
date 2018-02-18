@@ -32,10 +32,10 @@
         <text>
             $('#new-module-@module.Id').click(function () {
                 $('#module-list').modal('hide');
-                $('body').append("<div id=\"module-1\" class=\"new-module\"></div>");
+                $('body').append("<div id=\"module-1\" class=\"new-module new-module-add-animation \"></div>");
                 $('#module-1').draggable({
                     start: function (e, u) {
-                        $('#module-1').css({ width: '150px', 'background-color': '#c8c8c8', border: 'gray solid' });
+                        $('#module-1').removeClass("new-module-add-animation");
                     }
                 })
             })
