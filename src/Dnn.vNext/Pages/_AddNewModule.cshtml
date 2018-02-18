@@ -32,10 +32,10 @@
         <text>
             $('#new-module-@module.Id').click(function () {
                 $('#module-list').modal('hide');
-                $('body').append("<div id=\"module-1\" class=\"new-module new-module-add-animation \"></div>");
+                $('body').append("<div id=\"module-1\" class=\"new-module floating-add-module new-module-add-animation \"></div>");
                 $('#module-1').draggable({
                     start: function (e, u) {
-                        $('#module-1').removeClass("new-module-add-animation");
+                        $(this).removeClass("new-module-add-animation");
                     }
                 })
             })
