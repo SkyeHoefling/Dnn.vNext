@@ -175,7 +175,6 @@ footer.admin {
 }
 
 .logo {
-    /*display: block;*/
     height: 4em;
     margin: 1em auto;
     width:100%;
@@ -188,4 +187,16 @@ footer.admin {
 
 .logo-container:hover {
     background-color: #2f2f2f;
+}
+
+.persona-button > svg {
+    height: 2em;
+    fill: #868484;
+    width: 100%;
+    margin: 1.5em auto;
+}
+
+.persona-button:hover {
+    background-color:black;
+    cursor:pointer;
 }
