@@ -19,6 +19,7 @@
     </environment>
 </head>
 <body>
+    @Html.Partial("_PersonaBar")
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -81,21 +82,21 @@
     @RenderSection("Scripts", required: false)
     @Html.Partial("_AddNewModule", new NewModule
     {
-        Modules = new []
-            {
-                new Module
+        Modules = new[]
                 {
-                    Id = "0",
-                    Icon = "tasks",
-                    Name = "Simple Form"
-                },
-                new Module
-                {
-                    Id = "1",
-                    Icon = "pencil",
-                    Name = "HTML Editor"
-                }
-            }
+        new Module
+        {
+            Id = "0",
+            Icon = "tasks",
+            Name = "Simple Form"
+        },
+        new Module
+        {
+            Id = "1",
+            Icon = "pencil",
+            Name = "HTML Editor"
+        }
+    }
     })
 </body>
 </html>
