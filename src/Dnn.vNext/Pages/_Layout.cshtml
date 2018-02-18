@@ -47,6 +47,11 @@
         <footer class="admin">
             <div class="container">
                 <span class="btn btn-add-module" data-toggle="modal" data-target="#module-list"></span>
+                <div class="hoverMenu addModuleHover">Add Module</div>
+                <span class="btn btn-add-existing-module" data-toggle="modal" data-target="#existing-module-list"></span>
+                <div class="hoverMenu addExistingModuleHover">Add Existing Module</div>
+                <span class="btn btn-page-settings" data-toggle="modal" data-target="#page-settings"></span>
+                <div class="hoverMenu pageSettingsHover">Page Settings</div>
             </div>
         </footer>
     </div>
@@ -76,7 +81,7 @@
     @RenderSection("Scripts", required: false)
     @Html.Partial("_AddNewModule", new NewModule
     {
-        Moduels = new []
+        Modules = new []
             {
                 new Module
                 {

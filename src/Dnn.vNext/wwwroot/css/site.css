@@ -56,10 +56,86 @@ body {
 }
 
 .btn-add-module:hover {
-        background-image: url(/images/AddModule_Sprite.png);
-        background-position: 0px -33px;
-        border: 0 none;
-    }
+    background-image: url(/images/AddModule_Sprite.png);
+    background-position: 0px -33px;
+    border: 0 none;
+}
+
+.btn-add-existing-module {
+    background-image: url(/images/AddExistingModule_Sprite.png);
+    margin-left: 7px;
+    background-position: -1px -1px;
+    height: 33px;
+    width: 47px;
+}
+
+.btn-add-existing-module:hover {
+    background-position: 0px -33px;
+    border: 0 none;
+}
+
+.btn-page-settings {
+    background-image: url(/images/Settings_Sprite.png);
+    margin-left:7px;
+    background-position: -1px -1px;
+    height: 33px;
+    width: 47px;
+}
+
+.btn-page-settings:hover {
+   background-position: -1px -34px;
+}
+
+.hoverMenu {
+    position: absolute;
+    display: none;
+    background-color: #0f0f0f;
+    padding: 0px 25px;
+    border-radius: 5px;
+    bottom: 78px;
+    white-space: nowrap;
+    box-sizing: content-box;
+    transform: translateX(-50%);
+    left: 14%;
+    text-align: center;
+    margin-left: 0;
+}
+
+.hoverMenu::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border: 16px solid;
+    border-color: #0f0f0f transparent transparent transparent;
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    bottom: -26px;
+}
+
+
+.btn-add-module:hover + .addModuleHover {
+    display:inline;
+}
+
+.btn-add-existing-module:hover + .addExistingModuleHover {
+    display: inline;
+    left:18%;
+}
+
+.btn-page-settings:hover + .pageSettingsHover {
+    display: inline;
+    left: 22%;
+}
+
+
+
+
+
+
+
+
 div.admin {
     margin-bottom:5em;
 }
