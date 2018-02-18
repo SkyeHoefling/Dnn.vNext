@@ -19,18 +19,20 @@
 @section scripts{
 <script>
     $(function () {
-        @foreach (var module in Model.Modules)
+        @foreach (var kvp in Model.Modules)
         {
-            <text>
-                $.ajax({
-                    url: '@module.path',
-                    type: 'GET',
-                    success: function (data) {
-                        $('#@module.id').html(data);
-                    }
-                });
-                $('#@module.id').html();
-            </text>
+            foreach (var modulePath in kvp.Value)
+            {
+                <text>
+                    $.ajax({
+                        url: '@modulePath',
+                        type: 'GET',
+                        success: function (data) {
+                            $('#@kvp.Key').append(data);
+                        }
+                    });
+                </text>
+            }
         }
         $('.module').droppable({
             drop: function (e, u) {

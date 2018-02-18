@@ -39,6 +39,9 @@ namespace Dnn.vNext.Controllers
                 .Include(p => p.PageModules)
                 .FirstOrDefault();
 
+            var numberOfModulesInElement = page.PageModules
+                .Count(x => x.ElementId == pageModule.ElementId);
+
             var findModule = _context.Modules
                 .FirstOrDefault(x => x.Path == pageModule.ModulePath);
 
@@ -46,7 +49,8 @@ namespace Dnn.vNext.Controllers
             {
                 PageId = pageModule.PageId,
                 ElementId = pageModule.ElementId,
-                ModuleId = findModule.Id
+                ModuleId = findModule.Id,
+                Order = numberOfModulesInElement
             });
 
             _context.SaveChanges();

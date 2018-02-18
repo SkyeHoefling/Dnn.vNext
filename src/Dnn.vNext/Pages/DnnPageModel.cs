@@ -14,7 +14,7 @@ namespace Dnn.vNext.Pages
             _context = context;
         }
 
-        public IEnumerable<(string id, string path)> Modules { get; set; }
+        public IDictionary<string, IEnumerable<string>> Modules { get; set; }
         public string ModulePath { get; } = "Modules/SimpleForm";
         public int PageId { get; set; }
 
@@ -26,7 +26,11 @@ namespace Dnn.vNext.Pages
                 .FirstOrDefault();
 
             PageId = page.Id;
-            Modules = page.PageModules.Select(x => (x.ElementId, x.Module.Path));
+            Modules = page.PageModules
+                .GroupBy(pm => pm.ElementId,
+                         pm => pm,
+                         (key, g) => new { ElementId = key, PageModules = g })
+                .ToDictionary(x => x.ElementId, x => x.PageModules.OrderBy(pm => pm.Order).Select(pm => pm.Module.Path));
         }
     }
 }
