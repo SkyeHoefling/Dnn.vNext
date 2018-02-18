@@ -142,7 +142,7 @@ div.admin {
 
 footer.admin {
     position: fixed;
-    left: 0;
+    left: 6em;
     right: 0;
     bottom: 0;
     width: 100%;
@@ -205,5 +205,5 @@ footer.admin {
     bottom:0;
     color:white;
     position:absolute;
-    margin-bottom: 10em;
+    margin-bottom: 4em;
 }

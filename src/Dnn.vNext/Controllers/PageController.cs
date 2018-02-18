@@ -49,6 +49,13 @@ namespace Dnn.vNext.Controllers
             return Json("done");
         }
 
+        [HttpPost]
+        [Route("EditPage")]
+        public IActionResult EditPage()
+        {
+            return PartialView("~/Pages/_EditPage.cshtml");
+        }
+
         // GET: api/<controller>
         [HttpGet]
         public IEnumerable<string> Get()
