@@ -45,20 +45,25 @@ body {
     width: 150px;
     background-color: #c8c8c8;
     border: gray solid;
-    position: absolute !important;
     top: 40%;
     left: 45%;
 }
 
-    .new-module:hover {
-        animation:none;
-        border:green solid;
-    }
+.module .new-module:hover {
+    position: relative;
+}
+
+.floating-add-module:hover {
+    animation: none;
+    border: green solid;
+    position: absolute ;
+}
 
 
 .new-module-add-animation {
     -webkit-animation: myfirst linear 2s infinite alternate; /* Safari 4.0 - 8.0 */
     animation: myfirst linear 2s infinite alternate;
+    position: absolute !important;
 }
 
 /* Safari 4.0 - 8.0 */
@@ -181,8 +186,6 @@ body {
     bottom: 78px;
     white-space: nowrap;
     box-sizing: content-box;
-    transform: translateX(-50%);
-    left: 14%;
     text-align: center;
     margin-left: 0;
 }
@@ -203,16 +206,17 @@ body {
 
 .btn-add-module:hover + .addModuleHover {
     display:inline;
+    margin-left:-90px;
 }
 
 .btn-add-existing-module:hover + .addExistingModuleHover {
     display: inline;
-    left:18%;
+    margin-left: -117px;
 }
 
 .btn-page-settings:hover + .pageSettingsHover {
     display: inline;
-    left: 22%;
+    margin-left:-95px;
 }
 
 
