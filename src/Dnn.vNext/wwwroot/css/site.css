@@ -21,11 +21,6 @@ body {
     width: 100%;
 }
 
-/* QR code generator */
-#qrCode {
-    margin: 15px;
-}
-
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
@@ -262,6 +257,7 @@ footer.admin {
     width: 6em;
     height: 100%;
     background-color: #3d3c3c;
+    top:0px;
 }
 
 .logo {
@@ -295,5 +291,4 @@ footer.admin {
     bottom:0;
     color:white;
     position:absolute;
-    margin-bottom: 4em;
 }
