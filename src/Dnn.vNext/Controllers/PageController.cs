@@ -1,4 +1,5 @@
 ﻿using Dnn.vNext.Data;
+using Dnn.vNext.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -61,7 +62,14 @@ namespace Dnn.vNext.Controllers
         [Route("EditPage")]
         public IActionResult EditPage()
         {
-            return PartialView("~/Pages/_EditPage.cshtml");
+            var modules = _context.Modules
+                .Select(x => new Models.Module
+                {
+                    Id = x.Id.ToString(),
+                    Icon = x.Icon,
+                    Name = x.Name
+                });
+            return PartialView("~/Pages/_EditPage.cshtml", modules);
         }
 
         // GET: api/<controller>
