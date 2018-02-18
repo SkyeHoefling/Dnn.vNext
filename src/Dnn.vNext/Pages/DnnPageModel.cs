@@ -1,12 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-using System;
+﻿using Dnn.vNext.Data;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Dnn.vNext.Pages
 {
     public abstract class DnnPageModel : PageModel
     {
+        private readonly DnnDbContext _context;
+        public DnnPageModel(DnnDbContext context)
+        {
+            _context = context;
+        }
+
+        public IEnumerable<(string id, string path)> Modules { get; set; }
+        public string ModulePath { get; } = "Modules/SimpleForm";
+
+        public void OnGet()
+        {
+            var page = _context.Pages
+                .Include(p => p.Modules)
+                .FirstOrDefault();
+            var modules = page.Modules;
+            Modules = page.Modules.Select(x => (x.ElementId, x.Path));
+        }
     }
 }
