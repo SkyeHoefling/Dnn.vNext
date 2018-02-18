@@ -11,7 +11,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    @foreach (var module in Model.Moduels)
+                    @foreach (var module in Model.Modules)
                     {
                         <div class="col-md-4">
                             <div id="new-module-@module.Id" class="thumbnail thumbnail-module">
@@ -27,7 +27,7 @@
 </div>
 
 <script>
-    @foreach (var module in Model.Moduels)
+    @foreach (var module in Model.Modules)
     {
         <text>
             $('#new-module-@module.Id').click(function () {
