@@ -319,7 +319,14 @@ footer.admin {
 }
 
 .persona-edit {
-    bottom:0;
-    color:white;
-    position:absolute;
+    bottom: 0;
+    color: white;
+    position: absolute;
+}
+
+.edit-cancel{
+    bottom: 0;
+    color: white;
+    position: absolute;
+    display:none;
 }

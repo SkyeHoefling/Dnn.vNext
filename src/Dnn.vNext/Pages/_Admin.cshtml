@@ -95,6 +95,9 @@ new Module
                     url: 'api/page/EditPage',
                     type: 'POST',
                     success: function (data) {
+                        $('#persona-edit-button').hide();
+                        $('#persona-cancel-edit-button').show();
+
                         if ($('footer').length) {
                             $('footer').remove();
                         }
@@ -103,6 +106,14 @@ new Module
                         }
                     }
                 });
+            });
+        });
+
+        $(function () {
+            $('#persona-cancel-edit-button').click(function () {
+                $('#persona-edit-button').show();
+                $('#persona-cancel-edit-button').hide();
+                $('footer').remove();
             });
         });
     </script>
