@@ -20,6 +20,7 @@
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
+        @Html.Partial("_PersonaBar")
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -40,11 +41,10 @@
             </div>
         </div>
     </nav>
-    <div class="container body-content">
+    <div id="main" class="container body-content">
         <div class="admin">
             @RenderBody()
         </div>
-        @Html.Partial("_EditPage")
     </div>
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -70,23 +70,23 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
-    @Html.Partial("_AddNewModule", new NewModule
-    {
-        Modules = new[]
-                    {
-new Module
-{
-    Id = "0",
-    Icon = "tasks",
-    Name = "Simple Form"
-},
-new Module
-{
-    Id = "1",
-    Icon = "pencil",
-    Name = "HTML Editor"
-}
-}
-    })
+    <script>
+        $(function () {
+            $('#persona-edit-button').click(function () {
+                $.ajax({
+                    url: 'api/page/EditPage',
+                    type: 'POST',
+                    success: function (data) {
+                        if ($('footer').length) {
+                            $('footer').remove();
+                        }
+                        else {
+                            $('#main').append(data);    
+                        }                        
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

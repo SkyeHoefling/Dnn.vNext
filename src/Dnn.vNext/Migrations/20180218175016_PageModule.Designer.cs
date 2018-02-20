@@ -11,9 +11,10 @@ using System;
 namespace Dnn.vNext.Migrations
 {
     [DbContext(typeof(DnnDbContext))]
-    partial class DnnDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180218175016_PageModule")]
+    partial class PageModule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,10 +25,6 @@ namespace Dnn.vNext.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Icon");
-
-                    b.Property<string>("Name");
 
                     b.Property<string>("Path");
 
