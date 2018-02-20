@@ -70,6 +70,7 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
+
     <script>
         $(function () {
             $('#persona-edit-button').click(function () {
@@ -77,16 +78,77 @@
                     url: 'api/page/EditPage',
                     type: 'POST',
                     success: function (data) {
+                        $('#persona-edit-button').hide();
+                        $('#persona-cancel-edit-button').show();
+
                         if ($('footer').length) {
                             $('footer').remove();
                         }
                         else {
-                            $('#main').append(data);    
-                        }                        
+                            $('#main').append(data);
+                        }
                     }
                 });
             });
         });
+
+        $(function () {
+            $('#persona-cancel-edit-button').click(function () {
+                $('#persona-edit-button').show();
+                $('#persona-cancel-edit-button').hide();
+                $('footer').remove();
+            });
+        });
+
+
+
+
+        function closeAllMenus() {
+            $('.persona-bar-content-menu').hide();
+            $('.persona-bar-manage-menu').hide();
+            $('.persona-bar-settings-menu').hide();
+        };
+
+        $(document).ready(function () {
+            closeAllMenus();
+        });
+
+        //**************
+
+        $('.persona-bar-content-icon').hover(function () {
+            closeAllMenus();
+            $('.persona-bar-content-menu').show()
+        });
+
+        $('.persona-bar-content-menu').mouseleave(function () {
+            $('.persona-bar-content-menu').hide()
+        });
+
+        //**************
+
+        $('.persona-bar-manage-icon').hover(function () {
+            closeAllMenus();
+            $('.persona-bar-manage-menu').show()
+        });
+
+        $('.persona-bar-manage-menu').mouseleave(function () {
+            $('.persona-bar-manage-menu').hide()
+        });
+
+        //**************
+
+        $('.persona-bar-settings-icon').hover(function () {
+            closeAllMenus();
+            $('.persona-bar-settings-menu').show()
+        });
+
+        $('.persona-bar-settings-menu').mouseleave(function () {
+            $('.persona-bar-settings-menu').hide()
+        });
+
     </script>
+
+
+
 </body>
 </html>
