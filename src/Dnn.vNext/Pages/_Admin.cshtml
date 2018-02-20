@@ -116,15 +116,19 @@ new Module
                 $('footer').remove();
             });
         });
-    </script>
 
 
-    <script type="text/javascript">
-        var closeAllMenus = function(){
+
+
+        function closeAllMenus() {
             $('.persona-bar-content-menu').hide();
             $('.persona-bar-manage-menu').hide();
             $('.persona-bar-settings-menu').hide();
         };
+
+        $(document).ready(function () {
+            closeAllMenus();
+        });
 
         //**************
 
