@@ -70,24 +70,7 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
-    @Html.Partial("_AddNewModule", new NewModule
-    {
-        Modules = new[]
-                {
-        new Module
-        {
-            Id = "0",
-            Icon = "tasks",
-            Name = "Simple Form"
-        },
-        new Module
-        {
-            Id = "1",
-            Icon = "pencil",
-            Name = "HTML Editor"
-        }
-    }
-    })
+
     <script>
         $(function () {
             $('#persona-edit-button').click(function () {

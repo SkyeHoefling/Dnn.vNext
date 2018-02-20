@@ -328,5 +328,6 @@ footer.admin {
     bottom: 0;
     color: white;
     position: absolute;
+    width: 100% !important;
     display:none;
 }
