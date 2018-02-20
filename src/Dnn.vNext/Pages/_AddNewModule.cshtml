@@ -1,5 +1,5 @@
 ﻿@using Dnn.vNext.Models
-@model NewModule
+@model IEnumerable<Module>
 
 <!-- Modal -->
 <div class="modal fade" id="module-list" tabindex="-1" role="dialog" aria-labelledby="module-list-label">
@@ -11,7 +11,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    @foreach (var module in Model.Modules)
+                    @foreach (var module in Model)
                     {
                         <div class="col-md-4">
                             <div id="new-module-@module.Id" class="thumbnail thumbnail-module">
@@ -27,7 +27,7 @@
 </div>
 
 <script>
-    @foreach (var module in Model.Modules)
+    @foreach (var module in Model)
     {
         <text>
             $('#new-module-@module.Id').click(function () {
