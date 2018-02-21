@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Dnn.vNext.Data
@@ -44,10 +45,9 @@ namespace Dnn.vNext.Data
         public bool HasBeenPublished { get; set; }
         public bool IsSystem { get; set; }
 
-        // DNN vNext
-        public int TabID { get; set; }
+        // DNN vNext        
         public string Name { get; set; }
 
-        public virtual ICollection<TabModule> PageModules { get; set; }
+        public virtual ICollection<TabModule> TabModules { get; set; }
     }
 }

@@ -11,9 +11,10 @@ using System;
 namespace Dnn.vNext.Migrations
 {
     [DbContext(typeof(DnnDbContext))]
-    partial class DnnDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180221034235_MoreDnnTables")]
+    partial class MoreDnnTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
