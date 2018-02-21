@@ -11,9 +11,10 @@ using System;
 namespace Dnn.vNext.Migrations
 {
     [DbContext(typeof(DnnDbContext))]
-    partial class DnnDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180221032604_PortDnnTablesToVNext")]
+    partial class PortDnnTablesToVNext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -180,19 +181,7 @@ namespace Dnn.vNext.Migrations
                     b.ToTable("ModuleSettings");
                 });
 
-            modelBuilder.Entity("Dnn.vNext.Data.Tab", b =>
-                {
-                    b.Property<int>("TabID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("TabID");
-
-                    b.ToTable("Tabs");
-                });
-
-            modelBuilder.Entity("Dnn.vNext.Data.TabModule", b =>
+            modelBuilder.Entity("Dnn.vNext.Data.PageModule", b =>
                 {
                     b.Property<int>("TabModuleID")
                         .ValueGeneratedOnAdd();
@@ -273,6 +262,92 @@ namespace Dnn.vNext.Migrations
 
                     b.HasIndex("PageId");
 
+                    b.ToTable("PageModule");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Tab", b =>
+                {
+                    b.Property<int>("TabID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("TabID");
+
+                    b.ToTable("Tabs");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.TabModule", b =>
+                {
+                    b.Property<int>("TabModuleID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Alignment");
+
+                    b.Property<string>("Border");
+
+                    b.Property<string>("CacheMethod");
+
+                    b.Property<int>("CacheTime");
+
+                    b.Property<string>("Color");
+
+                    b.Property<string>("ContainerSrc");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("CultureCode");
+
+                    b.Property<Guid>("DefaultLanguageGUID");
+
+                    b.Property<int>("DisplayPrint");
+
+                    b.Property<int>("DisplaySyndicate");
+
+                    b.Property<int>("DisplayTitle");
+
+                    b.Property<string>("Footer");
+
+                    b.Property<string>("Header");
+
+                    b.Property<string>("IconFile");
+
+                    b.Property<int>("IsDeleted");
+
+                    b.Property<int>("IsWebSlice");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<Guid>("LocalizedVersionGUID");
+
+                    b.Property<int>("ModuleID");
+
+                    b.Property<int>("ModuleOrder");
+
+                    b.Property<string>("ModuleTitle");
+
+                    b.Property<string>("PaneName");
+
+                    b.Property<int>("TabID");
+
+                    b.Property<Guid>("UniqueId");
+
+                    b.Property<Guid>("VersionGUID");
+
+                    b.Property<int>("Visibility");
+
+                    b.Property<DateTime?>("WebSliceExpiryDate");
+
+                    b.Property<int?>("WebSliceTTL");
+
+                    b.Property<string>("WebSliceTitle");
+
+                    b.HasKey("TabModuleID");
+
                     b.ToTable("TabModules");
                 });
 
@@ -298,7 +373,7 @@ namespace Dnn.vNext.Migrations
                     b.ToTable("TabModuleSettings");
                 });
 
-            modelBuilder.Entity("Dnn.vNext.Data.TabModule", b =>
+            modelBuilder.Entity("Dnn.vNext.Data.PageModule", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.Module", "Module")
                         .WithMany()

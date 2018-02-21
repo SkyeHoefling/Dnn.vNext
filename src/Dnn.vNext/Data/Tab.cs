@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dnn.vNext.Data
 {
     public class Tab
     {
+        [Key]
         public int TabID { get; set; }
         public int TabOrder { get; set; }
         public int? PortalID { get; set; }
@@ -45,5 +44,10 @@ namespace Dnn.vNext.Data
         public bool HasBeenPublished { get; set; }
         public bool IsSystem { get; set; }
 
+        // DNN vNext
+        public int TabID { get; set; }
+        public string Name { get; set; }
+
+        public virtual ICollection<TabModule> PageModules { get; set; }
     }
 }

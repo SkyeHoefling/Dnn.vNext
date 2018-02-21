@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dnn.vNext.Data
 {
     public class ModuleDefinition
     {
+        [Key]
         public int ModuleDefID { get; set; }
         public string FriendlyName { get; set; }
         public int DesktopModuleID { get; set; }

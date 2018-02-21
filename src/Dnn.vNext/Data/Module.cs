@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dnn.vNext.Data
 {
     public class Module
     {
+        [Key]
         public int ModuleID { get; set; }
         public int ModuleDefID { get; set; }
         public bool AllTabs { get; set; }
@@ -24,5 +23,9 @@ namespace Dnn.vNext.Data
         public bool? IsShareable { get; set; }
         public bool? IsShareableViewOnly { get; set; }
 
+        // DNN vNext columns
+        public string Icon { get; set; }
+        public string Name { get; set; }
+        public string Path { get; set; }
     }
 }

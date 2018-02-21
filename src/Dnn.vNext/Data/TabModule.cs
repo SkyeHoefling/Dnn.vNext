@@ -1,15 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dnn.vNext.Data
 {
     public class TabModule
     {
+        [Key]
         public int TabModuleID { get; set; }
-        public int TabID { get; set; }
+        public int PageId { get; set; }
         public int ModuleID { get; set; }
+
+        /// <summary>
+        /// The name of the html element where the module exists
+        /// </summary>
+        public string ElementId { get; set; }
+
+        /// <summary>
+        /// The order of the module in the html element.
+        /// </summary>
+        /// <remarks>
+        /// If there are more than 1 module in the same element, the order
+        /// determines how the modules are displayed on the screen.
+        /// </remarks>
+        public int Order { get; set; }
+
+        
+        public int TabID { get; set; }        
         public string PaneName { get; set; }
         public int ModuleOrder { get; set; }
         public int CacheTime { get; set; }
@@ -40,5 +56,8 @@ namespace Dnn.vNext.Data
         public Guid VersionGUID { get; set; }
         public Guid DefaultLanguageGUID { get; set; }
         public Guid LocalizedVersionGUID { get; set; }
+
+        public virtual Tab Page { get; set; }
+        public virtual Module Module { get; set; }
     }
 }
