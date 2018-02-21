@@ -82,14 +82,19 @@ body {
 .floating-add-module:hover {
     animation: none;
     border: green solid;
-    position: absolute ;
+    position: fixed;
+    top: 40%;
+    left: 45%;
 }
 
 
 .new-module-add-animation {
     -webkit-animation: myfirst linear 2s infinite alternate; /* Safari 4.0 - 8.0 */
     animation: myfirst linear 2s infinite alternate;
-    position: absolute !important;
+    /*position: absolute !important;*/
+    position: fixed;
+    top: 50%;
+    left: 50%;
 }
 
 /* Safari 4.0 - 8.0 */
@@ -328,6 +333,6 @@ footer.admin {
     bottom: 0;
     color: white;
     position: absolute;
-    width: 100% !important;
+    width: 100%;
     display:none;
 }
