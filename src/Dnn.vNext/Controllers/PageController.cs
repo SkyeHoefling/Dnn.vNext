@@ -36,7 +36,7 @@ namespace Dnn.vNext.Controllers
         [Route("AddModule")]
         public IActionResult AddModule([FromBody]PageModule pageModule)
         {
-            var page = _context.Pages
+            var page = _context.Tabs
                 .Include(p => p.PageModules)
                 .FirstOrDefault();
 
@@ -46,11 +46,11 @@ namespace Dnn.vNext.Controllers
             var findModule = _context.Modules
                 .FirstOrDefault(x => x.Path == pageModule.ModulePath);
 
-            page.PageModules.Add(new Data.PageModule
+            page.PageModules.Add(new Data.TabModule
             {
                 PageId = pageModule.PageId,
                 ElementId = pageModule.ElementId,
-                ModuleId = findModule.Id,
+                ModuleID = findModule.ModuleID,
                 Order = numberOfModulesInElement
             });
 
@@ -65,7 +65,7 @@ namespace Dnn.vNext.Controllers
             var modules = _context.Modules
                 .Select(x => new Models.Module
                 {
-                    Id = x.Id.ToString(),
+                    Id = x.ModuleID.ToString(),
                     Icon = x.Icon,
                     Name = x.Name
                 });

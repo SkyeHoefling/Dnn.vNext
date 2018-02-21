@@ -8,13 +8,13 @@ namespace Dnn.vNext.Data
         {
             context.Database.EnsureCreated();
 
-            if (!context.Pages.Any())
+            if (!context.Tabs.Any())
             {
-                var page = new Page
+                var page = new Tab
                 {
                     Name = "Demo"
                 };
-                context.Pages.Add(page);
+                context.Tabs.Add(page);
                 context.SaveChanges();
 
                 var modules = new[] {

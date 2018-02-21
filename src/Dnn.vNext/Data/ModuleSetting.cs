@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dnn.vNext.Data
 {
     public class ModuleSetting
     {
+        [Key]
         public int ModuleID { get; set; }
         public string SettingName { get; set; }
         public int? CreatedByUserID { get; set; }

@@ -20,12 +20,12 @@ namespace Dnn.vNext.Pages
 
         public void OnGet()
         {
-            var page = _context.Pages
+            var page = _context.Tabs
                 .Include(p => p.PageModules)
                     .ThenInclude(pm => pm.Module)
                 .FirstOrDefault();
 
-            PageId = page.Id;
+            PageId = page.TabID;
             Modules = page.PageModules
                 .GroupBy(pm => pm.ElementId,
                          pm => pm,

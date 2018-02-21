@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dnn.vNext.Data
 {
     public class ModulePermission
     {
+        [Key]
         public int ModulePermissionID { get; set; }
         public int ModuleID { get; set; }
         public int PermissionID { get; set; }

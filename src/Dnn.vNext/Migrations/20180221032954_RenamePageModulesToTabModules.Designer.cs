@@ -11,9 +11,10 @@ using System;
 namespace Dnn.vNext.Migrations
 {
     [DbContext(typeof(DnnDbContext))]
-    partial class DnnDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180221032954_RenamePageModulesToTabModules")]
+    partial class RenamePageModulesToTabModules
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
