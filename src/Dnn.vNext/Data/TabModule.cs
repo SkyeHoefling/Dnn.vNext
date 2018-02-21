@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Dnn.vNext.Data
 {
-    public class TabModules
+    public class TabModule
     {
         public int TabModuleID { get; set; }
         public int TabID { get; set; }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Dnn.vNext.Data
 {
-    public class ModuleControls
+    public class ModuleControl
     {
         public int ModuleControlID { get; set; }
         public int ModuleDefID { get; set; }
