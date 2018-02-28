@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace Dnn.vNext.Data
 {
@@ -6,7 +8,7 @@ namespace Dnn.vNext.Data
     {
         public static void Initialize(DnnDbContext context)
         {
-            context.Database.EnsureCreated();
+            context.Database.Migrate();
 
             if (!context.Tabs.Any())
             {
@@ -17,19 +19,30 @@ namespace Dnn.vNext.Data
                 context.Tabs.Add(page);
                 context.SaveChanges();
 
+                
+                var moduleDef = new ModuleDefinition
+                {
+                    ModuleDefID = 0,
+                    DesktopModule = new DesktopModule()
+                };
+
+                context.ModuleDefinitions.Add(moduleDef);
+                context.SaveChanges();
+
                 var modules = new[] {
                     new Module
                     {
+                        ModuleDefID = moduleDef.ModuleDefID,
                         Icon = "tasks",
                         Name = "Simple Form",
                         Path = "Modules/SimpleForm"
                     },
-                    new Module
-                    {
-                        Icon = "pencil",
-                        Name = "HTML Editor",
-                        Path = "Modules/SimpleForm"
-                    }
+                    //new Module
+                    //{
+                    //    Icon = "pencil",
+                    //    Name = "HTML Editor",
+                    //    Path = "Modules/SimpleForm"
+                    //}
                 };
                 context.Modules.AddRange(modules);
                 context.SaveChanges();

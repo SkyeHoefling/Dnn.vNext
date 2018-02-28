@@ -8,7 +8,9 @@ namespace Dnn.vNext.Data
 {
     public class DnnDbContext : DbContext
     {
-        public DnnDbContext(DbContextOptions<DnnDbContext> options) : base(options) { }
+        public DnnDbContext(DbContextOptions<DnnDbContext> options) : base(options)
+        {
+        }
 
       //  *** This handles creating the composite keys for tables with 2 Primary Keys ***//
         protected override void OnModelCreating(ModelBuilder builder)
