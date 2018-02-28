@@ -11,7 +11,7 @@ using System;
 namespace Dnn.vNext.Migrations
 {
     [DbContext(typeof(DnnDbContext))]
-    [Migration("20180228213728_dnnDBMigration")]
+    [Migration("20180228214324_dnnDBMigration")]
     partial class dnnDBMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

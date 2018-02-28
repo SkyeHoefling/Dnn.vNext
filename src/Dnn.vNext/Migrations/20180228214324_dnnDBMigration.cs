@@ -9,71 +9,6 @@ namespace Dnn.vNext.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_TabModules_Tabs_PageId",
-                table: "TabModules");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_TabModuleSettings",
-                table: "TabModuleSettings");
-
-            migrationBuilder.DropIndex(
-                name: "IX_TabModules_PageId",
-                table: "TabModules");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_ModuleSettings",
-                table: "ModuleSettings");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "SettingName",
-                table: "TabModuleSettings",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldNullable: true);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "TabModuleID",
-                table: "TabModuleSettings",
-                nullable: false,
-                oldClrType: typeof(int))
-                .OldAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            migrationBuilder.AlterColumn<string>(
-                name: "SettingName",
-                table: "ModuleSettings",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldNullable: true);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "ModuleID",
-                table: "ModuleSettings",
-                nullable: false,
-                oldClrType: typeof(int))
-                .OldAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            migrationBuilder.AddColumn<int>(
-                name: "ModuleDef",
-                table: "Modules",
-                nullable: false,
-                defaultValue: 0);
-
-            migrationBuilder.AddUniqueConstraint(
-                name: "AK_TabModuleSettings_SettingName_TabModuleID",
-                table: "TabModuleSettings",
-                columns: new[] { "SettingName", "TabModuleID" });
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_TabModuleSettings",
-                table: "TabModuleSettings",
-                columns: new[] { "TabModuleID", "SettingName" });
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_ModuleSettings",
-                table: "ModuleSettings",
-                columns: new[] { "ModuleID", "SettingName" });
-
             migrationBuilder.CreateTable(
                 name: "aspnet_Applications",
                 columns: table => new
@@ -881,86 +816,6 @@ namespace Dnn.vNext.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TabAliasSkins", x => x.TabAliasSkinId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TabSettings",
-                columns: table => new
-                {
-                    TabID = table.Column<int>(nullable: false),
-                    SettingName = table.Column<string>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
-                    CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
-                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    SettingValue = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TabSettings", x => new { x.TabID, x.SettingName });
-                    table.UniqueConstraint("AK_TabSettings_SettingName_TabID", x => new { x.SettingName, x.TabID });
-                    table.ForeignKey(
-                        name: "FK_TabSettings_Tabs_TabID",
-                        column: x => x.TabID,
-                        principalTable: "Tabs",
-                        principalColumn: "TabID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TabUrls",
-                columns: table => new
-                {
-                    TabId = table.Column<int>(nullable: false),
-                    SeqNum = table.Column<int>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
-                    CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    CultureCode = table.Column<string>(nullable: true),
-                    HttpStatus = table.Column<string>(nullable: true),
-                    IsSystem = table.Column<bool>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
-                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PortalAliasId = table.Column<int>(nullable: true),
-                    PortalAliasUsage = table.Column<int>(nullable: true),
-                    QueryString = table.Column<string>(nullable: true),
-                    Url = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TabUrls", x => new { x.TabId, x.SeqNum });
-                    table.UniqueConstraint("AK_TabUrls_SeqNum_TabId", x => new { x.SeqNum, x.TabId });
-                    table.ForeignKey(
-                        name: "FK_TabUrls_Tabs_TabId",
-                        column: x => x.TabId,
-                        principalTable: "Tabs",
-                        principalColumn: "TabID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TabVersions",
-                columns: table => new
-                {
-                    TabVersionId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
-                    CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    IsPublished = table.Column<bool>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
-                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    TabId = table.Column<int>(nullable: false),
-                    TimeStamp = table.Column<DateTime>(nullable: false),
-                    Version = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TabVersions", x => x.TabVersionId);
-                    table.ForeignKey(
-                        name: "FK_TabVersions_Tabs_TabId",
-                        column: x => x.TabId,
-                        principalTable: "Tabs",
-                        principalColumn: "TabID",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1830,34 +1685,6 @@ namespace Dnn.vNext.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TabVersionDetails",
-                columns: table => new
-                {
-                    TabVersionDetailId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Action = table.Column<int>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
-                    CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
-                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    ModuleId = table.Column<int>(nullable: false),
-                    ModuleOrder = table.Column<int>(nullable: false),
-                    ModuleVersion = table.Column<int>(nullable: false),
-                    PageName = table.Column<string>(nullable: true),
-                    TabVersionId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TabVersionDetails", x => x.TabVersionDetailId);
-                    table.ForeignKey(
-                        name: "FK_TabVersionDetails_TabVersions_TabVersionId",
-                        column: x => x.TabVersionId,
-                        principalTable: "TabVersions",
-                        principalColumn: "TabVersionId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Taxonomy_Vocabularies",
                 columns: table => new
                 {
@@ -1888,51 +1715,6 @@ namespace Dnn.vNext.Migrations
                         column: x => x.VocabularyTypeID,
                         principalTable: "Taxonomy_VocabularyTypes",
                         principalColumn: "VocabularyTypeID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CoreMessaging_Subscriptions",
-                columns: table => new
-                {
-                    SubscriptionID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOnDate = table.Column<DateTime>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    ModuleID = table.Column<int>(nullable: true),
-                    ObjectData = table.Column<string>(nullable: true),
-                    ObjectKey = table.Column<string>(nullable: true),
-                    PortalID = table.Column<int>(nullable: true),
-                    SubscriptionTypeID = table.Column<int>(nullable: false),
-                    TabID = table.Column<int>(nullable: true),
-                    UserID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CoreMessaging_Subscriptions", x => x.SubscriptionID);
-                    table.ForeignKey(
-                        name: "FK_CoreMessaging_Subscriptions_Modules_ModuleID",
-                        column: x => x.ModuleID,
-                        principalTable: "Modules",
-                        principalColumn: "ModuleID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_CoreMessaging_Subscriptions_Portals_PortalID",
-                        column: x => x.PortalID,
-                        principalTable: "Portals",
-                        principalColumn: "PortalID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_CoreMessaging_Subscriptions_CoreMessaging_SubscriptionTypes_SubscriptionTypeID",
-                        column: x => x.SubscriptionTypeID,
-                        principalTable: "CoreMessaging_SubscriptionTypes",
-                        principalColumn: "SubscriptionTypeID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CoreMessaging_Subscriptions_Users_UserID",
-                        column: x => x.UserID,
-                        principalTable: "Users",
-                        principalColumn: "UserID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2058,20 +1840,19 @@ namespace Dnn.vNext.Migrations
                 name: "UserPortals",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false)
+                    UserID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Authorized = table.Column<bool>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     PortalId = table.Column<int>(nullable: false),
                     RefreshRoles = table.Column<bool>(nullable: false),
-                    UserID = table.Column<int>(nullable: true),
                     UserPortalId = table.Column<int>(nullable: false),
                     VanityUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserPortals", x => x.UserId);
+                    table.PrimaryKey("PK_UserPortals", x => x.UserID);
                     table.ForeignKey(
                         name: "FK_UserPortals_Portals_PortalId",
                         column: x => x.PortalId,
@@ -2534,13 +2315,13 @@ namespace Dnn.vNext.Migrations
                         column: x => x.Mobile_RedirectionId,
                         principalTable: "Mobile_Redirections",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Mobile_RedirectionRules_Mobile_RedirectionRules_RedirectionId",
                         column: x => x.RedirectionId,
                         principalTable: "Mobile_RedirectionRules",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -2666,13 +2447,13 @@ namespace Dnn.vNext.Migrations
                         column: x => x.ParentTermID,
                         principalTable: "Taxonomy_Terms",
                         principalColumn: "TermID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Taxonomy_Terms_Taxonomy_Vocabularies_VocabularyID",
                         column: x => x.VocabularyID,
                         principalTable: "Taxonomy_Vocabularies",
                         principalColumn: "VocabularyID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -2742,42 +2523,7 @@ namespace Dnn.vNext.Migrations
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "HtmlText",
-                columns: table => new
-                {
-                    ModuleID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Content = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
-                    CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    IsPublished = table.Column<bool>(nullable: true),
-                    ItemID = table.Column<int>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
-                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    ModuleID1 = table.Column<int>(nullable: true),
-                    StateID = table.Column<int>(nullable: true),
-                    Summary = table.Column<string>(nullable: true),
-                    Version = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HtmlText", x => x.ModuleID);
-                    table.ForeignKey(
-                        name: "FK_HtmlText_Modules_ModuleID1",
-                        column: x => x.ModuleID1,
-                        principalTable: "Modules",
-                        principalColumn: "ModuleID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_HtmlText_WorkflowStates_StateID",
-                        column: x => x.StateID,
-                        principalTable: "WorkflowStates",
-                        principalColumn: "StateID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -2906,6 +2652,32 @@ namespace Dnn.vNext.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ModuleDefinitions",
+                columns: table => new
+                {
+                    ModuleDefID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedOnDate = table.Column<DateTime>(nullable: true),
+                    DefaultCacheTime = table.Column<int>(nullable: false),
+                    DefinitionName = table.Column<string>(nullable: true),
+                    DesktopModuleID = table.Column<int>(nullable: false),
+                    FriendlyName = table.Column<string>(nullable: true),
+                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedOnDate = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ModuleDefinitions", x => x.ModuleDefID);
+                    table.ForeignKey(
+                        name: "FK_ModuleDefinitions_DesktopModules_DesktopModuleID",
+                        column: x => x.DesktopModuleID,
+                        principalTable: "DesktopModules",
+                        principalColumn: "DesktopModuleID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PortalDesktopModules",
                 columns: table => new
                 {
@@ -3008,51 +2780,6 @@ namespace Dnn.vNext.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TabPermission",
-                columns: table => new
-                {
-                    TabPermissionID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AllowAccess = table.Column<bool>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
-                    CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
-                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PermissionID = table.Column<int>(nullable: false),
-                    RoleID = table.Column<int>(nullable: true),
-                    TabID = table.Column<int>(nullable: false),
-                    UserID = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TabPermission", x => x.TabPermissionID);
-                    table.ForeignKey(
-                        name: "FK_TabPermission_Permission_PermissionID",
-                        column: x => x.PermissionID,
-                        principalTable: "Permission",
-                        principalColumn: "PermissionID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TabPermission_Role_RoleID",
-                        column: x => x.RoleID,
-                        principalTable: "Role",
-                        principalColumn: "RoleID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TabPermission_Tabs_TabID",
-                        column: x => x.TabID,
-                        principalTable: "Tabs",
-                        principalColumn: "TabID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TabPermission_Users_UserID",
-                        column: x => x.UserID,
-                        principalTable: "Users",
-                        principalColumn: "UserID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UserRoles",
                 columns: table => new
                 {
@@ -3084,60 +2811,6 @@ namespace Dnn.vNext.Migrations
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "HtmlTextLog",
-                columns: table => new
-                {
-                    HtmlTextLogID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Approved = table.Column<bool>(nullable: false),
-                    Comment = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: false),
-                    CreatedOnDate = table.Column<DateTime>(nullable: false),
-                    ItemID = table.Column<int>(nullable: false),
-                    StateID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HtmlTextLog", x => x.HtmlTextLogID);
-                    table.ForeignKey(
-                        name: "FK_HtmlTextLog_HtmlText_ItemID",
-                        column: x => x.ItemID,
-                        principalTable: "HtmlText",
-                        principalColumn: "ModuleID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_HtmlTextLog_WorkflowStates_StateID",
-                        column: x => x.StateID,
-                        principalTable: "WorkflowStates",
-                        principalColumn: "StateID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "HtmlTextUsers",
-                columns: table => new
-                {
-                    HtmlTextUserID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOnDate = table.Column<DateTime>(nullable: false),
-                    ItemID = table.Column<int>(nullable: false),
-                    ModuleID = table.Column<int>(nullable: false),
-                    StateID = table.Column<int>(nullable: false),
-                    TabID = table.Column<int>(nullable: false),
-                    UserID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HtmlTextUsers", x => x.HtmlTextUserID);
-                    table.ForeignKey(
-                        name: "FK_HtmlTextUsers_HtmlText_ItemID",
-                        column: x => x.ItemID,
-                        principalTable: "HtmlText",
-                        principalColumn: "ModuleID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -3230,6 +2903,73 @@ namespace Dnn.vNext.Migrations
                         principalTable: "ContentWorkflows",
                         principalColumn: "WorkflowID",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tabs",
+                columns: table => new
+                {
+                    TabID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ContainerSrc = table.Column<string>(nullable: true),
+                    ContentItemID = table.Column<int>(nullable: true),
+                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedOnDate = table.Column<DateTime>(nullable: true),
+                    CultureCode = table.Column<string>(nullable: true),
+                    DefaultLanguageGUID = table.Column<Guid>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    DisableLink = table.Column<bool>(nullable: false),
+                    EndDate = table.Column<DateTime>(nullable: true),
+                    HasBeenPublished = table.Column<bool>(nullable: false),
+                    IconFile = table.Column<string>(nullable: true),
+                    IconFileLarge = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    IsSecure = table.Column<bool>(nullable: false),
+                    IsSystem = table.Column<bool>(nullable: false),
+                    IsVisible = table.Column<bool>(nullable: false),
+                    Keywords = table.Column<string>(nullable: true),
+                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
+                    Level = table.Column<int>(nullable: false),
+                    LocalizedVersionGUID = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    PageHeadText = table.Column<string>(nullable: true),
+                    ParentId = table.Column<int>(nullable: true),
+                    PermanentRedirect = table.Column<bool>(nullable: false),
+                    PortalID = table.Column<int>(nullable: true),
+                    RefreshInterval = table.Column<int>(nullable: true),
+                    SiteMapPriority = table.Column<float>(nullable: false),
+                    SkinSrc = table.Column<string>(nullable: true),
+                    StartDate = table.Column<DateTime>(nullable: true),
+                    TabName = table.Column<string>(nullable: true),
+                    TabOrder = table.Column<int>(nullable: false),
+                    TabPath = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    UniqueId = table.Column<Guid>(nullable: false),
+                    Url = table.Column<string>(nullable: true),
+                    VersionGUID = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tabs", x => x.TabID);
+                    table.ForeignKey(
+                        name: "FK_Tabs_ContentItems_ContentItemID",
+                        column: x => x.ContentItemID,
+                        principalTable: "ContentItems",
+                        principalColumn: "ContentItemID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tabs_Tabs_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Tabs",
+                        principalColumn: "TabID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tabs_Portals_PortalID",
+                        column: x => x.PortalID,
+                        principalTable: "Portals",
+                        principalColumn: "PortalID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -3349,6 +3089,81 @@ namespace Dnn.vNext.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ModuleControls",
+                columns: table => new
+                {
+                    ModuleControlID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ControlKey = table.Column<string>(nullable: true),
+                    ControlSrc = table.Column<string>(nullable: true),
+                    ControlTitle = table.Column<string>(nullable: true),
+                    ControlType = table.Column<int>(nullable: false),
+                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedOnDate = table.Column<DateTime>(nullable: true),
+                    HelpUrl = table.Column<string>(nullable: true),
+                    IconFile = table.Column<string>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
+                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
+                    ModuleDefID = table.Column<int>(nullable: false),
+                    SupportPopUps = table.Column<bool>(nullable: false),
+                    SupportsPartialRendering = table.Column<bool>(nullable: false),
+                    ViewOrder = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ModuleControls", x => x.ModuleControlID);
+                    table.ForeignKey(
+                        name: "FK_ModuleControls_ModuleDefinitions_ModuleDefID",
+                        column: x => x.ModuleDefID,
+                        principalTable: "ModuleDefinitions",
+                        principalColumn: "ModuleDefID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Modules",
+                columns: table => new
+                {
+                    ModuleID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AllTabs = table.Column<bool>(nullable: false),
+                    ContentItemID = table.Column<int>(nullable: true),
+                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedOnDate = table.Column<DateTime>(nullable: true),
+                    EndDate = table.Column<DateTime>(nullable: true),
+                    Icon = table.Column<string>(nullable: true),
+                    InheritViewPermissions = table.Column<bool>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    IsShareable = table.Column<bool>(nullable: true),
+                    IsShareableViewOnly = table.Column<bool>(nullable: true),
+                    LastContentModifiedOnDate = table.Column<DateTime>(nullable: true),
+                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
+                    ModuleDef = table.Column<int>(nullable: false),
+                    ModuleDefID = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Path = table.Column<string>(nullable: true),
+                    PortalID = table.Column<int>(nullable: true),
+                    StartDate = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Modules", x => x.ModuleID);
+                    table.ForeignKey(
+                        name: "FK_Modules_ContentItems_ContentItemID",
+                        column: x => x.ContentItemID,
+                        principalTable: "ContentItems",
+                        principalColumn: "ContentItemID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Modules_ModuleDefinitions_ModuleDefID",
+                        column: x => x.ModuleDefID,
+                        principalTable: "ModuleDefinitions",
+                        principalColumn: "ModuleDefID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DesktopModulePermission",
                 columns: table => new
                 {
@@ -3391,6 +3206,131 @@ namespace Dnn.vNext.Migrations
                         principalTable: "Users",
                         principalColumn: "UserID",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TabPermission",
+                columns: table => new
+                {
+                    TabPermissionID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AllowAccess = table.Column<bool>(nullable: false),
+                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedOnDate = table.Column<DateTime>(nullable: true),
+                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
+                    PermissionID = table.Column<int>(nullable: false),
+                    RoleID = table.Column<int>(nullable: true),
+                    TabID = table.Column<int>(nullable: false),
+                    UserID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TabPermission", x => x.TabPermissionID);
+                    table.ForeignKey(
+                        name: "FK_TabPermission_Permission_PermissionID",
+                        column: x => x.PermissionID,
+                        principalTable: "Permission",
+                        principalColumn: "PermissionID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TabPermission_Role_RoleID",
+                        column: x => x.RoleID,
+                        principalTable: "Role",
+                        principalColumn: "RoleID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TabPermission_Tabs_TabID",
+                        column: x => x.TabID,
+                        principalTable: "Tabs",
+                        principalColumn: "TabID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TabPermission_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TabSettings",
+                columns: table => new
+                {
+                    TabID = table.Column<int>(nullable: false),
+                    SettingName = table.Column<string>(nullable: false),
+                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedOnDate = table.Column<DateTime>(nullable: true),
+                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
+                    SettingValue = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TabSettings", x => new { x.TabID, x.SettingName });
+                    table.UniqueConstraint("AK_TabSettings_SettingName_TabID", x => new { x.SettingName, x.TabID });
+                    table.ForeignKey(
+                        name: "FK_TabSettings_Tabs_TabID",
+                        column: x => x.TabID,
+                        principalTable: "Tabs",
+                        principalColumn: "TabID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TabUrls",
+                columns: table => new
+                {
+                    TabId = table.Column<int>(nullable: false),
+                    SeqNum = table.Column<int>(nullable: false),
+                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedOnDate = table.Column<DateTime>(nullable: true),
+                    CultureCode = table.Column<string>(nullable: true),
+                    HttpStatus = table.Column<string>(nullable: true),
+                    IsSystem = table.Column<bool>(nullable: false),
+                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
+                    PortalAliasId = table.Column<int>(nullable: true),
+                    PortalAliasUsage = table.Column<int>(nullable: true),
+                    QueryString = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TabUrls", x => new { x.TabId, x.SeqNum });
+                    table.UniqueConstraint("AK_TabUrls_SeqNum_TabId", x => new { x.SeqNum, x.TabId });
+                    table.ForeignKey(
+                        name: "FK_TabUrls_Tabs_TabId",
+                        column: x => x.TabId,
+                        principalTable: "Tabs",
+                        principalColumn: "TabID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TabVersions",
+                columns: table => new
+                {
+                    TabVersionId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedOnDate = table.Column<DateTime>(nullable: true),
+                    IsPublished = table.Column<bool>(nullable: false),
+                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
+                    TabId = table.Column<int>(nullable: false),
+                    TimeStamp = table.Column<DateTime>(nullable: false),
+                    Version = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TabVersions", x => x.TabVersionId);
+                    table.ForeignKey(
+                        name: "FK_TabVersions_Tabs_TabId",
+                        column: x => x.TabId,
+                        principalTable: "Tabs",
+                        principalColumn: "TabID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -3556,6 +3496,241 @@ namespace Dnn.vNext.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CoreMessaging_Subscriptions",
+                columns: table => new
+                {
+                    SubscriptionID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOnDate = table.Column<DateTime>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    ModuleID = table.Column<int>(nullable: true),
+                    ObjectData = table.Column<string>(nullable: true),
+                    ObjectKey = table.Column<string>(nullable: true),
+                    PortalID = table.Column<int>(nullable: true),
+                    SubscriptionTypeID = table.Column<int>(nullable: false),
+                    TabID = table.Column<int>(nullable: true),
+                    UserID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CoreMessaging_Subscriptions", x => x.SubscriptionID);
+                    table.ForeignKey(
+                        name: "FK_CoreMessaging_Subscriptions_Modules_ModuleID",
+                        column: x => x.ModuleID,
+                        principalTable: "Modules",
+                        principalColumn: "ModuleID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CoreMessaging_Subscriptions_Portals_PortalID",
+                        column: x => x.PortalID,
+                        principalTable: "Portals",
+                        principalColumn: "PortalID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CoreMessaging_Subscriptions_CoreMessaging_SubscriptionTypes_SubscriptionTypeID",
+                        column: x => x.SubscriptionTypeID,
+                        principalTable: "CoreMessaging_SubscriptionTypes",
+                        principalColumn: "SubscriptionTypeID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CoreMessaging_Subscriptions_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HtmlText",
+                columns: table => new
+                {
+                    ModuleID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Content = table.Column<string>(nullable: true),
+                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedOnDate = table.Column<DateTime>(nullable: true),
+                    IsPublished = table.Column<bool>(nullable: true),
+                    ItemID = table.Column<int>(nullable: false),
+                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
+                    ModuleID1 = table.Column<int>(nullable: true),
+                    StateID = table.Column<int>(nullable: true),
+                    Summary = table.Column<string>(nullable: true),
+                    Version = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HtmlText", x => x.ModuleID);
+                    table.ForeignKey(
+                        name: "FK_HtmlText_Modules_ModuleID1",
+                        column: x => x.ModuleID1,
+                        principalTable: "Modules",
+                        principalColumn: "ModuleID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_HtmlText_WorkflowStates_StateID",
+                        column: x => x.StateID,
+                        principalTable: "WorkflowStates",
+                        principalColumn: "StateID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ModulePermissions",
+                columns: table => new
+                {
+                    ModulePermissionID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AllowAccess = table.Column<bool>(nullable: false),
+                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedOnDate = table.Column<DateTime>(nullable: true),
+                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
+                    ModuleID = table.Column<int>(nullable: false),
+                    PermissionID = table.Column<int>(nullable: false),
+                    PortalID = table.Column<int>(nullable: false),
+                    RoleID = table.Column<int>(nullable: true),
+                    UserID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ModulePermissions", x => x.ModulePermissionID);
+                    table.ForeignKey(
+                        name: "FK_ModulePermissions_Modules_ModuleID",
+                        column: x => x.ModuleID,
+                        principalTable: "Modules",
+                        principalColumn: "ModuleID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ModulePermissions_Permission_PermissionID",
+                        column: x => x.PermissionID,
+                        principalTable: "Permission",
+                        principalColumn: "PermissionID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ModulePermissions_Role_RoleID",
+                        column: x => x.RoleID,
+                        principalTable: "Role",
+                        principalColumn: "RoleID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ModulePermissions_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ModuleSettings",
+                columns: table => new
+                {
+                    ModuleID = table.Column<int>(nullable: false),
+                    SettingName = table.Column<string>(nullable: false),
+                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedOnDate = table.Column<DateTime>(nullable: true),
+                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedOnDate = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ModuleSettings", x => new { x.ModuleID, x.SettingName });
+                    table.ForeignKey(
+                        name: "FK_ModuleSettings_Modules_ModuleID",
+                        column: x => x.ModuleID,
+                        principalTable: "Modules",
+                        principalColumn: "ModuleID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TabModules",
+                columns: table => new
+                {
+                    TabModuleID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Alignment = table.Column<string>(nullable: true),
+                    Border = table.Column<string>(nullable: true),
+                    CacheMethod = table.Column<string>(nullable: true),
+                    CacheTime = table.Column<int>(nullable: false),
+                    Color = table.Column<string>(nullable: true),
+                    ContainerSrc = table.Column<string>(nullable: true),
+                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedOnDate = table.Column<DateTime>(nullable: true),
+                    CultureCode = table.Column<string>(nullable: true),
+                    DefaultLanguageGUID = table.Column<Guid>(nullable: false),
+                    DisplayPrint = table.Column<int>(nullable: false),
+                    DisplaySyndicate = table.Column<int>(nullable: false),
+                    DisplayTitle = table.Column<int>(nullable: false),
+                    ElementId = table.Column<string>(nullable: true),
+                    Footer = table.Column<string>(nullable: true),
+                    Header = table.Column<string>(nullable: true),
+                    IconFile = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<int>(nullable: false),
+                    IsWebSlice = table.Column<int>(nullable: false),
+                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
+                    LocalizedVersionGUID = table.Column<Guid>(nullable: false),
+                    ModuleID = table.Column<int>(nullable: false),
+                    ModuleOrder = table.Column<int>(nullable: false),
+                    ModuleTitle = table.Column<string>(nullable: true),
+                    Order = table.Column<int>(nullable: false),
+                    PageId = table.Column<int>(nullable: false),
+                    PaneName = table.Column<string>(nullable: true),
+                    TabID = table.Column<int>(nullable: false),
+                    UniqueId = table.Column<Guid>(nullable: false),
+                    VersionGUID = table.Column<Guid>(nullable: false),
+                    Visibility = table.Column<int>(nullable: false),
+                    WebSliceExpiryDate = table.Column<DateTime>(nullable: true),
+                    WebSliceTTL = table.Column<int>(nullable: true),
+                    WebSliceTitle = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TabModules", x => x.TabModuleID);
+                    table.ForeignKey(
+                        name: "FK_TabModules_Modules_ModuleID",
+                        column: x => x.ModuleID,
+                        principalTable: "Modules",
+                        principalColumn: "ModuleID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TabModules_Tabs_TabID",
+                        column: x => x.TabID,
+                        principalTable: "Tabs",
+                        principalColumn: "TabID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TabVersionDetails",
+                columns: table => new
+                {
+                    TabVersionDetailId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Action = table.Column<int>(nullable: false),
+                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedOnDate = table.Column<DateTime>(nullable: true),
+                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
+                    ModuleId = table.Column<int>(nullable: false),
+                    ModuleOrder = table.Column<int>(nullable: false),
+                    ModuleVersion = table.Column<int>(nullable: false),
+                    PageName = table.Column<string>(nullable: true),
+                    TabVersionId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TabVersionDetails", x => x.TabVersionDetailId);
+                    table.ForeignKey(
+                        name: "FK_TabVersionDetails_TabVersions_TabVersionId",
+                        column: x => x.TabVersionId,
+                        principalTable: "TabVersions",
+                        principalColumn: "TabVersionId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FileVersions",
                 columns: table => new
                 {
@@ -3585,65 +3760,83 @@ namespace Dnn.vNext.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Tabs_ContentItemID",
-                table: "Tabs",
-                column: "ContentItemID");
+            migrationBuilder.CreateTable(
+                name: "HtmlTextLog",
+                columns: table => new
+                {
+                    HtmlTextLogID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Approved = table.Column<bool>(nullable: false),
+                    Comment = table.Column<string>(nullable: true),
+                    CreatedByUserID = table.Column<int>(nullable: false),
+                    CreatedOnDate = table.Column<DateTime>(nullable: false),
+                    ItemID = table.Column<int>(nullable: false),
+                    StateID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HtmlTextLog", x => x.HtmlTextLogID);
+                    table.ForeignKey(
+                        name: "FK_HtmlTextLog_HtmlText_ItemID",
+                        column: x => x.ItemID,
+                        principalTable: "HtmlText",
+                        principalColumn: "ModuleID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HtmlTextLog_WorkflowStates_StateID",
+                        column: x => x.StateID,
+                        principalTable: "WorkflowStates",
+                        principalColumn: "StateID",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Tabs_ParentId",
-                table: "Tabs",
-                column: "ParentId");
+            migrationBuilder.CreateTable(
+                name: "HtmlTextUsers",
+                columns: table => new
+                {
+                    HtmlTextUserID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOnDate = table.Column<DateTime>(nullable: false),
+                    ItemID = table.Column<int>(nullable: false),
+                    ModuleID = table.Column<int>(nullable: false),
+                    StateID = table.Column<int>(nullable: false),
+                    TabID = table.Column<int>(nullable: false),
+                    UserID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HtmlTextUsers", x => x.HtmlTextUserID);
+                    table.ForeignKey(
+                        name: "FK_HtmlTextUsers_HtmlText_ItemID",
+                        column: x => x.ItemID,
+                        principalTable: "HtmlText",
+                        principalColumn: "ModuleID",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Tabs_PortalID",
-                table: "Tabs",
-                column: "PortalID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TabModules_TabID",
-                table: "TabModules",
-                column: "TabID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Modules_ContentItemID",
-                table: "Modules",
-                column: "ContentItemID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Modules_ModuleDefID",
-                table: "Modules",
-                column: "ModuleDefID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ModulePermissions_ModuleID",
-                table: "ModulePermissions",
-                column: "ModuleID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ModulePermissions_PermissionID",
-                table: "ModulePermissions",
-                column: "PermissionID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ModulePermissions_RoleID",
-                table: "ModulePermissions",
-                column: "RoleID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ModulePermissions_UserID",
-                table: "ModulePermissions",
-                column: "UserID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ModuleDefinitions_DesktopModuleID",
-                table: "ModuleDefinitions",
-                column: "DesktopModuleID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ModuleControls_ModuleDefID",
-                table: "ModuleControls",
-                column: "ModuleDefID");
+            migrationBuilder.CreateTable(
+                name: "TabModuleSettings",
+                columns: table => new
+                {
+                    TabModuleID = table.Column<int>(nullable: false),
+                    SettingName = table.Column<string>(nullable: false),
+                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedOnDate = table.Column<DateTime>(nullable: true),
+                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedOnDate = table.Column<DateTime>(nullable: true),
+                    SetttingValue = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TabModuleSettings", x => new { x.TabModuleID, x.SettingName });
+                    table.UniqueConstraint("AK_TabModuleSettings_SettingName_TabModuleID", x => new { x.SettingName, x.TabModuleID });
+                    table.ForeignKey(
+                        name: "FK_TabModuleSettings_TabModules_TabModuleID",
+                        column: x => x.TabModuleID,
+                        principalTable: "TabModules",
+                        principalColumn: "TabModuleID",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_aspnet_Memership_ApplicationID",
@@ -3981,6 +4174,46 @@ namespace Dnn.vNext.Migrations
                 column: "PortalId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ModuleControls_ModuleDefID",
+                table: "ModuleControls",
+                column: "ModuleDefID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ModuleDefinitions_DesktopModuleID",
+                table: "ModuleDefinitions",
+                column: "DesktopModuleID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ModulePermissions_ModuleID",
+                table: "ModulePermissions",
+                column: "ModuleID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ModulePermissions_PermissionID",
+                table: "ModulePermissions",
+                column: "PermissionID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ModulePermissions_RoleID",
+                table: "ModulePermissions",
+                column: "RoleID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ModulePermissions_UserID",
+                table: "ModulePermissions",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Modules_ContentItemID",
+                table: "Modules",
+                column: "ContentItemID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Modules_ModuleDefID",
+                table: "Modules",
+                column: "ModuleDefID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PackageDependencies_PackageID",
                 table: "PackageDependencies",
                 column: "PackageID");
@@ -4159,6 +4392,16 @@ namespace Dnn.vNext.Migrations
                 column: "PortalID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TabModules_ModuleID",
+                table: "TabModules",
+                column: "ModuleID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TabModules_TabID",
+                table: "TabModules",
+                column: "TabID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TabPermission_PermissionID",
                 table: "TabPermission",
                 column: "PermissionID");
@@ -4177,6 +4420,21 @@ namespace Dnn.vNext.Migrations
                 name: "IX_TabPermission_UserID",
                 table: "TabPermission",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tabs_ContentItemID",
+                table: "Tabs",
+                column: "ContentItemID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tabs_ParentId",
+                table: "Tabs",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tabs_PortalID",
+                table: "Tabs",
+                column: "PortalID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TabVersionDetails_TabVersionId",
@@ -4302,178 +4560,10 @@ namespace Dnn.vNext.Migrations
                 name: "IX_WorkflowStates_WorkflowID",
                 table: "WorkflowStates",
                 column: "WorkflowID");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ModuleControls_ModuleDefinitions_ModuleDefID",
-                table: "ModuleControls",
-                column: "ModuleDefID",
-                principalTable: "ModuleDefinitions",
-                principalColumn: "ModuleDefID",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ModuleDefinitions_DesktopModules_DesktopModuleID",
-                table: "ModuleDefinitions",
-                column: "DesktopModuleID",
-                principalTable: "DesktopModules",
-                principalColumn: "DesktopModuleID",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ModulePermissions_Modules_ModuleID",
-                table: "ModulePermissions",
-                column: "ModuleID",
-                principalTable: "Modules",
-                principalColumn: "ModuleID",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ModulePermissions_Permission_PermissionID",
-                table: "ModulePermissions",
-                column: "PermissionID",
-                principalTable: "Permission",
-                principalColumn: "PermissionID",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ModulePermissions_Role_RoleID",
-                table: "ModulePermissions",
-                column: "RoleID",
-                principalTable: "Role",
-                principalColumn: "RoleID",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ModulePermissions_Users_UserID",
-                table: "ModulePermissions",
-                column: "UserID",
-                principalTable: "Users",
-                principalColumn: "UserID",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Modules_ContentItems_ContentItemID",
-                table: "Modules",
-                column: "ContentItemID",
-                principalTable: "ContentItems",
-                principalColumn: "ContentItemID",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Modules_ModuleDefinitions_ModuleDefID",
-                table: "Modules",
-                column: "ModuleDefID",
-                principalTable: "ModuleDefinitions",
-                principalColumn: "ModuleDefID",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ModuleSettings_Modules_ModuleID",
-                table: "ModuleSettings",
-                column: "ModuleID",
-                principalTable: "Modules",
-                principalColumn: "ModuleID",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_TabModules_Tabs_TabID",
-                table: "TabModules",
-                column: "TabID",
-                principalTable: "Tabs",
-                principalColumn: "TabID",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_TabModuleSettings_TabModules_TabModuleID",
-                table: "TabModuleSettings",
-                column: "TabModuleID",
-                principalTable: "TabModules",
-                principalColumn: "TabModuleID",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Tabs_ContentItems_ContentItemID",
-                table: "Tabs",
-                column: "ContentItemID",
-                principalTable: "ContentItems",
-                principalColumn: "ContentItemID",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Tabs_Tabs_ParentId",
-                table: "Tabs",
-                column: "ParentId",
-                principalTable: "Tabs",
-                principalColumn: "TabID",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Tabs_Portals_PortalID",
-                table: "Tabs",
-                column: "PortalID",
-                principalTable: "Portals",
-                principalColumn: "PortalID",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_ModuleControls_ModuleDefinitions_ModuleDefID",
-                table: "ModuleControls");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_ModuleDefinitions_DesktopModules_DesktopModuleID",
-                table: "ModuleDefinitions");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_ModulePermissions_Modules_ModuleID",
-                table: "ModulePermissions");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_ModulePermissions_Permission_PermissionID",
-                table: "ModulePermissions");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_ModulePermissions_Role_RoleID",
-                table: "ModulePermissions");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_ModulePermissions_Users_UserID",
-                table: "ModulePermissions");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Modules_ContentItems_ContentItemID",
-                table: "Modules");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Modules_ModuleDefinitions_ModuleDefID",
-                table: "Modules");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_ModuleSettings_Modules_ModuleID",
-                table: "ModuleSettings");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_TabModules_Tabs_TabID",
-                table: "TabModules");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_TabModuleSettings_TabModules_TabModuleID",
-                table: "TabModuleSettings");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Tabs_ContentItems_ContentItemID",
-                table: "Tabs");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Tabs_Tabs_ParentId",
-                table: "Tabs");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Tabs_Portals_PortalID",
-                table: "Tabs");
-
             migrationBuilder.DropTable(
                 name: "AnonymousUsers");
 
@@ -4613,6 +4703,15 @@ namespace Dnn.vNext.Migrations
                 name: "Mobile_RedirectionRules");
 
             migrationBuilder.DropTable(
+                name: "ModuleControls");
+
+            migrationBuilder.DropTable(
+                name: "ModulePermissions");
+
+            migrationBuilder.DropTable(
+                name: "ModuleSettings");
+
+            migrationBuilder.DropTable(
                 name: "OutputCache");
 
             migrationBuilder.DropTable(
@@ -4695,6 +4794,9 @@ namespace Dnn.vNext.Migrations
 
             migrationBuilder.DropTable(
                 name: "TabAliasSkins");
+
+            migrationBuilder.DropTable(
+                name: "TabModuleSettings");
 
             migrationBuilder.DropTable(
                 name: "TabPermission");
@@ -4790,6 +4892,9 @@ namespace Dnn.vNext.Migrations
                 name: "vSkinPackages");
 
             migrationBuilder.DropTable(
+                name: "TabModules");
+
+            migrationBuilder.DropTable(
                 name: "TabVersions");
 
             migrationBuilder.DropTable(
@@ -4814,9 +4919,6 @@ namespace Dnn.vNext.Migrations
                 name: "EventLogConfig");
 
             migrationBuilder.DropTable(
-                name: "ContentItems");
-
-            migrationBuilder.DropTable(
                 name: "Folders");
 
             migrationBuilder.DropTable(
@@ -4827,6 +4929,12 @@ namespace Dnn.vNext.Migrations
 
             migrationBuilder.DropTable(
                 name: "PersonaBarMenu");
+
+            migrationBuilder.DropTable(
+                name: "Modules");
+
+            migrationBuilder.DropTable(
+                name: "Tabs");
 
             migrationBuilder.DropTable(
                 name: "RelationshipTypes");
@@ -4841,9 +4949,6 @@ namespace Dnn.vNext.Migrations
                 name: "Taxonomy_VocabularyTypes");
 
             migrationBuilder.DropTable(
-                name: "DesktopModules");
-
-            migrationBuilder.DropTable(
                 name: "EventLogTypes");
 
             migrationBuilder.DropTable(
@@ -4856,13 +4961,13 @@ namespace Dnn.vNext.Migrations
                 name: "Workflow");
 
             migrationBuilder.DropTable(
-                name: "Packages");
+                name: "ModuleDefinitions");
+
+            migrationBuilder.DropTable(
+                name: "ContentItems");
 
             migrationBuilder.DropTable(
                 name: "Permission");
-
-            migrationBuilder.DropTable(
-                name: "ContentWorkflowStates");
 
             migrationBuilder.DropTable(
                 name: "Users");
@@ -4871,126 +4976,22 @@ namespace Dnn.vNext.Migrations
                 name: "Portals");
 
             migrationBuilder.DropTable(
-                name: "PackageType");
+                name: "DesktopModules");
+
+            migrationBuilder.DropTable(
+                name: "ContentWorkflowStates");
+
+            migrationBuilder.DropTable(
+                name: "Packages");
 
             migrationBuilder.DropTable(
                 name: "ContentWorkflows");
 
             migrationBuilder.DropTable(
+                name: "PackageType");
+
+            migrationBuilder.DropTable(
                 name: "ContentType");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Tabs_ContentItemID",
-                table: "Tabs");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Tabs_ParentId",
-                table: "Tabs");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Tabs_PortalID",
-                table: "Tabs");
-
-            migrationBuilder.DropUniqueConstraint(
-                name: "AK_TabModuleSettings_SettingName_TabModuleID",
-                table: "TabModuleSettings");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_TabModuleSettings",
-                table: "TabModuleSettings");
-
-            migrationBuilder.DropIndex(
-                name: "IX_TabModules_TabID",
-                table: "TabModules");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_ModuleSettings",
-                table: "ModuleSettings");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Modules_ContentItemID",
-                table: "Modules");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Modules_ModuleDefID",
-                table: "Modules");
-
-            migrationBuilder.DropIndex(
-                name: "IX_ModulePermissions_ModuleID",
-                table: "ModulePermissions");
-
-            migrationBuilder.DropIndex(
-                name: "IX_ModulePermissions_PermissionID",
-                table: "ModulePermissions");
-
-            migrationBuilder.DropIndex(
-                name: "IX_ModulePermissions_RoleID",
-                table: "ModulePermissions");
-
-            migrationBuilder.DropIndex(
-                name: "IX_ModulePermissions_UserID",
-                table: "ModulePermissions");
-
-            migrationBuilder.DropIndex(
-                name: "IX_ModuleDefinitions_DesktopModuleID",
-                table: "ModuleDefinitions");
-
-            migrationBuilder.DropIndex(
-                name: "IX_ModuleControls_ModuleDefID",
-                table: "ModuleControls");
-
-            migrationBuilder.DropColumn(
-                name: "ModuleDef",
-                table: "Modules");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "SettingName",
-                table: "TabModuleSettings",
-                nullable: true,
-                oldClrType: typeof(string));
-
-            migrationBuilder.AlterColumn<int>(
-                name: "TabModuleID",
-                table: "TabModuleSettings",
-                nullable: false,
-                oldClrType: typeof(int))
-                .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            migrationBuilder.AlterColumn<string>(
-                name: "SettingName",
-                table: "ModuleSettings",
-                nullable: true,
-                oldClrType: typeof(string));
-
-            migrationBuilder.AlterColumn<int>(
-                name: "ModuleID",
-                table: "ModuleSettings",
-                nullable: false,
-                oldClrType: typeof(int))
-                .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_TabModuleSettings",
-                table: "TabModuleSettings",
-                column: "TabModuleID");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_ModuleSettings",
-                table: "ModuleSettings",
-                column: "ModuleID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TabModules_PageId",
-                table: "TabModules",
-                column: "PageId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_TabModules_Tabs_PageId",
-                table: "TabModules",
-                column: "PageId",
-                principalTable: "Tabs",
-                principalColumn: "TabID",
-                onDelete: ReferentialAction.Cascade);
         }
     }
 }
