@@ -26,7 +26,7 @@ namespace Dnn.vNext
                     var context = services.GetRequiredService<DnnDbContext>();
                     SeedData.Initialize(context);
                 }
-                catch(Exception ex)
+                catch(System.Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "An error occurred while seeding the database.");

@@ -20,6 +20,1952 @@ namespace Dnn.vNext.Migrations
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Dnn.vNext.Data.AnonymousUser", b =>
+                {
+                    b.Property<int>("UserID");
+
+                    b.Property<int>("PortalID");
+
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<DateTime>("LastActiveDate");
+
+                    b.Property<int>("TabId");
+
+                    b.HasKey("UserID", "PortalID");
+
+                    b.HasAlternateKey("PortalID", "UserID");
+
+                    b.ToTable("AnonymousUsers");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.aspnet_Application", b =>
+                {
+                    b.Property<Guid>("ApplicationId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ApplicationName");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("LoweredApplicationName");
+
+                    b.HasKey("ApplicationId");
+
+                    b.ToTable("aspnet_Applications");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.aspnet_Membership", b =>
+                {
+                    b.Property<Guid>("UserID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("ApplicationID");
+
+                    b.Property<string>("Comment");
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("Email");
+
+                    b.Property<int>("FailedPasswordAnswerAttemptCount");
+
+                    b.Property<DateTime>("FailedPasswordAnswerAttemptWindow");
+
+                    b.Property<int>("FailedPasswordAttemptCount");
+
+                    b.Property<DateTime>("FailedPasswordWindowStart");
+
+                    b.Property<bool>("IsApproved");
+
+                    b.Property<bool>("IsLockedOut");
+
+                    b.Property<DateTime>("LastLockoutDate");
+
+                    b.Property<DateTime>("LastLoginDate");
+
+                    b.Property<DateTime>("LastPasswordChangedDate");
+
+                    b.Property<string>("LoweredEmail");
+
+                    b.Property<string>("MobilePIN");
+
+                    b.Property<string>("Password");
+
+                    b.Property<string>("PasswordAnswer");
+
+                    b.Property<int>("PasswordFormat");
+
+                    b.Property<string>("PasswordQuestion");
+
+                    b.Property<string>("PasswordSalt");
+
+                    b.HasKey("UserID");
+
+                    b.HasIndex("ApplicationID");
+
+                    b.ToTable("aspnet_Memership");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.aspnet_SchemaVersion", b =>
+                {
+                    b.Property<string>("Feature");
+
+                    b.Property<string>("CompatibleSchemaVersion");
+
+                    b.Property<bool>("IsCurrentVersion");
+
+                    b.HasKey("Feature", "CompatibleSchemaVersion");
+
+                    b.HasAlternateKey("CompatibleSchemaVersion", "Feature");
+
+                    b.ToTable("aspnet_SchemaVersions");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.aspnet_User", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("ApplicationId");
+
+                    b.Property<bool>("IsAnonymous");
+
+                    b.Property<DateTime>("LastActivityDate");
+
+                    b.Property<string>("LoweredUserName");
+
+                    b.Property<string>("MobileAlias");
+
+                    b.Property<string>("UserName");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("ApplicationId");
+
+                    b.ToTable("aspnet_Users");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Assembly", b =>
+                {
+                    b.Property<int>("AssemblyID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AssemblyName");
+
+                    b.Property<int?>("PackageID");
+
+                    b.Property<string>("Version");
+
+                    b.HasKey("AssemblyID");
+
+                    b.HasIndex("PackageID");
+
+                    b.ToTable("Assemblies");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Authentication", b =>
+                {
+                    b.Property<int>("AuthenticationID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthenticationType");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<bool>("IsEnabled");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("LoginControlSrc");
+
+                    b.Property<string>("LogoffControlSrc");
+
+                    b.Property<int>("PackageID");
+
+                    b.Property<string>("SettignsControlSrc");
+
+                    b.HasKey("AuthenticationID");
+
+                    b.HasIndex("PackageID");
+
+                    b.ToTable("Authentication");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.CKE_Setting", b =>
+                {
+                    b.Property<string>("SettingName")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("SettingValue");
+
+                    b.HasKey("SettingName");
+
+                    b.ToTable("CKE_Settings");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Content_Type", b =>
+                {
+                    b.Property<int>("ContentTypeID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ContentType");
+
+                    b.HasKey("ContentTypeID");
+
+                    b.ToTable("ContentType");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentItem", b =>
+                {
+                    b.Property<int>("ContentItemID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content");
+
+                    b.Property<string>("ContentKey");
+
+                    b.Property<int>("ContentTypeID");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<bool>("Indexed");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("ModuleID");
+
+                    b.Property<int?>("StateID");
+
+                    b.Property<int>("TabID");
+
+                    b.HasKey("ContentItemID");
+
+                    b.HasIndex("ContentTypeID");
+
+                    b.HasIndex("StateID");
+
+                    b.ToTable("ContentItems");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentItems_MetaData", b =>
+                {
+                    b.Property<int>("ContetnItemMetaDataID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ContentItemID");
+
+                    b.Property<int>("MetaDataID");
+
+                    b.Property<string>("MetaDataValue");
+
+                    b.HasKey("ContetnItemMetaDataID");
+
+                    b.HasIndex("ContentItemID");
+
+                    b.HasIndex("MetaDataID");
+
+                    b.ToTable("ContentItems_MetaData");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentItems_Tag", b =>
+                {
+                    b.Property<int>("ContentItemTagID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ContentItemID");
+
+                    b.Property<int?>("ContentItemTagID1");
+
+                    b.Property<int>("TermID");
+
+                    b.HasKey("ContentItemTagID");
+
+                    b.HasIndex("ContentItemID");
+
+                    b.HasIndex("ContentItemTagID1");
+
+                    b.HasIndex("TermID");
+
+                    b.ToTable("ContentItems_Tags");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflow", b =>
+                {
+                    b.Property<int>("WorkflowID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("Content_TypeContentTypeID");
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("DispositionEnabled");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsSystem");
+
+                    b.Property<int?>("PortalID");
+
+                    b.Property<bool>("StartAfterCreating");
+
+                    b.Property<bool>("StartAfterEditing");
+
+                    b.Property<string>("WorkflowKey");
+
+                    b.Property<string>("WorkflowName");
+
+                    b.HasKey("WorkflowID");
+
+                    b.HasIndex("Content_TypeContentTypeID");
+
+                    b.ToTable("ContentWorkflows");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowAction", b =>
+                {
+                    b.Property<int>("ActionID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ActionSource");
+
+                    b.Property<string>("ActionType");
+
+                    b.Property<int>("ContentTypeID");
+
+                    b.Property<int?>("ContentWorkflowActionActionID");
+
+                    b.HasKey("ActionID");
+
+                    b.HasIndex("ContentWorkflowActionActionID");
+
+                    b.ToTable("ContentWorkflowActios");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowLog", b =>
+                {
+                    b.Property<int>("WorkflowLogID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Action");
+
+                    b.Property<string>("Comment");
+
+                    b.Property<int>("ContentItemID");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<int>("Type");
+
+                    b.Property<int?>("User");
+
+                    b.Property<int>("WorkflowID");
+
+                    b.HasKey("WorkflowLogID");
+
+                    b.HasIndex("ContentItemID");
+
+                    b.HasIndex("WorkflowID");
+
+                    b.ToTable("ContentWorkflowLogs");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowSource", b =>
+                {
+                    b.Property<int>("SourceID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("SourceName");
+
+                    b.Property<string>("SourceType");
+
+                    b.Property<int>("WorkflowID");
+
+                    b.HasKey("SourceID");
+
+                    b.HasIndex("WorkflowID");
+
+                    b.ToTable("ContentWorkflowSources");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowState", b =>
+                {
+                    b.Property<int>("StateID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<bool>("IsDisposalState");
+
+                    b.Property<bool>("IsSystem");
+
+                    b.Property<string>("OnCompleteMessageBody");
+
+                    b.Property<string>("OnCompleteMessageSubject");
+
+                    b.Property<string>("OnDiscardMessageSubject");
+
+                    b.Property<int>("Order");
+
+                    b.Property<bool>("SendEmail");
+
+                    b.Property<bool>("SendMessage");
+
+                    b.Property<bool>("SendNotification");
+
+                    b.Property<bool>("SendNotificationToAdministrators");
+
+                    b.Property<string>("StateName");
+
+                    b.Property<int>("WorkflowID");
+
+                    b.HasKey("StateID");
+
+                    b.HasIndex("WorkflowID");
+
+                    b.ToTable("ContentWorkflowStates");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowStatePermission", b =>
+                {
+                    b.Property<int>("WorkflowStatePermissionID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("AllowAccess");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("PermissionID");
+
+                    b.Property<int?>("RoleID");
+
+                    b.Property<int>("StateId");
+
+                    b.Property<int?>("UserID");
+
+                    b.HasKey("WorkflowStatePermissionID");
+
+                    b.HasIndex("PermissionID");
+
+                    b.HasIndex("StateId");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("ContentWorkflowStatePermission");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_Message", b =>
+                {
+                    b.Property<int>("MessageID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Body");
+
+                    b.Property<string>("Context");
+
+                    b.Property<int?>("ConversationID");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<DateTime?>("ExpirationDate");
+
+                    b.Property<string>("From");
+
+                    b.Property<bool?>("IncludeDismissAction");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int?>("NotificationTypeID");
+
+                    b.Property<int?>("PortalID");
+
+                    b.Property<bool?>("ReplyAllAllowed");
+
+                    b.Property<int?>("SenderUserID");
+
+                    b.Property<string>("Subject");
+
+                    b.Property<string>("To");
+
+                    b.HasKey("MessageID");
+
+                    b.HasIndex("NotificationTypeID");
+
+                    b.ToTable("CoreMessaging_Messages");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_MessageAttachment", b =>
+                {
+                    b.Property<int>("MessageAttachmentID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("FileID");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("MessageID");
+
+                    b.HasKey("MessageAttachmentID");
+
+                    b.HasIndex("MessageID");
+
+                    b.ToTable("CoreMessaging_MessageAttachments");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_MessagingRecipient", b =>
+                {
+                    b.Property<int>("RecipientID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Archived");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<Guid?>("EmailSchedulerInstance");
+
+                    b.Property<bool>("EmailSent");
+
+                    b.Property<DateTime?>("EmailSentDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("MessageID");
+
+                    b.Property<bool>("Read");
+
+                    b.Property<bool>("SendToast");
+
+                    b.Property<int>("UserID");
+
+                    b.HasKey("RecipientID");
+
+                    b.HasIndex("MessageID");
+
+                    b.ToTable("CoreMessaging_MessagingRecipients");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_NotificationType", b =>
+                {
+                    b.Property<int>("NotificationTypeID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int?>("DesktopModuleID");
+
+                    b.Property<bool>("IsTask");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int?>("TTL");
+
+                    b.HasKey("NotificationTypeID");
+
+                    b.HasIndex("DesktopModuleID");
+
+                    b.ToTable("CoreMessaging_NotificationTypes");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_NotificationTypeAction", b =>
+                {
+                    b.Property<int>("NotificaationTypeActionID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("APICall");
+
+                    b.Property<string>("ConfirmRescourceKey");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("DescriptionResourceKey");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("NameResourceKey");
+
+                    b.Property<int>("NotificationTypeID");
+
+                    b.Property<int>("Order");
+
+                    b.HasKey("NotificaationTypeActionID");
+
+                    b.HasIndex("NotificationTypeID");
+
+                    b.ToTable("CoreMessaging_NotificationTypeActions");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_Subscription", b =>
+                {
+                    b.Property<int>("SubscriptionID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedOnDate");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int?>("ModuleID");
+
+                    b.Property<string>("ObjectData");
+
+                    b.Property<string>("ObjectKey");
+
+                    b.Property<int?>("PortalID");
+
+                    b.Property<int>("SubscriptionTypeID");
+
+                    b.Property<int?>("TabID");
+
+                    b.Property<int>("UserID");
+
+                    b.HasKey("SubscriptionID");
+
+                    b.HasIndex("ModuleID");
+
+                    b.HasIndex("PortalID");
+
+                    b.HasIndex("SubscriptionTypeID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("CoreMessaging_Subscriptions");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_SubscriptionType", b =>
+                {
+                    b.Property<int>("SubscriptionTypeID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("DesktopModuleID");
+
+                    b.Property<string>("FriendlyName");
+
+                    b.Property<string>("SubscriptionName");
+
+                    b.HasKey("SubscriptionTypeID");
+
+                    b.ToTable("CoreMessaging_SubscriptionTypes");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_UserPreference", b =>
+                {
+                    b.Property<int>("UserPreferenceID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("MessagesEmailFrequency");
+
+                    b.Property<int>("NotificationsEmailFrequency");
+
+                    b.Property<int>("PortalID");
+
+                    b.Property<int>("UserID");
+
+                    b.HasKey("UserPreferenceID");
+
+                    b.ToTable("CoreMessaging_UserPreferences");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.DesktopModule", b =>
+                {
+                    b.Property<int>("DesktopModuleID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AdminPage");
+
+                    b.Property<string>("BusinessControllerClass");
+
+                    b.Property<string>("CompatibleVersions");
+
+                    b.Property<int>("ContentItemID");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("Dependencies");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("FolderName");
+
+                    b.Property<string>("FriendlyName");
+
+                    b.Property<string>("HostPage");
+
+                    b.Property<bool>("IsAdmin");
+
+                    b.Property<bool>("IsPremium");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("ModuleName");
+
+                    b.Property<int>("PackageID");
+
+                    b.Property<string>("Permissions");
+
+                    b.Property<int>("Shareable");
+
+                    b.Property<bool>("SupportedFeatures");
+
+                    b.Property<string>("Version");
+
+                    b.HasKey("DesktopModuleID");
+
+                    b.HasIndex("PackageID");
+
+                    b.ToTable("DesktopModules");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.DesktopModulePermission", b =>
+                {
+                    b.Property<int>("DesktopModulePermissionID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("AllowAccess");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("PermissionID");
+
+                    b.Property<int>("PortalDesktopModuleID");
+
+                    b.Property<int?>("RoleID");
+
+                    b.Property<int?>("UserID");
+
+                    b.HasKey("DesktopModulePermissionID");
+
+                    b.HasIndex("PermissionID");
+
+                    b.HasIndex("PortalDesktopModuleID");
+
+                    b.HasIndex("RoleID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("DesktopModulePermission");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.EventLog", b =>
+                {
+                    b.Property<long>("LogEventID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("EventLogConfigID");
+
+                    b.Property<string>("ExceptionHash");
+
+                    b.Property<int>("LogConfigID");
+
+                    b.Property<long?>("LogConfigLogEventID");
+
+                    b.Property<DateTime>("LogCreateDate");
+
+                    b.Property<string>("LogGuid");
+
+                    b.Property<bool?>("LogNotificationPending");
+
+                    b.Property<int?>("LogPortalID");
+
+                    b.Property<string>("LogPortalName");
+
+                    b.Property<string>("LogProperties")
+                        .HasColumnType("xml");
+
+                    b.Property<string>("LogServerName");
+
+                    b.Property<string>("LogTypeKey1");
+
+                    b.Property<string>("LogType_Key")
+                        .HasColumnName("LogTypeKey");
+
+                    b.Property<int?>("LogUserID");
+
+                    b.Property<string>("LogUserName");
+
+                    b.HasKey("LogEventID");
+
+                    b.HasIndex("EventLogConfigID");
+
+                    b.HasIndex("LogConfigLogEventID");
+
+                    b.HasIndex("LogTypeKey1");
+
+                    b.ToTable("EventLog");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.EventLogConfig", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("EmailNotificaitonIsAcdtive");
+
+                    b.Property<int>("KeepMostRecent");
+
+                    b.Property<string>("LogTypeKey1");
+
+                    b.Property<string>("LogTypePortalID");
+
+                    b.Property<string>("LogType_Key")
+                        .HasColumnName("LogTypeKey");
+
+                    b.Property<bool>("LoggingIsActive");
+
+                    b.Property<string>("MailFromAddress");
+
+                    b.Property<string>("MailToAddress");
+
+                    b.Property<int?>("NotificationThreshold");
+
+                    b.Property<int?>("NotificationThresholdTime");
+
+                    b.Property<int?>("NotificationThresholdTimeType");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("LogTypeKey1");
+
+                    b.ToTable("EventLogConfig");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.EventLogType", b =>
+                {
+                    b.Property<string>("LogTypeKey")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("LogTypeCSSClass");
+
+                    b.Property<string>("LogTypeDescription");
+
+                    b.Property<string>("LogTypeFriendlyName");
+
+                    b.Property<string>("LogTypeOwner");
+
+                    b.HasKey("LogTypeKey");
+
+                    b.ToTable("EventLogTypes");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.EventQueue", b =>
+                {
+                    b.Property<int>("EventMessageID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Attributes");
+
+                    b.Property<string>("AuthorizedRoles");
+
+                    b.Property<string>("Body");
+
+                    b.Property<string>("EventName");
+
+                    b.Property<string>("ExceptionMessage");
+
+                    b.Property<DateTime>("ExpirationDate");
+
+                    b.Property<bool>("IsComplete");
+
+                    b.Property<int>("Priority");
+
+                    b.Property<string>("ProcessorCommand");
+
+                    b.Property<string>("ProcessorType");
+
+                    b.Property<string>("Sender");
+
+                    b.Property<DateTime>("SentDate");
+
+                    b.Property<string>("Subscriber");
+
+                    b.HasKey("EventMessageID");
+
+                    b.ToTable("EventQueue");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Exception", b =>
+                {
+                    b.Property<string>("ExceptionHash")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("InnerMessage");
+
+                    b.Property<string>("InnerStackTrace");
+
+                    b.Property<string>("Message");
+
+                    b.Property<string>("Source");
+
+                    b.Property<string>("StackTrace");
+
+                    b.HasKey("ExceptionHash");
+
+                    b.ToTable("Exceptions");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ExceptionEvent", b =>
+                {
+                    b.Property<long>("LogEventID");
+
+                    b.Property<string>("AssemblyVersion");
+
+                    b.Property<int?>("PortalID");
+
+                    b.Property<string>("RawURL");
+
+                    b.Property<string>("Referrer");
+
+                    b.Property<int?>("TabID");
+
+                    b.Property<string>("UserAgent");
+
+                    b.Property<int?>("UserID");
+
+                    b.HasKey("LogEventID");
+
+                    b.ToTable("ExceptionEvents");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ExportImportCheckpoint", b =>
+                {
+                    b.Property<int>("CheckpointID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AssemblyName");
+
+                    b.Property<string>("Category");
+
+                    b.Property<bool?>("Completed");
+
+                    b.Property<int>("JobID");
+
+                    b.Property<DateTime?>("LastUpdatedDate");
+
+                    b.Property<int>("ProcessedItems");
+
+                    b.Property<int>("Progress");
+
+                    b.Property<int>("Stage");
+
+                    b.Property<string>("StageData");
+
+                    b.Property<DateTime?>("StartDate");
+
+                    b.Property<int>("TotalItems");
+
+                    b.HasKey("CheckpointID");
+
+                    b.HasIndex("JobID");
+
+                    b.ToTable("ExportImportCheckpoints");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ExportImportJob", b =>
+                {
+                    b.Property<int>("JobId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CompletedOnDate");
+
+                    b.Property<int>("CreatedByUserID");
+
+                    b.Property<DateTime>("CreatedOnDate");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Directory");
+
+                    b.Property<bool>("IsCancelled");
+
+                    b.Property<string>("JobObject");
+
+                    b.Property<int>("JobStatus");
+
+                    b.Property<int>("JobType");
+
+                    b.Property<DateTime>("LastModifiedDate");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("PortalId");
+
+                    b.HasKey("JobId");
+
+                    b.ToTable("ExportImportJobs");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ExportImportJobLog", b =>
+                {
+                    b.Property<int>("JobLogId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedOnDate");
+
+                    b.Property<int>("JobId");
+
+                    b.Property<int>("Level");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("JobLogId");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("ExportImportJobLogs");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ExportImportSetting", b =>
+                {
+                    b.Property<string>("SettingName")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<bool>("SettingIsSecure");
+
+                    b.Property<string>("SettingValue");
+
+                    b.HasKey("SettingName");
+
+                    b.ToTable("ExportImportSettings");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ExtensionUrlProvider", b =>
+                {
+                    b.Property<int>("ExtensionUrlProviderID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("DekstopModuleId");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("ProviderName");
+
+                    b.Property<string>("ProviderType");
+
+                    b.Property<bool>("RedirectAllUrls");
+
+                    b.Property<bool>("ReplaceAllUrls");
+
+                    b.Property<bool>("RewriteAllUrls");
+
+                    b.Property<string>("SettingsControlSrc");
+
+                    b.HasKey("ExtensionUrlProviderID");
+
+                    b.ToTable("ExtensionUrlProviders");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ExtensionUrlProviderConfiguration", b =>
+                {
+                    b.Property<int>("ExtensionUrlProviderID");
+
+                    b.Property<int>("PortalID");
+
+                    b.HasKey("ExtensionUrlProviderID", "PortalID");
+
+                    b.ToTable("ExtensionUrlProviderConfiguration");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ExtensionUrlProviderSetting", b =>
+                {
+                    b.Property<int>("ExtensionUrlProviderID");
+
+                    b.Property<int>("PortalID");
+
+                    b.Property<string>("SettingName");
+
+                    b.Property<string>("SettingValue");
+
+                    b.HasKey("ExtensionUrlProviderID", "PortalID", "SettingName");
+
+                    b.ToTable("ExtensionUrlProviderSetting");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ExtensionUrlProviderTab", b =>
+                {
+                    b.Property<int>("ExtensionUrlProviderID");
+
+                    b.Property<int>("PortalID");
+
+                    b.Property<int>("TabID");
+
+                    b.Property<bool>("IsActive");
+
+                    b.HasKey("ExtensionUrlProviderID", "PortalID", "TabID");
+
+                    b.ToTable("ExtensionUrlProviderTab");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.File", b =>
+                {
+                    b.Property<int>("FileId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<byte?>("Content");
+
+                    b.Property<int?>("ContentItemID");
+
+                    b.Property<string>("ContentType");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("EnablePublishPeriod");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<string>("Extension");
+
+                    b.Property<string>("FileName");
+
+                    b.Property<int>("FolderID");
+
+                    b.Property<bool>("HasBeenPublished");
+
+                    b.Property<int?>("Hieght");
+
+                    b.Property<DateTime>("LastModificationTime");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int?>("PortalId");
+
+                    b.Property<int>("PublishedVersion");
+
+                    b.Property<string>("SHA1Hash");
+
+                    b.Property<int>("Size");
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.Property<string>("Title");
+
+                    b.Property<Guid>("UniqueID");
+
+                    b.Property<Guid>("VersionGuid");
+
+                    b.Property<int?>("Width");
+
+                    b.Property<string>("_Folder")
+                        .HasColumnName("Folder");
+
+                    b.HasKey("FileId");
+
+                    b.HasIndex("ContentItemID");
+
+                    b.HasIndex("FolderID");
+
+                    b.HasIndex("PortalId");
+
+                    b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.FileVersion", b =>
+                {
+                    b.Property<int>("FileId");
+
+                    b.Property<int>("Version");
+
+                    b.Property<byte?>("Content");
+
+                    b.Property<string>("ContentType");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("Extension");
+
+                    b.Property<string>("FileName");
+
+                    b.Property<int?>("Height");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("SHA1Hash");
+
+                    b.Property<int>("Size");
+
+                    b.Property<int?>("Width");
+
+                    b.HasKey("FileId", "Version");
+
+                    b.ToTable("FileVersions");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Folder", b =>
+                {
+                    b.Property<int>("FolderID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ContentWorkflowStatePermissionWorkflowStatePermissionID");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int>("FolderMappingID");
+
+                    b.Property<string>("FolderPath");
+
+                    b.Property<bool>("IsCached");
+
+                    b.Property<bool>("IsProtected");
+
+                    b.Property<bool>("IsVersioned");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<DateTime>("LastUpdated");
+
+                    b.Property<string>("MappedPath");
+
+                    b.Property<int?>("ParentID");
+
+                    b.Property<int?>("PortalID");
+
+                    b.Property<int>("StorageLocation");
+
+                    b.Property<Guid>("UniqueID");
+
+                    b.Property<Guid>("VersionGuid");
+
+                    b.Property<int?>("WorkflowID");
+
+                    b.HasKey("FolderID");
+
+                    b.HasIndex("ContentWorkflowStatePermissionWorkflowStatePermissionID");
+
+                    b.HasIndex("FolderMappingID");
+
+                    b.HasIndex("PortalID");
+
+                    b.HasIndex("WorkflowID");
+
+                    b.ToTable("Folders");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.FolderMapping", b =>
+                {
+                    b.Property<int>("FolderMappingID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("FolderProviderType");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("MappingName");
+
+                    b.Property<int?>("PortalID");
+
+                    b.Property<int?>("Priority");
+
+                    b.HasKey("FolderMappingID");
+
+                    b.HasIndex("PortalID");
+
+                    b.ToTable("FolderMappings");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.FolderMappingsSetting", b =>
+                {
+                    b.Property<int>("FolderMappingID");
+
+                    b.Property<string>("SettingName");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("SettingValue");
+
+                    b.HasKey("FolderMappingID", "SettingName");
+
+                    b.ToTable("FolderMappingsSettings");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.FolderPermission", b =>
+                {
+                    b.Property<int>("FolderPermissionID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("AllowAccess");
+
+                    b.Property<int?>("ContentWorkflowStatePermissionWorkflowStatePermissionID");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int>("FolderID");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("PermissionID");
+
+                    b.Property<int?>("RoleID");
+
+                    b.Property<int?>("UserID");
+
+                    b.HasKey("FolderPermissionID");
+
+                    b.HasIndex("ContentWorkflowStatePermissionWorkflowStatePermissionID");
+
+                    b.HasIndex("FolderID");
+
+                    b.HasIndex("PermissionID");
+
+                    b.HasIndex("RoleID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("FolderPermission");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.HostSetting", b =>
+                {
+                    b.Property<string>("SettingName")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<bool>("SettingIsSecure");
+
+                    b.Property<string>("SettingValue");
+
+                    b.HasKey("SettingName");
+
+                    b.ToTable("HostSettings");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.HtmlText", b =>
+                {
+                    b.Property<int>("ModuleID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<bool?>("IsPublished");
+
+                    b.Property<int>("ItemID");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int?>("ModuleID1");
+
+                    b.Property<int?>("StateID");
+
+                    b.Property<string>("Summary");
+
+                    b.Property<int?>("Version");
+
+                    b.HasKey("ModuleID");
+
+                    b.HasIndex("ModuleID1");
+
+                    b.HasIndex("StateID");
+
+                    b.ToTable("HtmlText");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.HtmlTextLog", b =>
+                {
+                    b.Property<int>("HtmlTextLogID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Approved");
+
+                    b.Property<string>("Comment");
+
+                    b.Property<int>("CreatedByUserID");
+
+                    b.Property<DateTime>("CreatedOnDate");
+
+                    b.Property<int>("ItemID");
+
+                    b.Property<int>("StateID");
+
+                    b.HasKey("HtmlTextLogID");
+
+                    b.HasIndex("ItemID");
+
+                    b.HasIndex("StateID");
+
+                    b.ToTable("HtmlTextLog");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.HtmlTextUser", b =>
+                {
+                    b.Property<int>("HtmlTextUserID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedOnDate");
+
+                    b.Property<int>("ItemID");
+
+                    b.Property<int>("ModuleID");
+
+                    b.Property<int>("StateID");
+
+                    b.Property<int>("TabID");
+
+                    b.Property<int>("UserID");
+
+                    b.HasKey("HtmlTextUserID");
+
+                    b.HasIndex("ItemID");
+
+                    b.ToTable("HtmlTextUsers");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.IPFilter", b =>
+                {
+                    b.Property<int>("IPFilterID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("IPAddress");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int?>("RuleType");
+
+                    b.Property<string>("SubnetMask");
+
+                    b.HasKey("IPFilterID");
+
+                    b.ToTable("IPFilter");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.JavascriptLibrary", b =>
+                {
+                    b.Property<int>("JavaScriptLibraryID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CDNPath");
+
+                    b.Property<string>("FileName");
+
+                    b.Property<string>("LibraryName");
+
+                    b.Property<string>("ObjectName");
+
+                    b.Property<int>("PackageID");
+
+                    b.Property<int>("PreferredScriptLocation");
+
+                    b.Property<string>("Version");
+
+                    b.HasKey("JavaScriptLibraryID");
+
+                    b.HasIndex("PackageID");
+
+                    b.ToTable("JavascriptLibraries");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Journal", b =>
+                {
+                    b.Property<int>("JournalId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("AccessKey");
+
+                    b.Property<bool>("CommentsDisabled");
+
+                    b.Property<bool>("CommentsHidden");
+
+                    b.Property<int?>("ContentItemId");
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<DateTime>("DateUpdated");
+
+                    b.Property<int>("GroupId");
+
+                    b.Property<string>("ImageURL");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("ItemData");
+
+                    b.Property<int>("JournalTypeId");
+
+                    b.Property<string>("ObjectKey");
+
+                    b.Property<int?>("PortalId");
+
+                    b.Property<int>("ProfielId");
+
+                    b.Property<string>("Summary");
+
+                    b.Property<string>("Title");
+
+                    b.Property<int?>("UserId");
+
+                    b.HasKey("JournalId");
+
+                    b.HasIndex("JournalTypeId");
+
+                    b.ToTable("Journal");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Journal_Access", b =>
+                {
+                    b.Property<int>("JournalAccessId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("AccessKey");
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<bool>("IsEnabled");
+
+                    b.Property<int>("JournalTypeId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("PortalId");
+
+                    b.HasKey("JournalAccessId");
+
+                    b.ToTable("Journal_Access");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Journal_Comment", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Comment");
+
+                    b.Property<string>("CommentXML")
+                        .HasColumnType("xml");
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<DateTime>("DateUpdated");
+
+                    b.Property<int>("JournalId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("JournalId");
+
+                    b.ToTable("Journal_Comments");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Journal_Data", b =>
+                {
+                    b.Property<int>("JournalDataId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("JournalId");
+
+                    b.Property<string>("JournalXML")
+                        .HasColumnType("xml");
+
+                    b.HasKey("JournalDataId");
+
+                    b.HasIndex("JournalId");
+
+                    b.ToTable("Journal_Data");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Journal_Security", b =>
+                {
+                    b.Property<int>("JournalSecurityId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("JournalId");
+
+                    b.Property<string>("SecurityKey");
+
+                    b.HasKey("JournalSecurityId");
+
+                    b.ToTable("Journal_Security");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Journal_Type", b =>
+                {
+                    b.Property<int>("JournalTypeId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("AppliesToGroup");
+
+                    b.Property<bool>("AppliesToProfile");
+
+                    b.Property<bool>("AppliesToStream");
+
+                    b.Property<bool>("EnableComments");
+
+                    b.Property<bool>("IsEnabled");
+
+                    b.Property<string>("JournalType");
+
+                    b.Property<string>("Options");
+
+                    b.Property<int>("PortalId");
+
+                    b.Property<bool>("SupportsNotify");
+
+                    b.Property<string>("icon");
+
+                    b.HasKey("JournalTypeId");
+
+                    b.ToTable("Journal_Types");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Journal_TypeFilter", b =>
+                {
+                    b.Property<int>("JournalTypeFilerId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("JournalTypeId");
+
+                    b.Property<int>("ModuleId");
+
+                    b.Property<int>("PortalId");
+
+                    b.HasKey("JournalTypeFilerId");
+
+                    b.ToTable("Journal_TypeFilters");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Language", b =>
+                {
+                    b.Property<int>("LanguageID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("CultureCode");
+
+                    b.Property<string>("CultureName");
+
+                    b.Property<string>("FallbackCulture");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.HasKey("LanguageID");
+
+                    b.ToTable("Languages");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.LanguagePack", b =>
+                {
+                    b.Property<int>("LanguagePackID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int>("DependentPackageID");
+
+                    b.Property<int>("LanguageID");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("PackageID");
+
+                    b.HasKey("LanguagePackID");
+
+                    b.HasIndex("PackageID");
+
+                    b.ToTable("LanguagePacks");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.List", b =>
+                {
+                    b.Property<int>("EntryID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int>("DefinitionID");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("Level");
+
+                    b.Property<string>("ListName");
+
+                    b.Property<int>("ParentID");
+
+                    b.Property<int>("PortalID");
+
+                    b.Property<int>("SortOrder");
+
+                    b.Property<bool>("SystemList");
+
+                    b.Property<string>("Text");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("EntryID");
+
+                    b.ToTable("Lists");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Messaging_Message", b =>
+                {
+                    b.Property<int>("MessageID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("AllowReply");
+
+                    b.Property<string>("Body");
+
+                    b.Property<Guid>("Conversation");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<Guid?>("EmailSchedulerInstance");
+
+                    b.Property<bool>("EmailSent");
+
+                    b.Property<DateTime?>("EmailSentDate");
+
+                    b.Property<int>("FromUserID");
+
+                    b.Property<string>("FromUserName");
+
+                    b.Property<int>("PortalID");
+
+                    b.Property<int?>("ReplyTo");
+
+                    b.Property<bool>("SkipPortal");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("Subject");
+
+                    b.Property<int>("ToRoleID");
+
+                    b.Property<int>("ToUserID");
+
+                    b.Property<string>("ToUserName");
+
+                    b.HasKey("MessageID");
+
+                    b.ToTable("Messaging_Messages");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.MetaData", b =>
+                {
+                    b.Property<int>("MetaDataID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("MetaDataDescription");
+
+                    b.Property<string>("MetaDataName");
+
+                    b.HasKey("MetaDataID");
+
+                    b.ToTable("MetaData");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Mobile_PreviewProfile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int>("Height");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("PortalId");
+
+                    b.Property<int>("SortOrder");
+
+                    b.Property<string>("UserAgent");
+
+                    b.Property<int>("Width");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PortalId");
+
+                    b.ToTable("Mobile_PreviewProfiles");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Mobile_Redirection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<bool>("Enabled");
+
+                    b.Property<bool>("IncludeChildTabs");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("PortalId");
+
+                    b.Property<int>("SortOrder");
+
+                    b.Property<int>("SourceTabId");
+
+                    b.Property<int>("TargetType");
+
+                    b.Property<string>("TargetValue");
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PortalId");
+
+                    b.ToTable("Mobile_Redirections");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Mobile_RedirectionRule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Capability");
+
+                    b.Property<string>("Expression");
+
+                    b.Property<int?>("Mobile_RedirectionId");
+
+                    b.Property<int>("RedirectionId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Mobile_RedirectionId");
+
+                    b.HasIndex("RedirectionId");
+
+                    b.ToTable("Mobile_RedirectionRules");
+                });
+
             modelBuilder.Entity("Dnn.vNext.Data.Module", b =>
                 {
                     b.Property<int>("ModuleID")
@@ -51,6 +1997,8 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
+                    b.Property<int>("ModuleDef");
+
                     b.Property<int>("ModuleDefID");
 
                     b.Property<string>("Name");
@@ -62,6 +2010,10 @@ namespace Dnn.vNext.Migrations
                     b.Property<DateTime?>("StartDate");
 
                     b.HasKey("ModuleID");
+
+                    b.HasIndex("ContentItemID");
+
+                    b.HasIndex("ModuleDefID");
 
                     b.ToTable("Modules");
                 });
@@ -101,6 +2053,8 @@ namespace Dnn.vNext.Migrations
 
                     b.HasKey("ModuleControlID");
 
+                    b.HasIndex("ModuleDefID");
+
                     b.ToTable("ModuleControls");
                 });
 
@@ -126,6 +2080,8 @@ namespace Dnn.vNext.Migrations
                     b.Property<DateTime?>("LastModifiedOnDate");
 
                     b.HasKey("ModuleDefID");
+
+                    b.HasIndex("DesktopModuleID");
 
                     b.ToTable("ModuleDefinitions");
                 });
@@ -157,12 +2113,149 @@ namespace Dnn.vNext.Migrations
 
                     b.HasKey("ModulePermissionID");
 
+                    b.HasIndex("ModuleID");
+
+                    b.HasIndex("PermissionID");
+
+                    b.HasIndex("RoleID");
+
+                    b.HasIndex("UserID");
+
                     b.ToTable("ModulePermissions");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ModuleSetting", b =>
                 {
-                    b.Property<int>("ModuleID")
+                    b.Property<int>("ModuleID");
+
+                    b.Property<string>("SettingName");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.HasKey("ModuleID", "SettingName");
+
+                    b.ToTable("ModuleSettings");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.OutputCache", b =>
+                {
+                    b.Property<string>("CacheKey")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Data");
+
+                    b.Property<DateTime>("Expiration");
+
+                    b.Property<int>("ItemId");
+
+                    b.HasKey("CacheKey");
+
+                    b.ToTable("OutputCache");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Package", b =>
+                {
+                    b.Property<int>("PackageID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("FolderName");
+
+                    b.Property<string>("FriendlyName");
+
+                    b.Property<string>("IconFile");
+
+                    b.Property<bool>("IsSystemPackage");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("License");
+
+                    b.Property<string>("Manifest");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Organization");
+
+                    b.Property<string>("Owner");
+
+                    b.Property<string>("PackageType");
+
+                    b.Property<int?>("PackageTypeNavigationPackageID");
+
+                    b.Property<int?>("PortalID");
+
+                    b.Property<string>("ReleaseNotes");
+
+                    b.Property<string>("Url");
+
+                    b.Property<string>("Version");
+
+                    b.HasKey("PackageID");
+
+                    b.HasIndex("PackageType")
+                        .IsUnique()
+                        .HasFilter("[PackageType] IS NOT NULL");
+
+                    b.HasIndex("PackageTypeNavigationPackageID");
+
+                    b.ToTable("Packages");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Package_Type", b =>
+                {
+                    b.Property<string>("PackageType")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Descrption");
+
+                    b.Property<string>("EditorControlSrc");
+
+                    b.Property<int>("SecurityAccessLevel");
+
+                    b.Property<bool>("SupportsSideBySideInstallation");
+
+                    b.HasKey("PackageType");
+
+                    b.ToTable("PackageType");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PackageDependency", b =>
+                {
+                    b.Property<int>("PackageDependencyID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("PackageID");
+
+                    b.Property<string>("PackageName");
+
+                    b.Property<string>("Version");
+
+                    b.HasKey("PackageDependencyID");
+
+                    b.HasIndex("PackageID");
+
+                    b.ToTable("PackageDependencies");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PasswordHistory", b =>
+                {
+                    b.Property<int>("PasswordHistoryID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("CreatedByUserID");
@@ -173,11 +2266,1048 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
+                    b.Property<string>("Password");
+
+                    b.Property<string>("PasswordSalt");
+
+                    b.Property<int>("UserID");
+
+                    b.HasKey("PasswordHistoryID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("PasswordHistory");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Permission", b =>
+                {
+                    b.Property<int>("PermissionID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("ModuleDefID");
+
+                    b.Property<string>("PermissionCode");
+
+                    b.Property<string>("PermissionKey");
+
+                    b.Property<string>("PermissionName");
+
+                    b.Property<int>("ViewOrder");
+
+                    b.HasKey("PermissionID");
+
+                    b.ToTable("Permission");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PersonaBarExtension", b =>
+                {
+                    b.Property<int>("ExtensionID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Container");
+
+                    b.Property<string>("Controller");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<bool>("Enabled");
+
+                    b.Property<string>("FolderName");
+
+                    b.Property<string>("Identifier");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("MenuId");
+
+                    b.Property<int>("Order");
+
+                    b.Property<string>("Path");
+
+                    b.HasKey("ExtensionID");
+
+                    b.HasIndex("MenuId");
+
+                    b.ToTable("PersonaBarExtensions");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PersonaBarMenu", b =>
+                {
+                    b.Property<int>("MenuId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("AllowHost");
+
+                    b.Property<string>("Controller");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("CssClass");
+
+                    b.Property<bool>("Enabled");
+
+                    b.Property<string>("FolderName");
+
+                    b.Property<string>("Identifier");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("Link");
+
+                    b.Property<string>("ModuleName");
+
+                    b.Property<int>("Order");
+
+                    b.Property<int?>("ParentID");
+
+                    b.Property<string>("Path");
+
+                    b.Property<string>("ResourceKey");
+
+                    b.HasKey("MenuId");
+
+                    b.HasIndex("ParentID");
+
+                    b.ToTable("PersonaBarMenu");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PersonaBarMenuDefaultPermission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("MenuId");
+
+                    b.Property<string>("RoleNames");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MenuId")
+                        .IsUnique();
+
+                    b.ToTable("PersonaBarMenuDefaultPermissions");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PersonaBarMenuPermission", b =>
+                {
+                    b.Property<int>("MenuPermissionID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("AllowAccess");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("MenuId");
+
+                    b.Property<int>("PermissionId");
+
+                    b.Property<int>("PortalId");
+
+                    b.Property<int?>("RoleId");
+
+                    b.Property<int?>("UserId");
+
+                    b.HasKey("MenuPermissionID");
+
+                    b.HasIndex("MenuId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("PortalId");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PersonaBarMenuPermission");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PersonaBarPermission", b =>
+                {
+                    b.Property<int>("PermissionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int?>("MenuId");
+
+                    b.Property<string>("PermissionKey");
+
+                    b.Property<string>("PermissionName");
+
+                    b.Property<int>("ViewOrder");
+
+                    b.HasKey("PermissionId");
+
+                    b.HasIndex("MenuId");
+
+                    b.ToTable("PersonaBarPermission");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Portal", b =>
+                {
+                    b.Property<int>("PortalID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("AdministratorID");
+
+                    b.Property<int?>("AdministratorRoleId");
+
+                    b.Property<int>("BannerAdvertising");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("Currency");
+
+                    b.Property<string>("DefaultLanguage");
+
+                    b.Property<DateTime?>("ExpiryDate");
+
+                    b.Property<Guid>("GUID");
+
+                    b.Property<string>("HomeDirectory");
+
+                    b.Property<decimal>("HostFee");
+
+                    b.Property<int>("HostSpace");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("PageQuota");
+
+                    b.Property<string>("PaymentProcessor");
+
+                    b.Property<string>("ProcessorPassword");
+
+                    b.Property<string>("ProcessorUserId");
+
+                    b.Property<int?>("RegisteredRoleId");
+
+                    b.Property<int?>("SiteLogHistory");
+
+                    b.Property<int>("TimezoneOffset");
+
+                    b.Property<int>("UserQuota");
+
+                    b.Property<int>("UserRegistration");
+
+                    b.HasKey("PortalID");
+
+                    b.ToTable("Portals");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PortalAlias", b =>
+                {
+                    b.Property<int>("PortalAliasID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("BrowserType");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("CulturCode");
+
+                    b.Property<string>("HTTPAlias");
+
+                    b.Property<bool>("IsPrimary");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("PortalID");
+
+                    b.Property<string>("Skin");
+
+                    b.HasKey("PortalAliasID");
+
+                    b.HasIndex("PortalID");
+
+                    b.ToTable("PortalAlias");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PortalDesktopModule", b =>
+                {
+                    b.Property<int>("PortalDesktopModuleID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int>("DesktopModuleID");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("PortalID");
+
+                    b.HasKey("PortalDesktopModuleID");
+
+                    b.HasIndex("DesktopModuleID");
+
+                    b.HasIndex("PortalID");
+
+                    b.ToTable("PortalDesktopModules");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PortalGroup", b =>
+                {
+                    b.Property<int>("ProtalGroupID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthenticationDomain");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int?>("MasterPortalID");
+
+                    b.Property<string>("PortalGroupDescription");
+
+                    b.Property<string>("PortalGroupName");
+
+                    b.HasKey("ProtalGroupID");
+
+                    b.ToTable("PortalGroups");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PortalLanguage", b =>
+                {
+                    b.Property<int>("PortalLanguageID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<bool>("IsPublished");
+
+                    b.Property<int>("LanguageID");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("PortalID");
+
+                    b.HasKey("PortalLanguageID");
+
+                    b.HasIndex("LanguageID");
+
+                    b.HasIndex("PortalID");
+
+                    b.ToTable("PortalLanguages");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PortalLocalization", b =>
+                {
+                    b.Property<int>("PortalID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("AdminTabId");
+
+                    b.Property<string>("BackgroundFile");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("CultureCode");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("FooterText");
+
+                    b.Property<int?>("HomeTabId");
+
+                    b.Property<string>("KeyWords");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int?>("LoginTabId");
+
+                    b.Property<string>("LogoFile");
+
+                    b.Property<int?>("PortalID1");
+
+                    b.Property<string>("PortalName");
+
+                    b.Property<int?>("SplashTabId");
+
+                    b.Property<int?>("UserTabId");
+
+                    b.HasKey("PortalID");
+
+                    b.HasIndex("PortalID1");
+
+                    b.ToTable("PortalLocalization");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PortalSetting", b =>
+                {
+                    b.Property<int>("PortalSettingID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("CultureCode");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("PortalID");
+
                     b.Property<string>("SettingName");
 
-                    b.HasKey("ModuleID");
+                    b.Property<string>("SettingValue");
 
-                    b.ToTable("ModuleSettings");
+                    b.HasKey("PortalSettingID");
+
+                    b.HasIndex("PortalID");
+
+                    b.ToTable("PortalSettings");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Profile", b =>
+                {
+                    b.Property<int>("ProfileId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<int>("PortalId");
+
+                    b.Property<string>("ProfileData");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("ProfileId");
+
+                    b.HasIndex("PortalId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Profile");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ProfilePropertyDefinition", b =>
+                {
+                    b.Property<int>("PropertyDefinitionID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int>("DataType");
+
+                    b.Property<string>("DefaultValue");
+
+                    b.Property<int?>("DefaultVisibility");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("Length");
+
+                    b.Property<int?>("ModuleDefId");
+
+                    b.Property<int?>("PortalID");
+
+                    b.Property<string>("PropertyCategory");
+
+                    b.Property<string>("PropertyName");
+
+                    b.Property<bool>("ReadOnly");
+
+                    b.Property<bool>("Required");
+
+                    b.Property<string>("ValidationExpression");
+
+                    b.Property<int>("ViewOrder");
+
+                    b.Property<bool>("Visible");
+
+                    b.HasKey("PropertyDefinitionID");
+
+                    b.HasIndex("PortalID");
+
+                    b.ToTable("ProfilePropertyDefinition");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.RedirectMessage", b =>
+                {
+                    b.Property<Guid>("MessageId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedOnDate");
+
+                    b.Property<string>("MessageText");
+
+                    b.Property<int?>("TabId");
+
+                    b.Property<int?>("UserId");
+
+                    b.HasKey("MessageId");
+
+                    b.ToTable("RedirectMessages");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Relationship", b =>
+                {
+                    b.Property<int>("RelationshipId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int>("DefaultResponse");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int?>("PortalID");
+
+                    b.Property<int>("RelationshipTypeID");
+
+                    b.Property<int?>("UserID");
+
+                    b.HasKey("RelationshipId");
+
+                    b.HasIndex("PortalID");
+
+                    b.HasIndex("RelationshipTypeID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Relationships");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.RelationshipType", b =>
+                {
+                    b.Property<int>("RelationshipTypeID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("Direction");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("RelationshipTypeID");
+
+                    b.ToTable("RelationshipTypes");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Role", b =>
+                {
+                    b.Property<int>("RoleID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("AutoAssignment");
+
+                    b.Property<string>("BillingFrequency");
+
+                    b.Property<int?>("BillingPeriod");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("IconFile");
+
+                    b.Property<bool>("IsPublic");
+
+                    b.Property<bool>("IsSystemRole");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int?>("PortalID");
+
+                    b.Property<string>("RSVPCode");
+
+                    b.Property<int?>("RoleGroupID");
+
+                    b.Property<string>("RoleName");
+
+                    b.Property<int>("SecurityMode");
+
+                    b.Property<decimal>("ServiceFee");
+
+                    b.Property<int>("Status");
+
+                    b.Property<decimal?>("TrialFee");
+
+                    b.Property<string>("TrialFrequency");
+
+                    b.Property<int?>("TrialPeriod");
+
+                    b.HasKey("RoleID");
+
+                    b.HasIndex("PortalID");
+
+                    b.HasIndex("RoleGroupID");
+
+                    b.ToTable("Role");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.RoleGroup", b =>
+                {
+                    b.Property<int>("RoleGroupID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("PortalID");
+
+                    b.Property<string>("RoleGroupName");
+
+                    b.HasKey("RoleGroupID");
+
+                    b.HasIndex("PortalID");
+
+                    b.ToTable("RoleGroups");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.RoleSetting", b =>
+                {
+                    b.Property<int>("RoleSettingID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("RoleID");
+
+                    b.Property<string>("SettingName");
+
+                    b.Property<string>("SettingValue");
+
+                    b.HasKey("RoleSettingID");
+
+                    b.ToTable("RoleSettings");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Schedule", b =>
+                {
+                    b.Property<int>("ScheduleID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AttachToEvent");
+
+                    b.Property<bool>("CatchUpEnabled");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<bool>("Enabled");
+
+                    b.Property<string>("FriendlyName");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("ObjectDependencies");
+
+                    b.Property<int>("RetainHistoryNumber");
+
+                    b.Property<int>("RetryTimeLapse");
+
+                    b.Property<string>("RetryTimeLapseMeasurement");
+
+                    b.Property<DateTime>("ScheduleStartDate");
+
+                    b.Property<string>("Servers");
+
+                    b.Property<int>("TimeLapse");
+
+                    b.Property<string>("TimeLapseMeasurement");
+
+                    b.Property<string>("TypeFullName");
+
+                    b.HasKey("ScheduleID");
+
+                    b.ToTable("Schedule");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ScheduleHistory", b =>
+                {
+                    b.Property<int>("ScheduleHistoryID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<string>("LogNotes");
+
+                    b.Property<DateTime?>("NextStart");
+
+                    b.Property<int>("ScheduleID");
+
+                    b.Property<string>("Server");
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.Property<bool?>("Succeeded");
+
+                    b.HasKey("ScheduleHistoryID");
+
+                    b.HasIndex("ScheduleID");
+
+                    b.ToTable("ScheduleHistory");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ScheduleItemSetting", b =>
+                {
+                    b.Property<int>("ScheduleID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ScheduleID1");
+
+                    b.Property<string>("SettingName");
+
+                    b.Property<string>("SettingValue");
+
+                    b.HasKey("ScheduleID");
+
+                    b.HasIndex("ScheduleID1");
+
+                    b.ToTable("ScheduleItemSettings");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.SearchCommonWord", b =>
+                {
+                    b.Property<int>("CommonWordID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CommonWord");
+
+                    b.Property<string>("Locale");
+
+                    b.HasKey("CommonWordID");
+
+                    b.ToTable("SearchCommonWords");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.SearchDeletedItem", b =>
+                {
+                    b.Property<int>("SearchDeletedItemID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<string>("Document");
+
+                    b.HasKey("SearchDeletedItemID");
+
+                    b.ToTable("SearchDeletedItems");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.SearchIndexer", b =>
+                {
+                    b.Property<int>("SearchIndexerID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("SearchIndexerAssemblyQualifiedName");
+
+                    b.HasKey("SearchIndexerID");
+
+                    b.ToTable("SearchIndexer");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.SearchStopWord", b =>
+                {
+                    b.Property<int>("StopWordsID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("CultureCode");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int?>("PortalID");
+
+                    b.Property<string>("StopWords");
+
+                    b.HasKey("StopWordsID");
+
+                    b.ToTable("SearchStopWords");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.SearchType", b =>
+                {
+                    b.Property<int>("SearchTypeID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool?>("IsPrivate");
+
+                    b.Property<string>("SearchResultClass");
+
+                    b.Property<string>("SearchTypeName");
+
+                    b.HasKey("SearchTypeID");
+
+                    b.ToTable("SearchTypes");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Sitelog", b =>
+                {
+                    b.Property<int>("SiteLogId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("AffiliateId");
+
+                    b.Property<DateTime>("DateTime");
+
+                    b.Property<int>("PortalID");
+
+                    b.Property<string>("Referrer");
+
+                    b.Property<int?>("TabId");
+
+                    b.Property<string>("Url");
+
+                    b.Property<string>("UserAgent");
+
+                    b.Property<string>("UserHostAddress");
+
+                    b.Property<string>("UserHostName");
+
+                    b.Property<int?>("UserID");
+
+                    b.HasKey("SiteLogId");
+
+                    b.HasIndex("PortalID");
+
+                    b.ToTable("SiteLog");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Skin", b =>
+                {
+                    b.Property<int>("SkinID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("SkinPackageID");
+
+                    b.Property<string>("SkinSrc");
+
+                    b.HasKey("SkinID");
+
+                    b.HasIndex("SkinPackageID");
+
+                    b.ToTable("Skins");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.SkinControl", b =>
+                {
+                    b.Property<int>("SkinControlID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ControlKey");
+
+                    b.Property<string>("ControlSrc");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("HelpURL");
+
+                    b.Property<string>("IconFile");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("PackageID");
+
+                    b.Property<bool>("SupportsPartialRendering");
+
+                    b.HasKey("SkinControlID");
+
+                    b.HasIndex("PackageID");
+
+                    b.ToTable("SkinControls");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.SkinPackage", b =>
+                {
+                    b.Property<int>("SkinPackageID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("PackageID");
+
+                    b.Property<int?>("PortalID");
+
+                    b.Property<string>("SkinName");
+
+                    b.Property<string>("SkinType");
+
+                    b.HasKey("SkinPackageID");
+
+                    b.HasIndex("PackageID");
+
+                    b.ToTable("vSkinPackages");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.SQLQuery", b =>
+                {
+                    b.Property<int>("QueryId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConnectionStringName");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Query");
+
+                    b.HasKey("QueryId");
+
+                    b.ToTable("SQLQueries");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.SynonymsGroup", b =>
+                {
+                    b.Property<int>("SynonymsGroupID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("CultureCode");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("PortalID");
+
+                    b.Property<string>("SynonymsTags");
+
+                    b.HasKey("SynonymsGroupID");
+
+                    b.ToTable("SynonymsGroups");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.SystemMessage", b =>
+                {
+                    b.Property<int>("MessageID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("MessageName");
+
+                    b.Property<string>("MessageValue");
+
+                    b.Property<int?>("PortalID");
+
+                    b.HasKey("MessageID");
+
+                    b.HasIndex("PortalID");
+
+                    b.ToTable("SystemMessages");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Tab", b =>
@@ -261,7 +3391,37 @@ namespace Dnn.vNext.Migrations
 
                     b.HasKey("TabID");
 
+                    b.HasIndex("ContentItemID");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("PortalID");
+
                     b.ToTable("Tabs");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.TabAliasSkin", b =>
+                {
+                    b.Property<int>("TabAliasSkinId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("PortalAliasId");
+
+                    b.Property<string>("SkinSrc");
+
+                    b.Property<int>("TabId");
+
+                    b.HasKey("TabAliasSkinId");
+
+                    b.ToTable("TabAliasSkins");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.TabModule", b =>
@@ -343,14 +3503,479 @@ namespace Dnn.vNext.Migrations
 
                     b.HasIndex("ModuleID");
 
-                    b.HasIndex("PageId");
+                    b.HasIndex("TabID");
 
                     b.ToTable("TabModules");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.TabModuleSetting", b =>
                 {
-                    b.Property<int>("TabModuleID")
+                    b.Property<int>("TabModuleID");
+
+                    b.Property<string>("SettingName");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("SetttingValue");
+
+                    b.HasKey("TabModuleID", "SettingName");
+
+                    b.HasAlternateKey("SettingName", "TabModuleID");
+
+                    b.ToTable("TabModuleSettings");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.TabPermission", b =>
+                {
+                    b.Property<int>("TabPermissionID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("AllowAccess");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("PermissionID");
+
+                    b.Property<int?>("RoleID");
+
+                    b.Property<int>("TabID");
+
+                    b.Property<int?>("UserID");
+
+                    b.HasKey("TabPermissionID");
+
+                    b.HasIndex("PermissionID");
+
+                    b.HasIndex("RoleID");
+
+                    b.HasIndex("TabID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("TabPermission");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.TabSetting", b =>
+                {
+                    b.Property<int>("TabID");
+
+                    b.Property<string>("SettingName");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("SettingValue");
+
+                    b.HasKey("TabID", "SettingName");
+
+                    b.HasAlternateKey("SettingName", "TabID");
+
+                    b.ToTable("TabSettings");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.TabUrl", b =>
+                {
+                    b.Property<int>("TabId");
+
+                    b.Property<int>("SeqNum");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("CultureCode");
+
+                    b.Property<string>("HttpStatus");
+
+                    b.Property<bool>("IsSystem");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int?>("PortalAliasId");
+
+                    b.Property<int?>("PortalAliasUsage");
+
+                    b.Property<string>("QueryString");
+
+                    b.Property<string>("Url");
+
+                    b.HasKey("TabId", "SeqNum");
+
+                    b.HasAlternateKey("SeqNum", "TabId");
+
+                    b.ToTable("TabUrls");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.TabVersion", b =>
+                {
+                    b.Property<int>("TabVersionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<bool>("IsPublished");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("TabId");
+
+                    b.Property<DateTime>("TimeStamp");
+
+                    b.Property<int>("Version");
+
+                    b.HasKey("TabVersionId");
+
+                    b.HasIndex("TabId");
+
+                    b.ToTable("TabVersions");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.TabVersionDetail", b =>
+                {
+                    b.Property<int>("TabVersionDetailId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Action");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("ModuleId");
+
+                    b.Property<int>("ModuleOrder");
+
+                    b.Property<int>("ModuleVersion");
+
+                    b.Property<string>("PageName");
+
+                    b.Property<int>("TabVersionId");
+
+                    b.HasKey("TabVersionDetailId");
+
+                    b.HasIndex("TabVersionId");
+
+                    b.ToTable("TabVersionDetails");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Taxonomy_ScopeType", b =>
+                {
+                    b.Property<int>("ScopeTypeID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ScopeType");
+
+                    b.HasKey("ScopeTypeID");
+
+                    b.ToTable("Taxonomy_ScopeTypes");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Taxonomy_Term", b =>
+                {
+                    b.Property<int>("TermID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("ParentTermID");
+
+                    b.Property<int>("TermLeft");
+
+                    b.Property<int>("TermRight");
+
+                    b.Property<int>("VocabularyID");
+
+                    b.Property<int>("Weight");
+
+                    b.HasKey("TermID");
+
+                    b.HasIndex("ParentTermID");
+
+                    b.HasIndex("VocabularyID");
+
+                    b.ToTable("Taxonomy_Terms");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Taxonomy_Vocabulary", b =>
+                {
+                    b.Property<int>("VocabularyID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int?>("ScopeID");
+
+                    b.Property<int>("ScopeTypeID");
+
+                    b.Property<int>("VocabularyTypeID");
+
+                    b.Property<int>("Weight");
+
+                    b.HasKey("VocabularyID");
+
+                    b.HasIndex("ScopeTypeID");
+
+                    b.HasIndex("VocabularyTypeID");
+
+                    b.ToTable("Taxonomy_Vocabularies");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Taxonomy_VocabularyType", b =>
+                {
+                    b.Property<int>("VocabularyTypeID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("VocabularyType");
+
+                    b.HasKey("VocabularyTypeID");
+
+                    b.ToTable("Taxonomy_VocabularyTypes");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UrlLog", b =>
+                {
+                    b.Property<int>("UrlLogID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("ClickDate");
+
+                    b.Property<int>("UrlTrackingID");
+
+                    b.Property<int?>("UserID");
+
+                    b.HasKey("UrlLogID");
+
+                    b.HasIndex("UrlTrackingID");
+
+                    b.ToTable("UrlLog");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Urls", b =>
+                {
+                    b.Property<int>("UrlID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("PortalID");
+
+                    b.Property<string>("Url");
+
+                    b.HasKey("UrlID");
+
+                    b.HasIndex("PortalID");
+
+                    b.ToTable("Urls");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UrlTracking", b =>
+                {
+                    b.Property<int>("UrlTrackingID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Clicks");
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<DateTime?>("LastClick");
+
+                    b.Property<bool>("LogActivity");
+
+                    b.Property<int?>("ModuleID");
+
+                    b.Property<bool>("NewWindow");
+
+                    b.Property<int?>("PortalID");
+
+                    b.Property<bool>("TrackClicks");
+
+                    b.Property<string>("Url");
+
+                    b.Property<string>("UrlType");
+
+                    b.HasKey("UrlTrackingID");
+
+                    b.HasIndex("PortalID");
+
+                    b.ToTable("UrlTracking");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.User", b =>
+                {
+                    b.Property<int>("UserID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("AffiliateId");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<string>("DisplayName");
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsSuperUser");
+
+                    b.Property<string>("LastIPAddress");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("LowerEmail");
+
+                    b.Property<DateTime?>("PasswordResetExpiration");
+
+                    b.Property<Guid>("PasswordResetToken");
+
+                    b.Property<bool>("UpdatePassword");
+
+                    b.Property<string>("Username");
+
+                    b.HasKey("UserID");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UserAuthentication", b =>
+                {
+                    b.Property<int>("UserAuthenticationID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthenticaitonToken");
+
+                    b.Property<string>("AuthenticationType");
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("UserID");
+
+                    b.HasKey("UserAuthenticationID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserAuthentication");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UserPortal", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Authorized");
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<int>("PortalId");
+
+                    b.Property<bool>("RefreshRoles");
+
+                    b.Property<int?>("UserID");
+
+                    b.Property<int>("UserPortalId");
+
+                    b.Property<string>("VanityUrl");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("PortalId");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserPortals");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UserProfile", b =>
+                {
+                    b.Property<int>("ProfileID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ExtendedVisibility");
+
+                    b.Property<DateTime>("LastUpdatedDate");
+
+                    b.Property<int>("ProfilePropertyDefinitionID");
+
+                    b.Property<string>("PropertyText");
+
+                    b.Property<string>("PropertyValue");
+
+                    b.Property<int>("UserID");
+
+                    b.Property<int>("Visibility");
+
+                    b.HasKey("ProfileID");
+
+                    b.HasIndex("ProfilePropertyDefinitionID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserProfile");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UserRelationship", b =>
+                {
+                    b.Property<int>("UserRelationshipID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("CreatedByUserID");
@@ -361,25 +3986,1192 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<string>("SettingName");
+                    b.Property<int>("RelatedUserID");
 
-                    b.Property<string>("SetttingValue");
+                    b.Property<int>("RelationshipID");
 
-                    b.HasKey("TabModuleID");
+                    b.Property<int>("Status");
 
-                    b.ToTable("TabModuleSettings");
+                    b.Property<int>("UserID");
+
+                    b.HasKey("UserRelationshipID");
+
+                    b.HasIndex("RelatedUserID");
+
+                    b.HasIndex("RelationshipID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserRelationships");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UserRelationshipPreference", b =>
+                {
+                    b.Property<int>("PreferenceID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<int>("DefaultResponse");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("RealtionshipID");
+
+                    b.Property<int?>("RelationshipId");
+
+                    b.Property<int>("UserID");
+
+                    b.HasKey("PreferenceID");
+
+                    b.HasIndex("RelationshipId");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserRelationshipPreferences");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UserRole", b =>
+                {
+                    b.Property<int>("UserRoleID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CreatedByUserID");
+
+                    b.Property<DateTime?>("CreatedOnDate");
+
+                    b.Property<DateTime?>("EffectiveDate");
+
+                    b.Property<DateTime?>("ExpiryDate");
+
+                    b.Property<bool>("IsOwner");
+
+                    b.Property<bool?>("IsTrialUsed");
+
+                    b.Property<int?>("LastModifiedByUserID");
+
+                    b.Property<DateTime?>("LastModifiedOnDate");
+
+                    b.Property<int>("RoleID");
+
+                    b.Property<int>("Status");
+
+                    b.Property<int>("UserID");
+
+                    b.HasKey("UserRoleID");
+
+                    b.HasIndex("RoleID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UsersOnline", b =>
+                {
+                    b.Property<int>("UserID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<DateTime>("LastActiveDate");
+
+                    b.Property<int>("PortalID");
+
+                    b.Property<int>("TabID");
+
+                    b.Property<int?>("UserID1");
+
+                    b.HasKey("UserID");
+
+                    b.HasIndex("PortalID");
+
+                    b.HasIndex("UserID1");
+
+                    b.ToTable("UsersOnline");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Version", b =>
+                {
+                    b.Property<int>("VersionID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Build");
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<int?>("Increment");
+
+                    b.Property<int>("Major");
+
+                    b.Property<int>("Minor");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("VersionID");
+
+                    b.ToTable("Version");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.WebServer", b =>
+                {
+                    b.Property<int>("ServerID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<bool>("Enabled");
+
+                    b.Property<string>("IISAppName");
+
+                    b.Property<DateTime>("LastActivityDate");
+
+                    b.Property<int>("PingFailureCount");
+
+                    b.Property<string>("ServerGroup");
+
+                    b.Property<string>("ServerName");
+
+                    b.Property<string>("URL");
+
+                    b.Property<string>("UniqueID");
+
+                    b.HasKey("ServerID");
+
+                    b.ToTable("WebServers");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Workflow", b =>
+                {
+                    b.Property<int>("WorkflowID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<int?>("PortalID");
+
+                    b.Property<string>("WorkflowName");
+
+                    b.HasKey("WorkflowID");
+
+                    b.ToTable("Workflow");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.WorkflowState", b =>
+                {
+                    b.Property<int>("StateID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<bool>("Notify");
+
+                    b.Property<bool>("Order");
+
+                    b.Property<string>("StateName");
+
+                    b.Property<int>("WorkflowID");
+
+                    b.HasKey("StateID");
+
+                    b.HasIndex("WorkflowID");
+
+                    b.ToTable("WorkflowStates");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.AnonymousUser", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("AnonymousUser")
+                        .HasForeignKey("PortalID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.aspnet_Membership", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.aspnet_Application", "Application")
+                        .WithMany()
+                        .HasForeignKey("ApplicationID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.aspnet_User", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.aspnet_Application", "Application")
+                        .WithMany()
+                        .HasForeignKey("ApplicationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Assembly", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Package", "Package")
+                        .WithMany("Assemblies")
+                        .HasForeignKey("PackageID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Authentication", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Package", "Package")
+                        .WithMany("Authentications")
+                        .HasForeignKey("PackageID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentItem", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Content_Type", "ContentType")
+                        .WithMany("ContentItems")
+                        .HasForeignKey("ContentTypeID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.ContentWorkflowState", "State")
+                        .WithMany("ContentItem")
+                        .HasForeignKey("StateID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentItems_MetaData", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.ContentItem", "ContentItem")
+                        .WithMany("ContentItems_Meta")
+                        .HasForeignKey("ContentItemID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.MetaData", "MetaData")
+                        .WithMany("ContentItems_MetaData")
+                        .HasForeignKey("MetaDataID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentItems_Tag", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.ContentItem", "ContentItem")
+                        .WithMany("ContentItems_Tag")
+                        .HasForeignKey("ContentItemID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.ContentItems_Tag", "ContentItemTag")
+                        .WithMany()
+                        .HasForeignKey("ContentItemTagID1");
+
+                    b.HasOne("Dnn.vNext.Data.Taxonomy_Term")
+                        .WithMany("ContentItems_Tag")
+                        .HasForeignKey("TermID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflow", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Content_Type")
+                        .WithMany("ContentWorkflows")
+                        .HasForeignKey("Content_TypeContentTypeID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowAction", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.ContentWorkflowAction")
+                        .WithMany("ContentType")
+                        .HasForeignKey("ContentWorkflowActionActionID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowLog", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.ContentItem", "ContentItem")
+                        .WithMany("GetContentWorkflowLog")
+                        .HasForeignKey("ContentItemID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.ContentWorkflow", "ContentWorkflow")
+                        .WithMany("ContentWorkflowLog")
+                        .HasForeignKey("WorkflowID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowSource", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.ContentWorkflow", "ContentWorkflow")
+                        .WithMany("ContentWorkflowSource")
+                        .HasForeignKey("WorkflowID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowState", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.ContentWorkflow", "ContentWorkflow")
+                        .WithMany("ContentWorkflowState")
+                        .HasForeignKey("WorkflowID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowStatePermission", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Permission", "Permission")
+                        .WithMany("ContentWorkflowStatePermission")
+                        .HasForeignKey("PermissionID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.ContentWorkflowState", "State")
+                        .WithMany("ContentWorkflowStatePermission")
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany("ContentWorkflowStatePermission")
+                        .HasForeignKey("UserID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_Message", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.CoreMessaging_NotificationType", "NotificationType")
+                        .WithMany("CoreMessaging_Message")
+                        .HasForeignKey("NotificationTypeID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_MessageAttachment", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.CoreMessaging_Message", "Message")
+                        .WithMany("CoreMessaging_MessageAttachment")
+                        .HasForeignKey("MessageID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_MessagingRecipient", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.CoreMessaging_Message", "Message")
+                        .WithMany("CoreMessaging_MessagingRecipient")
+                        .HasForeignKey("MessageID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_NotificationType", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.DesktopModule", "DesktopModule")
+                        .WithMany("CoreMessaging_NotificationType")
+                        .HasForeignKey("DesktopModuleID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_NotificationTypeAction", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.CoreMessaging_NotificationType", "NotificationType")
+                        .WithMany("CoreMessaging_NotificationTypeAction")
+                        .HasForeignKey("NotificationTypeID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_Subscription", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Module", "Module")
+                        .WithMany("CoreMessaging_Subscription")
+                        .HasForeignKey("ModuleID");
+
+                    b.HasOne("Dnn.vNext.Data.Portal")
+                        .WithMany("CoreMessaging_Subscription")
+                        .HasForeignKey("PortalID");
+
+                    b.HasOne("Dnn.vNext.Data.CoreMessaging_SubscriptionType", "SubscriptionType")
+                        .WithMany("CoreMessaging_Subscription")
+                        .HasForeignKey("SubscriptionTypeID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany("CoreMessaging_Subscription")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.DesktopModule", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Package", "Package")
+                        .WithMany("DesktopModule")
+                        .HasForeignKey("PackageID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.DesktopModulePermission", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Permission", "Permission")
+                        .WithMany("DesktopModulePermission")
+                        .HasForeignKey("PermissionID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.PortalDesktopModule", "PortalDesktopModule")
+                        .WithMany("DesktopModulePermission")
+                        .HasForeignKey("PortalDesktopModuleID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.Role", "Role")
+                        .WithMany("DesktopModulePermission")
+                        .HasForeignKey("RoleID");
+
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany("DesktopModulePermission")
+                        .HasForeignKey("UserID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.EventLog", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.EventLogConfig")
+                        .WithMany("EventLog")
+                        .HasForeignKey("EventLogConfigID");
+
+                    b.HasOne("Dnn.vNext.Data.EventLog", "LogConfig")
+                        .WithMany()
+                        .HasForeignKey("LogConfigLogEventID");
+
+                    b.HasOne("Dnn.vNext.Data.EventLogType", "LogTypeKey")
+                        .WithMany("EventLog")
+                        .HasForeignKey("LogTypeKey1");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.EventLogConfig", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.EventLogType", "LogTypeKey")
+                        .WithMany("EventLogConfig")
+                        .HasForeignKey("LogTypeKey1");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ExceptionEvent", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.EventLog", "LogEvent")
+                        .WithOne("LogEvent")
+                        .HasForeignKey("Dnn.vNext.Data.ExceptionEvent", "LogEventID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ExportImportCheckpoint", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.ExportImportJob", "Job")
+                        .WithMany("ExportImportCheckpoint")
+                        .HasForeignKey("JobID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ExportImportJobLog", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.ExportImportJob", "Job")
+                        .WithMany()
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.File", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.ContentItem", "ContentItem")
+                        .WithMany("File")
+                        .HasForeignKey("ContentItemID");
+
+                    b.HasOne("Dnn.vNext.Data.Folder", "Folder")
+                        .WithMany("File")
+                        .HasForeignKey("FolderID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("File")
+                        .HasForeignKey("PortalId");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.FileVersion", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.File", "File")
+                        .WithMany("FileVersion")
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Folder", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.ContentWorkflowStatePermission")
+                        .WithMany("Folder")
+                        .HasForeignKey("ContentWorkflowStatePermissionWorkflowStatePermissionID");
+
+                    b.HasOne("Dnn.vNext.Data.FolderMapping", "FolderMapping")
+                        .WithMany("Folder")
+                        .HasForeignKey("FolderMappingID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("Folder")
+                        .HasForeignKey("PortalID");
+
+                    b.HasOne("Dnn.vNext.Data.ContentWorkflow", "Workflow")
+                        .WithMany("Folder")
+                        .HasForeignKey("WorkflowID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.FolderMapping", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("FolderMapping")
+                        .HasForeignKey("PortalID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.FolderMappingsSetting", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.FolderMapping", "FolderMapping")
+                        .WithMany("FolderMappingsSetting")
+                        .HasForeignKey("FolderMappingID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.FolderPermission", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.ContentWorkflowStatePermission")
+                        .WithMany("FolderPermission")
+                        .HasForeignKey("ContentWorkflowStatePermissionWorkflowStatePermissionID");
+
+                    b.HasOne("Dnn.vNext.Data.Folder", "Folder")
+                        .WithMany("FolderPermission")
+                        .HasForeignKey("FolderID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.Permission", "Permission")
+                        .WithMany("FolderPermission")
+                        .HasForeignKey("PermissionID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.Role", "Role")
+                        .WithMany("FolderPermission")
+                        .HasForeignKey("RoleID");
+
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany("FolderPermission")
+                        .HasForeignKey("UserID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.HtmlText", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Module", "Module")
+                        .WithMany("HtmlText")
+                        .HasForeignKey("ModuleID1");
+
+                    b.HasOne("Dnn.vNext.Data.WorkflowState", "State")
+                        .WithMany()
+                        .HasForeignKey("StateID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.HtmlTextLog", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.HtmlText", "Item")
+                        .WithMany("HtmlTextLog")
+                        .HasForeignKey("ItemID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.WorkflowState", "State")
+                        .WithMany()
+                        .HasForeignKey("StateID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.HtmlTextUser", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.HtmlText", "Item")
+                        .WithMany("HtmlTextUser")
+                        .HasForeignKey("ItemID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.JavascriptLibrary", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Package", "Package")
+                        .WithMany("JavascriptLibrary")
+                        .HasForeignKey("PackageID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Journal", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Journal_Type", "Journal_Type")
+                        .WithMany("Journal")
+                        .HasForeignKey("JournalTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Journal_Comment", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Journal", "Journal")
+                        .WithMany("Journal_Comment")
+                        .HasForeignKey("JournalId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Journal_Data", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Journal", "Journal")
+                        .WithMany("Journal_Data")
+                        .HasForeignKey("JournalId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.LanguagePack", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Package", "Package")
+                        .WithMany("LanguagePack")
+                        .HasForeignKey("PackageID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Mobile_PreviewProfile", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("Mobile_PreviewProfile")
+                        .HasForeignKey("PortalId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Mobile_Redirection", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("Mobile_Redirection")
+                        .HasForeignKey("PortalId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Mobile_RedirectionRule", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Mobile_Redirection")
+                        .WithMany("Mobile_RedirectionRule")
+                        .HasForeignKey("Mobile_RedirectionId");
+
+                    b.HasOne("Dnn.vNext.Data.Mobile_RedirectionRule", "Redirection")
+                        .WithMany()
+                        .HasForeignKey("RedirectionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Module", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.ContentItem", "ContentItem")
+                        .WithMany("Module")
+                        .HasForeignKey("ContentItemID");
+
+                    b.HasOne("Dnn.vNext.Data.ModuleDefinition")
+                        .WithMany("Module")
+                        .HasForeignKey("ModuleDefID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ModuleControl", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.ModuleDefinition", "ModuleDef")
+                        .WithMany("ModuleControl")
+                        .HasForeignKey("ModuleDefID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ModuleDefinition", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.DesktopModule", "DesktopModule")
+                        .WithMany("ModuleDefinition")
+                        .HasForeignKey("DesktopModuleID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ModulePermission", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Module", "Module")
+                        .WithMany("ModulePermission")
+                        .HasForeignKey("ModuleID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.Permission", "Permission")
+                        .WithMany("ModulePermission")
+                        .HasForeignKey("PermissionID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.Role", "Role")
+                        .WithMany("ModulePermission")
+                        .HasForeignKey("RoleID");
+
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany("ModulePermission")
+                        .HasForeignKey("UserID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ModuleSetting", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Module", "Module")
+                        .WithMany("ModuleSetting")
+                        .HasForeignKey("ModuleID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Package", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Package_Type", "Package_Type")
+                        .WithOne("Package")
+                        .HasForeignKey("Dnn.vNext.Data.Package", "PackageType");
+
+                    b.HasOne("Dnn.vNext.Data.Package", "PackageTypeNavigation")
+                        .WithMany()
+                        .HasForeignKey("PackageTypeNavigationPackageID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PackageDependency", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Package", "Package")
+                        .WithMany("PackageDependency")
+                        .HasForeignKey("PackageID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PasswordHistory", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany("PasswordHistory")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PersonaBarExtension", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.PersonaBarMenu", "Menu")
+                        .WithMany("PersonaBarExtension")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PersonaBarMenu", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.PersonaBarMenu", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PersonaBarMenuDefaultPermission", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.PersonaBarMenu", "Menu")
+                        .WithOne("Menu")
+                        .HasForeignKey("Dnn.vNext.Data.PersonaBarMenuDefaultPermission", "MenuId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PersonaBarMenuPermission", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.PersonaBarMenu")
+                        .WithMany("PersonaBarMenuPermission")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.PersonaBarPermission", "Permission")
+                        .WithMany("PersonaBarMenuPermission")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("PersonaBarMenuPermission")
+                        .HasForeignKey("PortalId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.Role", "Role")
+                        .WithMany("PersonaBarMenuPermission")
+                        .HasForeignKey("RoleId");
+
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany("PersonaBarMenuPermission")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PersonaBarPermission", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.PersonaBarMenu", "Menu")
+                        .WithMany("PersonaBarPermission")
+                        .HasForeignKey("MenuId");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PortalAlias", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("PortalAlias")
+                        .HasForeignKey("PortalID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PortalDesktopModule", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.DesktopModule", "DesktopModule")
+                        .WithMany("PortalDesktopModule")
+                        .HasForeignKey("DesktopModuleID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("PortalDesktopModule")
+                        .HasForeignKey("PortalID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PortalLanguage", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Language", "Language")
+                        .WithMany("PortalLanguage")
+                        .HasForeignKey("LanguageID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("PortalLanguage")
+                        .HasForeignKey("PortalID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PortalLocalization", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("PortalLocalization")
+                        .HasForeignKey("PortalID1");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.PortalSetting", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("PortalSetting")
+                        .HasForeignKey("PortalID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Profile", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("Profile")
+                        .HasForeignKey("PortalId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany("Profile")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ProfilePropertyDefinition", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("ProfilePropertyDefinition")
+                        .HasForeignKey("PortalID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Relationship", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("Relationship")
+                        .HasForeignKey("PortalID");
+
+                    b.HasOne("Dnn.vNext.Data.RelationshipType", "RelationshipType")
+                        .WithMany("Relationship")
+                        .HasForeignKey("RelationshipTypeID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany("Relationship")
+                        .HasForeignKey("UserID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Role", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("Role")
+                        .HasForeignKey("PortalID");
+
+                    b.HasOne("Dnn.vNext.Data.RoleGroup", "RoleGroup")
+                        .WithMany("Role")
+                        .HasForeignKey("RoleGroupID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.RoleGroup", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("RoleGroup")
+                        .HasForeignKey("PortalID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ScheduleHistory", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Schedule", "Schedule")
+                        .WithMany("ScheduleHistory")
+                        .HasForeignKey("ScheduleID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.ScheduleItemSetting", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Schedule", "Schedule")
+                        .WithMany("ScheduleItemSetting")
+                        .HasForeignKey("ScheduleID1");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Sitelog", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("Sitelog")
+                        .HasForeignKey("PortalID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Skin", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.SkinPackage", "SkinPackage")
+                        .WithMany("Skin")
+                        .HasForeignKey("SkinPackageID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.SkinControl", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Package", "Package")
+                        .WithMany("SkinControl")
+                        .HasForeignKey("PackageID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.SkinPackage", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Package", "Package")
+                        .WithMany("SkinPackage")
+                        .HasForeignKey("PackageID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.SystemMessage", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("SystemMessage")
+                        .HasForeignKey("PortalID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Tab", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.ContentItem", "Content")
+                        .WithMany("Tab")
+                        .HasForeignKey("ContentItemID");
+
+                    b.HasOne("Dnn.vNext.Data.Tab", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
+
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("Tab")
+                        .HasForeignKey("PortalID");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.TabModule", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.Module", "Module")
-                        .WithMany()
+                        .WithMany("TabModule")
                         .HasForeignKey("ModuleID")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Dnn.vNext.Data.Tab", "Page")
+                    b.HasOne("Dnn.vNext.Data.Tab", "Tab")
                         .WithMany("TabModules")
-                        .HasForeignKey("PageId")
+                        .HasForeignKey("TabID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.TabModuleSetting", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.TabModule", "TabModule")
+                        .WithMany("TabModuleSetting")
+                        .HasForeignKey("TabModuleID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.TabPermission", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Permission", "Permission")
+                        .WithMany("TabPermission")
+                        .HasForeignKey("PermissionID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.Role", "Role")
+                        .WithMany("TabPermission")
+                        .HasForeignKey("RoleID");
+
+                    b.HasOne("Dnn.vNext.Data.Tab", "Tab")
+                        .WithMany("TabPermission")
+                        .HasForeignKey("TabID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany("TabPermission")
+                        .HasForeignKey("UserID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.TabSetting", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Tab", "Tab")
+                        .WithMany("TabSetting")
+                        .HasForeignKey("TabID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.TabUrl", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Tab", "Tab")
+                        .WithMany("TabUrl")
+                        .HasForeignKey("TabId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.TabVersion", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Tab", "Tab")
+                        .WithMany("TabVersion")
+                        .HasForeignKey("TabId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.TabVersionDetail", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.TabVersion", "TabVersion")
+                        .WithMany("TabVersionDetail")
+                        .HasForeignKey("TabVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Taxonomy_Term", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Taxonomy_Term", "ParentTerm")
+                        .WithMany()
+                        .HasForeignKey("ParentTermID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.Taxonomy_Vocabulary", "Vocabulary")
+                        .WithMany("Taxonomy_Term")
+                        .HasForeignKey("VocabularyID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Taxonomy_Vocabulary", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Taxonomy_ScopeType", "Taxonomy_ScopeType")
+                        .WithMany("Taxonomy_Vocabulary")
+                        .HasForeignKey("ScopeTypeID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.Taxonomy_VocabularyType", "Taxonomy_VocabularyType")
+                        .WithMany("Taxonomy_Vocabulary")
+                        .HasForeignKey("VocabularyTypeID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UrlLog", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.UrlTracking", "UrlTracking")
+                        .WithMany("UrlLog")
+                        .HasForeignKey("UrlTrackingID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.Urls", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("Urls")
+                        .HasForeignKey("PortalID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UrlTracking", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("UrlTracking")
+                        .HasForeignKey("PortalID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UserAuthentication", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany("UserAuthentication")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UserPortal", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("UserPortal")
+                        .HasForeignKey("PortalId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany("UserPortal")
+                        .HasForeignKey("UserID");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UserProfile", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.ProfilePropertyDefinition", "ProfilePropertyDefinition")
+                        .WithMany("UserProfile")
+                        .HasForeignKey("ProfilePropertyDefinitionID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany("UserProfile")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UserRelationship", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.User", "RelatedUser")
+                        .WithMany()
+                        .HasForeignKey("RelatedUserID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.Relationship", "Relationship")
+                        .WithMany("UserRelationship")
+                        .HasForeignKey("RelationshipID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UserRelationshipPreference", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Relationship", "Relationship")
+                        .WithMany("UserRelationshipPreference")
+                        .HasForeignKey("RelationshipId");
+
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany("UserRelationshipPreference")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UserRole", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Role", "Role")
+                        .WithMany("UserRole")
+                        .HasForeignKey("RoleID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany("UserRole")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.UsersOnline", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Portal", "Portal")
+                        .WithMany("UsersOnline")
+                        .HasForeignKey("PortalID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dnn.vNext.Data.User", "User")
+                        .WithMany("UsersOnline")
+                        .HasForeignKey("UserID1");
+                });
+
+            modelBuilder.Entity("Dnn.vNext.Data.WorkflowState", b =>
+                {
+                    b.HasOne("Dnn.vNext.Data.Workflow", "Workflow")
+                        .WithMany("WorkflowState")
+                        .HasForeignKey("WorkflowID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

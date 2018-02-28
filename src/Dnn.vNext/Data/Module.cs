@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
 
 namespace Dnn.vNext.Data
 {
     public class Module
     {
         [Key]
-        public int ModuleID { get; set; }
-        public int ModuleDefID { get; set; }
+/*PK*/  public int ModuleID { get; set; }
+/*FK*/  public int ModuleDefID { get; set; }
         public bool AllTabs { get; set; }
         public bool IsDeleted { get; set; }
         public bool? InheritViewPermissions { get; set; }
@@ -27,5 +29,16 @@ namespace Dnn.vNext.Data
         public string Icon { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
+
+        public virtual int ModuleDef { get; set; }
+
+        public virtual ContentItem ContentItem { get; set; }
+        public virtual ICollection<TabModule> TabModule { get; set; }
+        public virtual ICollection<ModulePermission> ModulePermission { get; set; }
+        public virtual ICollection<CoreMessaging_Subscription> CoreMessaging_Subscription { get; set; }
+        public virtual ICollection<HtmlText> HtmlText { get; set; }
+        public virtual ICollection<ModuleSetting> ModuleSetting { get; set; }
+
+        
     }
 }

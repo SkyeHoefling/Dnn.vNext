@@ -33,6 +33,7 @@ namespace Dnn.vNext.Data
                 };
                 context.Modules.AddRange(modules);
                 context.SaveChanges();
+                
 
                 // todo - cleanup
                 //var module = new PageModule
