@@ -22,7 +22,7 @@ namespace Dnn.vNext.Pages
         {
             var page = _context.Tabs
                 .Include(p => p.TabModules)
-                    .ThenInclude(pm => pm.Module)
+                .ThenInclude(pm => pm.Module)
                 .FirstOrDefault();
 
             PageId = page.TabID;

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
 
 namespace Dnn.vNext.Data
 {
@@ -8,7 +10,7 @@ namespace Dnn.vNext.Data
         [Key]
         public int TabModuleID { get; set; }
         public int PageId { get; set; }
-        public int ModuleID { get; set; }
+/*FK*/  public int ModuleID { get; set; }
 
         /// <summary>
         /// The name of the html element where the module exists
@@ -24,8 +26,8 @@ namespace Dnn.vNext.Data
         /// </remarks>
         public int Order { get; set; }
 
-        
-        public int TabID { get; set; }        
+
+/*FK*/  public int TabID { get; set; }
         public string PaneName { get; set; }
         public int ModuleOrder { get; set; }
         public int CacheTime { get; set; }
@@ -57,7 +59,9 @@ namespace Dnn.vNext.Data
         public Guid DefaultLanguageGUID { get; set; }
         public Guid LocalizedVersionGUID { get; set; }
 
-        public virtual Tab Page { get; set; }
+
         public virtual Module Module { get; set; }
+        public virtual Tab Tab { get; set; }
+        public virtual ICollection<TabModuleSetting> TabModuleSetting { get; set; }
     }
 }

@@ -6,16 +6,21 @@ namespace Dnn.vNext.Data
     public class ModulePermission
     {
         [Key]
-        public int ModulePermissionID { get; set; }
-        public int ModuleID { get; set; }
-        public int PermissionID { get; set; }
+/*PK*/  public int ModulePermissionID { get; set; }
+/*FK*/  public int ModuleID { get; set; }
+/*FK*/  public int PermissionID { get; set; }
         public bool AllowAccess { get; set; }
-        public int? RoleID { get; set; }
-        public int? UserID { get; set; }
+/*FK*/  public int? RoleID { get; set; }
+/*FK*/  public int? UserID { get; set; }
         public int? CreatedByUserID { get; set; }
         public DateTime? CreatedOnDate { get; set; }
         public int? LastModifiedByUserID { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
         public int PortalID { get; set; }
-}
+
+        public virtual Module Module { get; set; }
+        public virtual Permission Permission { get; set; }
+        public virtual Role Role { get; set; }
+        public virtual User User { get; set; }
+    }
 }

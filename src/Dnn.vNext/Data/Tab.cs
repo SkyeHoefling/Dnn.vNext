@@ -7,12 +7,12 @@ namespace Dnn.vNext.Data
     public class Tab
     {
         [Key]
-        public int TabID { get; set; }
+/*PK*/  public int TabID { get; set; }
         public int TabOrder { get; set; }
-        public int? PortalID { get; set; }
+/*FK*/  public int? PortalID { get; set; }
         public string TabName { get; set; }
         public bool IsVisible { get; set; }
-        public int? ParentId { get; set; }
+/*FK*/  public int? ParentId { get; set; }
         public string IconFile { get; set; }
         public bool DisableLink { get; set; }
         public string Title { get; set; }
@@ -35,7 +35,7 @@ namespace Dnn.vNext.Data
         public DateTime? LastModifiedOnDate { get; set; }
         public string IconFileLarge { get; set; }
         public string CultureCode { get; set; }
-        public int? ContentItemID { get; set; }
+/*FK*/  public int? ContentItemID { get; set; }
         public Guid UniqueId { get; set; }
         public Guid VersionGUID { get; set; }
         public Guid DefaultLanguageGUID { get; set; }
@@ -48,6 +48,15 @@ namespace Dnn.vNext.Data
         // DNN vNext        
         public string Name { get; set; }
 
+        public virtual Portal Portal { get; set; }
+        public virtual Tab Parent { get; set; }
+        public virtual ContentItem Content { get; set; }
+
+        public virtual ICollection<TabUrl> TabUrl { get; set; }
+        public virtual ICollection<TabVersion> TabVersion { get; set; }
+        public virtual ICollection<TabPermission> TabPermission { get; set; }
+        public virtual ICollection<TabSetting> TabSetting { get; set; }
         public virtual ICollection<TabModule> TabModules { get; set; }
+        
     }
 }
