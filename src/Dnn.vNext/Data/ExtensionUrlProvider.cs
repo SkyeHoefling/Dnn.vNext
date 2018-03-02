@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Dnn.vNext.Data
 {
-    public class ExtensionUrlProvider
+    public class ExtensionUrlProvIder
     {
         [Key]
- /*PK*/ public int ExtensionUrlProviderID { get; set; }
-        public string ProviderName { get; set; }
-        public string ProviderType { get; set; }
+ /*PK*/ public int ExtensionUrlProvIderId { get; set; }
+        public string ProvIderName { get; set; }
+        public string ProvIderType { get; set; }
         public string SettingsControlSrc { get; set; }
         public bool IsActive { get; set; }
         public bool RewriteAllUrls { get; set; }

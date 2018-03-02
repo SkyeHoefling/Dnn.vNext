@@ -8,9 +8,9 @@ namespace Dnn.vNext.Data
     public class TabModule
     {
         [Key]
-        public int TabModuleID { get; set; }
+        public int TabModuleId { get; set; }
         public int PageId { get; set; }
-/*FK*/  public int ModuleID { get; set; }
+/*FK*/  public int ModuleId { get; set; }
 
         /// <summary>
         /// The name of the html element where the module exists
@@ -27,7 +27,7 @@ namespace Dnn.vNext.Data
         public int Order { get; set; }
 
 
-/*FK*/  public int TabID { get; set; }
+/*FK*/  public int TabId { get; set; }
         public string PaneName { get; set; }
         public int ModuleOrder { get; set; }
         public int CacheTime { get; set; }
@@ -44,9 +44,9 @@ namespace Dnn.vNext.Data
         public string WebSliceTitle { get; set; }
         public DateTime? WebSliceExpiryDate { get; set; }
         public int? WebSliceTTL { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
         public int IsDeleted { get; set; }
         public string CacheMethod { get; set; }
@@ -55,9 +55,9 @@ namespace Dnn.vNext.Data
         public string Footer { get; set; }
         public string CultureCode { get; set; }
         public Guid UniqueId { get; set; }
-        public Guid VersionGUID { get; set; }
-        public Guid DefaultLanguageGUID { get; set; }
-        public Guid LocalizedVersionGUID { get; set; }
+        public Guid VersionGuid { get; set; }
+        public Guid DefaultLanguageGuid { get; set; }
+        public Guid LocalizedVersionGuid { get; set; }
 
 
         public virtual Module Module { get; set; }

@@ -9,15 +9,15 @@ namespace Dnn.vNext.Data
     public class UserRole
     {
         [Key]
-/*PK*/  public int UserRoleID { get; set; }
-/*FK*/  public int UserID { get; set; }
-/*FK*/  public int RoleID { get; set; }
+/*PK*/  public int UserRoleId { get; set; }
+/*FK*/  public int UserId { get; set; }
+/*FK*/  public int RoleId { get; set; }
         public DateTime? ExpiryDate { get; set; }
         public bool? IsTrialUsed { get; set; }
         public DateTime? EffectiveDate { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
         public int Status { get; set; }
         public bool IsOwner { get; set; }

@@ -7,9 +7,9 @@ namespace Dnn.vNext.Data
     public class Tab
     {
         [Key]
-/*PK*/  public int TabID { get; set; }
+/*PK*/  public int TabId { get; set; }
         public int TabOrder { get; set; }
-/*FK*/  public int? PortalID { get; set; }
+/*FK*/  public int? PortalId { get; set; }
         public string TabName { get; set; }
         public bool IsVisible { get; set; }
 /*FK*/  public int? ParentId { get; set; }
@@ -29,17 +29,17 @@ namespace Dnn.vNext.Data
         public bool IsSecure { get; set; }
         public bool PermanentRedirect { get; set; }
         public float SiteMapPriority { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
         public string IconFileLarge { get; set; }
         public string CultureCode { get; set; }
-/*FK*/  public int? ContentItemID { get; set; }
+/*FK*/  public int? ContentItemId { get; set; }
         public Guid UniqueId { get; set; }
-        public Guid VersionGUID { get; set; }
-        public Guid DefaultLanguageGUID { get; set; }
-        public Guid LocalizedVersionGUID { get; set; }
+        public Guid VersionGuid { get; set; }
+        public Guid DefaultLanguageGuid { get; set; }
+        public Guid LocalizedVersionGuid { get; set; }
         public int Level { get; set; }
         public string TabPath { get; set; }
         public bool HasBeenPublished { get; set; }

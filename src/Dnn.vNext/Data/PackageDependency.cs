@@ -9,8 +9,8 @@ namespace Dnn.vNext.Data
     public class PackageDependency
     {
         [Key]
-/*PK*/  public int PackageDependencyID { get; set; }
-/*FK*/  public int PackageID { get; set; }
+/*PK*/  public int PackageDependencyId { get; set; }
+/*FK*/  public int PackageId { get; set; }
         public string PackageName { get; set; }
         public string Version { get; set; }
 

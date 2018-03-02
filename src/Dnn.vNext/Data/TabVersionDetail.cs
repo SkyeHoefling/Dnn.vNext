@@ -15,9 +15,9 @@ namespace Dnn.vNext.Data
         public string PageName { get; set; }
         public int ModuleOrder { get; set; }
         public int Action { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
         public virtual TabVersion TabVersion { get; set; }

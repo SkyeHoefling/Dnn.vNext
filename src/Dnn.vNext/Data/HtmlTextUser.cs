@@ -9,12 +9,12 @@ namespace Dnn.vNext.Data
     public class HtmlTextUser
     {
         [Key]
-/*PK*/  public int HtmlTextUserID { get; set; }
-/*FK*/  public int ItemID { get; set; }
-        public int StateID { get; set; }
-        public int ModuleID { get; set; }
-        public int TabID { get; set; }
-        public int UserID { get; set; }
+/*PK*/  public int HtmlTextUserId { get; set; }
+/*FK*/  public int ItemId { get; set; }
+        public int StateId { get; set; }
+        public int ModuleId { get; set; }
+        public int TabId { get; set; }
+        public int UserId { get; set; }
         public DateTime CreatedOnDate { get; set; }
 
 

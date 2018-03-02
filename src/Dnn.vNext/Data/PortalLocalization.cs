@@ -9,7 +9,7 @@ namespace Dnn.vNext.Data
     public class PortalLocalization
     {
         [Key]
-/*PK*/  public int PortalID { get; set; }
+/*PK*/  public int PortalId { get; set; }
 /*FK*/  public string CultureCode { get; set; }
         public string PortalName { get; set; }
         public string LogoFile { get; set; }
@@ -22,9 +22,9 @@ namespace Dnn.vNext.Data
         public int? UserTabId { get; set; }
         public int? AdminTabId { get; set; }
         public int? SplashTabId { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
         public virtual Portal Portal { get; set; }

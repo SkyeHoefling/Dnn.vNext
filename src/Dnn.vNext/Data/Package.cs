@@ -10,8 +10,8 @@ namespace Dnn.vNext.Data
     public class Package
     {
         [Key]
-/*PK*/  public int PackageID { get; set; }
-        public int? PortalID { get; set; }
+/*PK*/  public int PackageId { get; set; }
+        public int? PortalId { get; set; }
         public string Name { get; set; }
         public string FriendlyName { get; set; }
         public string Description { get; set; }
@@ -28,9 +28,9 @@ namespace Dnn.vNext.Data
         public string Email { get; set; }
         public string ReleaseNotes { get; set; }
         public bool IsSystemPackage { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
         public string FolderName { get; set; }
         public string IconFile { get; set; }

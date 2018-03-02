@@ -1,17 +1,21 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Dnn.vNext.Data
 {
     public class Assembly
     {
         [Key]
-/*PK*/  public int AssemblyID { get; set; }
-/*FK*/  public int? PackageID { get; set; }
+/*PK*/ public int AssemblyId { get; set; }
+
+/*FK*/
+        public int? PackageId { get; set; }
+
+        [Required]
+        [MaxLength(250)]
         public string AssemblyName { get; set; }
+
+        [Required]
+        [MaxLength(20)]
         public string Version { get; set; }
 
         public virtual Package Package { get; set; }

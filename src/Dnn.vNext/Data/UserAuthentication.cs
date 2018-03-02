@@ -10,14 +10,14 @@ namespace Dnn.vNext.Data
     {
         [Key]
         /*PK*/
-        public int UserAuthenticationID { get; set; }
+        public int UserAuthenticationId { get; set; }
         /*FK*/
-        public int UserID { get; set; }
+        public int UserId { get; set; }
         public string AuthenticationType { get; set; }
         public string AuthenticaitonToken { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
         public virtual User User { get; set; }

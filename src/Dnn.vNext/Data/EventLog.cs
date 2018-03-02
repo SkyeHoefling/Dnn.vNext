@@ -1,35 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Dnn.vNext.Data
 {
     public class EventLog
     {
         [Key]
-/*PK*/  public Int64 LogEventID { get; set; }
+/*PK*/ public long LogEventId { get; set; }
 
+        [MaxLength(100)]
         public string ExceptionHash { get; set; }
+
+        [Required]
+        [MaxLength(36)]
         public string LogGuid { get; set; }
-        [Column("LogTypeKey")]
-/*FK*/  public string LogType_Key { get; set; }
-/*FK*/  public int LogConfigID { get; set; }
-        public int? LogUserID { get; set; }
+
+        [Required]
+        [MaxLength(35)]
+/*FK*/ public string LogTypeKey { get; set; }
+
+/*FK*/
+        public int LogConfigId { get; set; }
+
+        public int? LogUserId { get; set; }
+
+        [MaxLength(50)]
         public string LogUserName { get; set; }
-        public int? LogPortalID { get; set; }
+
+        public int? LogPortalId { get; set; }
+
+        [MaxLength(100)]
         public string LogPortalName { get; set; }
+
         public DateTime LogCreateDate { get; set; }
+
+        [Required]
+        [MaxLength(50)]
         public string LogServerName { get; set; }
+
         [Column(TypeName = "xml")]
         public string LogProperties { get; set; }
+
         public bool? LogNotificationPending { get; set; }
 
-       
-        public virtual EventLogType LogTypeKey  { get; set; }
+
+        public virtual EventLogType LogType { get; set; }
         public virtual EventLog LogConfig { get; set; }
         public virtual ExceptionEvent LogEvent { get; set; }
+
+        //TODO: Indexes Missing
     }
 }

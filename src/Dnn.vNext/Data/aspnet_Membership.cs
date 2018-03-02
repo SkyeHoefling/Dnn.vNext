@@ -8,9 +8,9 @@ namespace Dnn.vNext.Data
 {
     public class aspnet_Membership
     {
-/*FK*/  public Guid ApplicationID { get; set; }
+/*FK*/  public Guid ApplicationId { get; set; }
         [Key]
-/*PK*/  public Guid UserID { get; set; }
+/*PK*/  public Guid UserId { get; set; }
         public string Password { get; set; }
         public int PasswordFormat { get; set; }
         public string PasswordSalt { get; set; }

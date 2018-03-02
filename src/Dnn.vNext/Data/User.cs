@@ -9,7 +9,7 @@ namespace Dnn.vNext.Data
     public class User
     {
         [Key]
-/*PK*/  public int UserID { get; set; }
+/*PK*/  public int UserId { get; set; }
         public string Username { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -20,9 +20,9 @@ namespace Dnn.vNext.Data
         public bool UpdatePassword { get; set; }
         public string LastIPAddress { get; set; }
         public bool IsDeleted { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
         public Guid PasswordResetToken { get; set; }
         public DateTime? PasswordResetExpiration { get; set; }

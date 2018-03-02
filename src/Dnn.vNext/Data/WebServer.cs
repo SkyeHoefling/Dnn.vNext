@@ -9,7 +9,7 @@ namespace Dnn.vNext.Data
     public class WebServer
     {
         [Key]
-/*PK*/  public int ServerID { get; set; }
+/*PK*/  public int ServerId { get; set; }
         public string ServerName { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastActivityDate { get; set; }
@@ -17,7 +17,7 @@ namespace Dnn.vNext.Data
         public string IISAppName { get; set; }
         public bool Enabled { get; set; }
         public string ServerGroup { get; set; }
-        public string UniqueID { get; set; }
+        public string UniqueId { get; set; }
         public int PingFailureCount { get; set; }
     }
 }

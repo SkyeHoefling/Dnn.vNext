@@ -25,7 +25,7 @@ namespace Dnn.vNext.Pages
                 .ThenInclude(pm => pm.Module)
                 .FirstOrDefault();
 
-            PageId = page.TabID;
+            PageId = page.TabId;
             Modules = page.TabModules
                 .GroupBy(pm => pm.ElementId,
                          pm => pm,

@@ -1,17 +1,15 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Dnn.vNext.Data
 {
-    [Table ("ContentType")]
+    [Table("ContentTypes")]
     public class Content_Type
     {
         [Key]
-/*PK*/  public int ContentTypeID { get; set; }
+/*PK*/ public int ContentTypeId { get; set; }
+
         public string ContentType { get; set; }
 
         public virtual ICollection<ContentItem> ContentItems { get; set; }

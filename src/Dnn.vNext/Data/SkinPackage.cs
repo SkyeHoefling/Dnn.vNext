@@ -9,14 +9,14 @@ namespace Dnn.vNext.Data
     public class SkinPackage
     {
         [Key]
-/*PK*/  public int SkinPackageID { get; set; }
-/*FK*/  public int PackageID { get; set; }
-        public int? PortalID { get; set; }
+/*PK*/  public int SkinPackageId { get; set; }
+/*FK*/  public int PackageId { get; set; }
+        public int? PortalId { get; set; }
         public string SkinName { get; set; }
         public string SkinType { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
         public virtual Package Package { get; set; }

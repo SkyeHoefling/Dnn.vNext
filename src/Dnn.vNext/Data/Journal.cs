@@ -26,7 +26,7 @@ namespace Dnn.vNext.Data
         public int? ContentItemId { get; set; }
         public bool IsDeleted { get; set; }
         public bool CommentsDisabled { get; set; }
-        public bool CommentsHidden { get; set; }
+        public bool CommentsHIdden { get; set; }
 
         public virtual Journal_Type Journal_Type { get; set; }
 

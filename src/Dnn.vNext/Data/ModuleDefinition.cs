@@ -7,13 +7,13 @@ namespace Dnn.vNext.Data
     public class ModuleDefinition
     {
         [Key]
-/*PK*/  public int ModuleDefID { get; set; }
+/*PK*/  public int ModuleDefId { get; set; }
         public string FriendlyName { get; set; }
-/*FK*/  public int DesktopModuleID { get; set; }
+/*FK*/  public int DesktopModuleId { get; set; }
         public int DefaultCacheTime { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
         public string DefinitionName { get; set; }
 

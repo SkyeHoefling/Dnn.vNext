@@ -9,15 +9,15 @@ namespace Dnn.vNext.Data
     public class Permission
     {
         [Key]
- /*PK*/ public int PermissionID { get; set; }
+ /*PK*/ public int PermissionId { get; set; }
         public string PermissionCode { get; set; }
-        public int ModuleDefID { get; set; }
+        public int ModuleDefId { get; set; }
         public string PermissionKey { get; set; }
         public string PermissionName { get; set; }
         public int ViewOrder { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
         public virtual ICollection<DesktopModulePermission> DesktopModulePermission { get; set; }

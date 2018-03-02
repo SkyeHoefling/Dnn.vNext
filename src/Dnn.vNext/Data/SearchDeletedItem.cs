@@ -9,7 +9,7 @@ namespace Dnn.vNext.Data
     public class SearchDeletedItem
     {
         [Key]
-/*PK*/  public int SearchDeletedItemID { get; set; }
+/*PK*/  public int SearchDeletedItemId { get; set; }
         public DateTime DateCreated { get; set; }
         public string Document { get; set; }
     }

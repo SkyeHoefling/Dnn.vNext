@@ -9,9 +9,9 @@ namespace Dnn.vNext.Data
     public class UsersOnline
     {
         [Key]
-/*PK*/  public int UserID { get; set; }
-/*FK*/  public int PortalID { get; set; }
-        public int TabID { get; set; }
+/*PK*/  public int UserId { get; set; }
+/*FK*/  public int PortalId { get; set; }
+        public int TabId { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime LastActiveDate { get; set; }
 

@@ -1,15 +1,14 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Dnn.vNext.Data
 {
     public class CKE_Setting
     {
         [Key]
-/*PK*/  public string SettingName { get; set; }
+        [MaxLength(300)]
+/*PK*/ public string SettingName { get; set; }
+
+        //TODO: Fix DIfference Was NTEXT => NVARCHAR(MAX)
         public string SettingValue { get; set; }
     }
 }

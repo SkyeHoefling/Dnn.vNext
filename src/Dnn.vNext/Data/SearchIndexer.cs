@@ -9,7 +9,7 @@ namespace Dnn.vNext.Data
     public class SearchIndexer
     {
         [Key]
-/*PK*/  public int SearchIndexerID { get; set; }
+/*PK*/  public int SearchIndexerId { get; set; }
         public string SearchIndexerAssemblyQualifiedName { get; set; }
     }
 }

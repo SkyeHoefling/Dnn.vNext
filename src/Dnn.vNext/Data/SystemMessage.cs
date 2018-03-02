@@ -9,8 +9,8 @@ namespace Dnn.vNext.Data
     public class SystemMessage
     {
         [Key]
-/*PK*/  public int MessageID { get; set; }
-/*FK*/  public int? PortalID { get; set; }
+/*PK*/  public int MessageId { get; set; }
+/*FK*/  public int? PortalId { get; set; }
         public string MessageName { get; set; }
         public string MessageValue { get; set; }
 

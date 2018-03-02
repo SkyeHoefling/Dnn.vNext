@@ -1,30 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Dnn.vNext.Data
 {
     public class EventLogConfig
     {
         [Key]
-/*PK*/  public int ID { get; set; }
-        [Column("LogTypeKey")]
-        public string LogType_Key { get; set; }
-        public String LogTypePortalID { get; set; }
+/*PK*/ public int Id { get; set; }
+
+        [MaxLength(35)]
+        public string LogTypeKey { get; set; }
+
+        public int LogTypePortalId { get; set; }
         public bool LoggingIsActive { get; set; }
         public int KeepMostRecent { get; set; }
-        public bool EmailNotificaitonIsAcdtive { get; set; }
+        public bool EmailNotificaitonIsActive { get; set; }
         public int? NotificationThreshold { get; set; }
         public int? NotificationThresholdTime { get; set; }
         public int? NotificationThresholdTimeType { get; set; }
+
+        [Required]
+        [MaxLength(50)]
         public string MailFromAddress { get; set; }
+
+        [Required]
+        [MaxLength(50)]
         public string MailToAddress { get; set; }
 
-        
-        public virtual EventLogType LogTypeKey { get; set; }
+
+        public virtual EventLogType LogType { get; set; }
         public virtual ICollection<EventLog> EventLog { get; set; }
     }
 }

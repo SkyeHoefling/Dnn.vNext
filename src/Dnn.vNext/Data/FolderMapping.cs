@@ -9,14 +9,14 @@ namespace Dnn.vNext.Data
     public class FolderMapping
     {
         [Key]
-/*PK*/  public int FolderMappingID { get; set; }
-/*FK*/  public int? PortalID { get; set; }
+/*PK*/  public int FolderMappingId { get; set; }
+/*FK*/  public int? PortalId { get; set; }
         public string MappingName { get; set; }
-        public string FolderProviderType { get; set; }
+        public string FolderProvIderType { get; set; }
         public int? Priority { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
         public virtual ICollection<Folder> Folder { get; set; }

@@ -16,7 +16,7 @@ namespace Dnn.vNext.Data
         public bool IsCancelled { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int CreatedByUserID { get; set; }
+        public int CreatedByUserId { get; set; }
         public DateTime CreatedOnDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
         public DateTime CompletedOnDate { get; set; }

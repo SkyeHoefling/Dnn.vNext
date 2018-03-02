@@ -9,12 +9,12 @@ namespace Dnn.vNext.Data
     public class HtmlTextLog
     {
         [Key]
-/*PK*/  public int HtmlTextLogID { get; set; }
-/*FK*/  public int ItemID { get; set; }
-/*FK*/  public int StateID { get; set; }
+/*PK*/  public int HtmlTextLogId { get; set; }
+/*FK*/  public int ItemId { get; set; }
+/*FK*/  public int StateId { get; set; }
         public string Comment { get; set; }
         public bool Approved { get; set; }
-        public int CreatedByUserID { get; set; }
+        public int CreatedByUserId { get; set; }
         public DateTime CreatedOnDate { get; set; }
 
         public virtual HtmlText Item { get; set; }

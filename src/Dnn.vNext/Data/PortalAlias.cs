@@ -9,12 +9,12 @@ namespace Dnn.vNext.Data
     public class PortalAlias
     {
         [Key]
-/*PK*/  public int PortalAliasID { get; set; }
-/*FK*/  public int PortalID { get; set; }
+/*PK*/  public int PortalAliasId { get; set; }
+/*FK*/  public int PortalId { get; set; }
         public string HTTPAlias { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
         public string BrowserType { get; set; }
         public string Skin { get; set; }

@@ -10,7 +10,7 @@ namespace Dnn.vNext.Data
     public class TabSetting
     {
         [Key, Column(Order = 0)]
-/*PK*/  public int TabID { get; set; }
+/*PK*/  public int TabId { get; set; }
 
 
         [Key, Column(Order = 1)]
@@ -18,9 +18,9 @@ namespace Dnn.vNext.Data
 
 
         public string SettingValue { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
         public virtual Tab Tab { get; set; }

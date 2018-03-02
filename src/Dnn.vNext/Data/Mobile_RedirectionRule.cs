@@ -14,6 +14,6 @@ namespace Dnn.vNext.Data
         public string Capability { get; set; }
         public string Expression { get; set; }
 
-        public virtual Mobile_RedirectionRule Redirection { get; set; }
+        public virtual Mobile_Redirection Redirection { get; set; }
     }
 }

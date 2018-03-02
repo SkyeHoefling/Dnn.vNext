@@ -9,12 +9,12 @@ namespace Dnn.vNext.Data
     public class PortalLanguage
     {
         [Key]
-/*PK*/  public int PortalLanguageID { get; set; }
-/*FK*/  public int PortalID { get; set; }
-/*FK*/  public int LanguageID { get; set; }
-        public int? CreatedByUserID { get; set; }
+/*PK*/  public int PortalLanguageId { get; set; }
+/*FK*/  public int PortalId { get; set; }
+/*FK*/  public int LanguageId { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
         public bool IsPublished { get; set; }
 

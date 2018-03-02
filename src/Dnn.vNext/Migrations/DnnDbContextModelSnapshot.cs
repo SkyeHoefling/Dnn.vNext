@@ -22,19 +22,25 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.AnonymousUser", b =>
                 {
-                    b.Property<int>("UserID");
+                    b.Property<string>("UserId")
+                        .HasColumnType("char(36)")
+                        .HasMaxLength(36);
 
-                    b.Property<int>("PortalID");
+                    b.Property<int>("PortalId");
 
-                    b.Property<DateTime>("CreationDate");
+                    b.Property<DateTime>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getdate()");
 
-                    b.Property<DateTime>("LastActiveDate");
+                    b.Property<DateTime>("LastActiveDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<int>("TabId");
 
-                    b.HasKey("UserID", "PortalID");
+                    b.HasKey("UserId", "PortalId");
 
-                    b.HasAlternateKey("PortalID", "UserID");
+                    b.HasIndex("PortalId");
 
                     b.ToTable("AnonymousUsers");
                 });
@@ -42,13 +48,19 @@ namespace Dnn.vNext.Migrations
             modelBuilder.Entity("Dnn.vNext.Data.aspnet_Application", b =>
                 {
                     b.Property<Guid>("ApplicationId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("newId()");
 
-                    b.Property<string>("ApplicationName");
+                    b.Property<string>("ApplicationName")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasMaxLength(256);
 
-                    b.Property<string>("LoweredApplicationName");
+                    b.Property<string>("LoweredApplicationName")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
                     b.HasKey("ApplicationId");
 
@@ -57,10 +69,10 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.aspnet_Membership", b =>
                 {
-                    b.Property<Guid>("UserID")
+                    b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("ApplicationID");
+                    b.Property<Guid>("ApplicationId");
 
                     b.Property<string>("Comment");
 
@@ -100,18 +112,20 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("PasswordSalt");
 
-                    b.HasKey("UserID");
+                    b.HasKey("UserId");
 
-                    b.HasIndex("ApplicationID");
+                    b.HasIndex("ApplicationId");
 
-                    b.ToTable("aspnet_Memership");
+                    b.ToTable("aspnet_Membership");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.aspnet_SchemaVersion", b =>
                 {
-                    b.Property<string>("Feature");
+                    b.Property<string>("Feature")
+                        .HasMaxLength(125);
 
-                    b.Property<string>("CompatibleSchemaVersion");
+                    b.Property<string>("CompatibleSchemaVersion")
+                        .HasMaxLength(128);
 
                     b.Property<bool>("IsCurrentVersion");
 
@@ -125,73 +139,103 @@ namespace Dnn.vNext.Migrations
             modelBuilder.Entity("Dnn.vNext.Data.aspnet_User", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("newId()");
 
                     b.Property<Guid>("ApplicationId");
 
-                    b.Property<bool>("IsAnonymous");
+                    b.Property<bool>("IsAnonymous")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
                     b.Property<DateTime>("LastActivityDate");
 
-                    b.Property<string>("LoweredUserName");
+                    b.Property<string>("LoweredUserName")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
-                    b.Property<string>("MobileAlias");
+                    b.Property<string>("MobileAlias")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("null")
+                        .HasMaxLength(16);
 
-                    b.Property<string>("UserName");
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(256);
 
                     b.HasKey("UserId");
 
-                    b.HasIndex("ApplicationId");
+                    b.HasIndex("ApplicationId", "LastActivityDate")
+                        .HasAnnotation("SqlServer:Clustered", false);
+
+                    b.HasIndex("ApplicationId", "LoweredUserName")
+                        .HasAnnotation("SqlServer:Clustered", true);
 
                     b.ToTable("aspnet_Users");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Assembly", b =>
                 {
-                    b.Property<int>("AssemblyID")
+                    b.Property<int>("AssemblyId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AssemblyName");
+                    b.Property<string>("AssemblyName")
+                        .IsRequired()
+                        .HasMaxLength(250);
 
-                    b.Property<int?>("PackageID");
+                    b.Property<int?>("PackageId");
 
-                    b.Property<string>("Version");
+                    b.Property<string>("Version")
+                        .IsRequired()
+                        .HasMaxLength(20);
 
-                    b.HasKey("AssemblyID");
+                    b.HasKey("AssemblyId");
 
-                    b.HasIndex("PackageID");
+                    b.HasIndex("PackageId");
 
                     b.ToTable("Assemblies");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Authentication", b =>
                 {
-                    b.Property<int>("AuthenticationID")
+                    b.Property<int>("AuthenticationId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AuthenticationType");
+                    b.Property<string>("AuthenticationType")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<bool>("IsEnabled");
+                    b.Property<bool>("IsEnabled")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<string>("LoginControlSrc");
+                    b.Property<string>("LoginControlSrc")
+                        .IsRequired()
+                        .HasMaxLength(250);
 
-                    b.Property<string>("LogoffControlSrc");
+                    b.Property<string>("LogoffControlSrc")
+                        .IsRequired()
+                        .HasMaxLength(250);
 
-                    b.Property<int>("PackageID");
+                    b.Property<int>("PackageId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(-1);
 
-                    b.Property<string>("SettignsControlSrc");
+                    b.Property<string>("SettignsControlSrc")
+                        .IsRequired()
+                        .HasMaxLength(250);
 
-                    b.HasKey("AuthenticationID");
+                    b.HasKey("AuthenticationId");
 
-                    b.HasIndex("PackageID");
+                    b.HasIndex("PackageId");
 
                     b.ToTable("Authentication");
                 });
@@ -199,7 +243,8 @@ namespace Dnn.vNext.Migrations
             modelBuilder.Entity("Dnn.vNext.Data.CKE_Setting", b =>
                 {
                     b.Property<string>("SettingName")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(300);
 
                     b.Property<string>("SettingValue");
 
@@ -210,340 +255,419 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.Content_Type", b =>
                 {
-                    b.Property<int>("ContentTypeID")
+                    b.Property<int>("ContentTypeId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ContentType");
 
-                    b.HasKey("ContentTypeID");
+                    b.HasKey("ContentTypeId");
 
-                    b.ToTable("ContentType");
+                    b.ToTable("ContentTypes");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ContentItem", b =>
                 {
-                    b.Property<int>("ContentItemID")
+                    b.Property<int>("ContentItemId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Content");
 
-                    b.Property<string>("ContentKey");
+                    b.Property<string>("ContentKey")
+                        .HasMaxLength(250);
 
-                    b.Property<int>("ContentTypeID");
+                    b.Property<int>("ContentTypeId");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<bool>("Indexed");
+                    b.Property<bool>("Indexed")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("ModuleID");
+                    b.Property<int>("ModuleId");
 
-                    b.Property<int?>("StateID");
+                    b.Property<int?>("StateId");
 
-                    b.Property<int>("TabID");
+                    b.Property<int>("TabId");
 
-                    b.HasKey("ContentItemID");
+                    b.HasKey("ContentItemId");
 
-                    b.HasIndex("ContentTypeID");
+                    b.HasIndex("ContentTypeId");
 
-                    b.HasIndex("StateID");
+                    b.HasIndex("StateId");
+
+                    b.HasIndex("TabId")
+                        .HasAnnotation("SqlServer:Clustered", false);
 
                     b.ToTable("ContentItems");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ContentItems_MetaData", b =>
                 {
-                    b.Property<int>("ContetnItemMetaDataID")
+                    b.Property<int>("ContentItemMetaDataId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ContentItemID");
+                    b.Property<int>("ContentItemId");
 
-                    b.Property<int>("MetaDataID");
+                    b.Property<int>("MetaDataId");
 
                     b.Property<string>("MetaDataValue");
 
-                    b.HasKey("ContetnItemMetaDataID");
+                    b.HasKey("ContentItemMetaDataId");
 
-                    b.HasIndex("ContentItemID");
+                    b.HasIndex("ContentItemId");
 
-                    b.HasIndex("MetaDataID");
+                    b.HasIndex("MetaDataId");
 
                     b.ToTable("ContentItems_MetaData");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ContentItems_Tag", b =>
                 {
-                    b.Property<int>("ContentItemTagID")
+                    b.Property<int>("ContentItemTagId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ContentItemID");
+                    b.Property<int>("ContentItemId");
 
-                    b.Property<int?>("ContentItemTagID1");
+                    b.Property<int>("TermId");
 
-                    b.Property<int>("TermID");
+                    b.HasKey("ContentItemTagId");
 
-                    b.HasKey("ContentItemTagID");
+                    b.HasIndex("TermId");
 
-                    b.HasIndex("ContentItemID");
-
-                    b.HasIndex("ContentItemTagID1");
-
-                    b.HasIndex("TermID");
+                    b.HasIndex("ContentItemId", "TermId")
+                        .IsUnique();
 
                     b.ToTable("ContentItems_Tags");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflow", b =>
                 {
-                    b.Property<int>("WorkflowID")
+                    b.Property<int>("WorkflowId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("Content_TypeContentTypeID");
+                    b.Property<int?>("Content_TypeContentTypeId");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasMaxLength(256);
 
-                    b.Property<bool>("DispositionEnabled");
+                    b.Property<bool>("DispositionEnabled")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
-                    b.Property<bool>("IsSystem");
+                    b.Property<bool>("IsSystem")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
-                    b.Property<bool>("StartAfterCreating");
+                    b.Property<bool>("StartAfterCreating")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
-                    b.Property<bool>("StartAfterEditing");
+                    b.Property<bool>("StartAfterEditing")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
-                    b.Property<string>("WorkflowKey");
+                    b.Property<string>("WorkflowKey")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("''")
+                        .HasMaxLength(40);
 
-                    b.Property<string>("WorkflowName");
+                    b.Property<string>("WorkflowName")
+                        .IsRequired()
+                        .HasMaxLength(40);
 
-                    b.HasKey("WorkflowID");
+                    b.HasKey("WorkflowId");
 
-                    b.HasIndex("Content_TypeContentTypeID");
+                    b.HasIndex("Content_TypeContentTypeId");
+
+                    b.HasIndex("PortalId", "WorkflowName")
+                        .IsUnique()
+                        .HasFilter("[PortalId] IS NOT NULL");
 
                     b.ToTable("ContentWorkflows");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowAction", b =>
                 {
-                    b.Property<int>("ActionID")
+                    b.Property<int>("ActionId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ActionSource");
 
                     b.Property<string>("ActionType");
 
-                    b.Property<int>("ContentTypeID");
+                    b.Property<int>("ContentTypeId");
 
-                    b.Property<int?>("ContentWorkflowActionActionID");
+                    b.Property<int?>("ContentWorkflowActionActionId");
 
-                    b.HasKey("ActionID");
+                    b.HasKey("ActionId");
 
-                    b.HasIndex("ContentWorkflowActionActionID");
+                    b.HasIndex("ContentWorkflowActionActionId");
 
-                    b.ToTable("ContentWorkflowActios");
+                    b.ToTable("ContentWorkflowActions");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowLog", b =>
                 {
-                    b.Property<int>("WorkflowLogID")
+                    b.Property<int>("WorkflowLogId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Action");
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasMaxLength(40);
 
-                    b.Property<string>("Comment");
+                    b.Property<string>("Comment")
+                        .IsRequired();
 
-                    b.Property<int>("ContentItemID");
+                    b.Property<int>("ContentItemId");
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<int>("Type");
+                    b.Property<int>("Type")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(-1);
 
-                    b.Property<int?>("User");
+                    b.Property<int>("User");
 
-                    b.Property<int>("WorkflowID");
+                    b.Property<int>("WorkflowId");
 
-                    b.HasKey("WorkflowLogID");
+                    b.HasKey("WorkflowLogId");
 
-                    b.HasIndex("ContentItemID");
+                    b.HasIndex("ContentItemId");
 
-                    b.HasIndex("WorkflowID");
+                    b.HasIndex("WorkflowId");
 
                     b.ToTable("ContentWorkflowLogs");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowSource", b =>
                 {
-                    b.Property<int>("SourceID")
+                    b.Property<int>("SourceId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("SourceName");
+                    b.Property<string>("SourceName")
+                        .IsRequired()
+                        .HasMaxLength(20);
 
-                    b.Property<string>("SourceType");
+                    b.Property<string>("SourceType")
+                        .IsRequired()
+                        .HasMaxLength(250);
 
-                    b.Property<int>("WorkflowID");
+                    b.Property<int>("WorkflowId");
 
-                    b.HasKey("SourceID");
+                    b.HasKey("SourceId");
 
-                    b.HasIndex("WorkflowID");
+                    b.HasIndex("WorkflowId", "SourceName")
+                        .IsUnique();
 
                     b.ToTable("ContentWorkflowSources");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowState", b =>
                 {
-                    b.Property<int>("StateID")
+                    b.Property<int>("StateId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
-                    b.Property<bool>("IsDisposalState");
+                    b.Property<bool>("IsDisposalState")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
-                    b.Property<bool>("IsSystem");
+                    b.Property<bool>("IsSystem")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
-                    b.Property<string>("OnCompleteMessageBody");
+                    b.Property<string>("OnCompleteMessageBody")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("''")
+                        .HasMaxLength(1024);
 
-                    b.Property<string>("OnCompleteMessageSubject");
+                    b.Property<string>("OnCompleteMessageSubject")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("''")
+                        .HasMaxLength(256);
 
-                    b.Property<string>("OnDiscardMessageSubject");
+                    b.Property<string>("OnDiscardMessageBody")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("''")
+                        .HasMaxLength(1024);
+
+                    b.Property<string>("OnDiscardMessageSubject")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("''")
+                        .HasMaxLength(256);
 
                     b.Property<int>("Order");
 
-                    b.Property<bool>("SendEmail");
+                    b.Property<bool>("SendEmail")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
-                    b.Property<bool>("SendMessage");
+                    b.Property<bool>("SendMessage")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
-                    b.Property<bool>("SendNotification");
+                    b.Property<bool>("SendNotification")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
-                    b.Property<bool>("SendNotificationToAdministrators");
+                    b.Property<bool>("SendNotificationToAdministrators")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
-                    b.Property<string>("StateName");
+                    b.Property<string>("StateName")
+                        .IsRequired()
+                        .HasMaxLength(40);
 
-                    b.Property<int>("WorkflowID");
+                    b.Property<int>("WorkflowId");
 
-                    b.HasKey("StateID");
+                    b.HasKey("StateId");
 
-                    b.HasIndex("WorkflowID");
+                    b.HasIndex("WorkflowId", "StateName")
+                        .IsUnique();
 
                     b.ToTable("ContentWorkflowStates");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowStatePermission", b =>
                 {
-                    b.Property<int>("WorkflowStatePermissionID")
+                    b.Property<int>("WorkflowStatePermissionId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("AllowAccess");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("PermissionID");
+                    b.Property<int>("PermissionId");
 
-                    b.Property<int?>("RoleID");
+                    b.Property<int?>("RoleId");
 
                     b.Property<int>("StateId");
 
-                    b.Property<int?>("UserID");
+                    b.Property<int?>("UserId");
 
-                    b.HasKey("WorkflowStatePermissionID");
+                    b.HasKey("WorkflowStatePermissionId");
 
-                    b.HasIndex("PermissionID");
+                    b.HasIndex("PermissionId");
 
-                    b.HasIndex("StateId");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("StateId", "PermissionId", "RoleId", "UserId")
+                        .IsUnique()
+                        .HasFilter("[RoleId] IS NOT NULL AND [UserId] IS NOT NULL");
 
                     b.ToTable("ContentWorkflowStatePermission");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_Message", b =>
                 {
-                    b.Property<int>("MessageID")
+                    b.Property<int>("MessageId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Body");
 
-                    b.Property<string>("Context");
+                    b.Property<string>("Context")
+                        .HasMaxLength(200);
 
-                    b.Property<int?>("ConversationID");
+                    b.Property<int?>("ConversationId");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
                     b.Property<DateTime?>("ExpirationDate");
 
-                    b.Property<string>("From");
+                    b.Property<string>("From")
+                        .HasMaxLength(200);
 
                     b.Property<bool?>("IncludeDismissAction");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int?>("NotificationTypeID");
+                    b.Property<int?>("NotificationTypeId");
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
                     b.Property<bool?>("ReplyAllAllowed");
 
-                    b.Property<int?>("SenderUserID");
+                    b.Property<int?>("SenderUserId");
 
-                    b.Property<string>("Subject");
+                    b.Property<string>("Subject")
+                        .HasMaxLength(400);
 
-                    b.Property<string>("To");
+                    b.Property<string>("To")
+                        .HasMaxLength(2000);
 
-                    b.HasKey("MessageID");
+                    b.HasKey("MessageId");
 
-                    b.HasIndex("NotificationTypeID");
+                    b.HasIndex("NotificationTypeId");
+
+                    b.HasIndex("MessageId", "PortalId", "NotificationTypeId", "ExpirationDate")
+                        .IsUnique()
+                        .HasFilter("[PortalId] IS NOT NULL AND [NotificationTypeId] IS NOT NULL AND [ExpirationDate] IS NOT NULL");
 
                     b.ToTable("CoreMessaging_Messages");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_MessageAttachment", b =>
                 {
-                    b.Property<int>("MessageAttachmentID")
+                    b.Property<int>("MessageAttachmentId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("FileID");
+                    b.Property<int?>("FileId");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("MessageID");
+                    b.Property<int>("MessageId");
 
-                    b.HasKey("MessageAttachmentID");
+                    b.HasKey("MessageAttachmentId");
 
-                    b.HasIndex("MessageID");
+                    b.HasIndex("MessageId");
 
                     b.ToTable("CoreMessaging_MessageAttachments");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_MessagingRecipient", b =>
                 {
-                    b.Property<int>("RecipientID")
+                    b.Property<int>("RecipientId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Archived");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -553,316 +677,376 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<DateTime?>("EmailSentDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("MessageID");
+                    b.Property<int>("MessageId");
 
                     b.Property<bool>("Read");
 
                     b.Property<bool>("SendToast");
 
-                    b.Property<int>("UserID");
+                    b.Property<int>("UserId");
 
-                    b.HasKey("RecipientID");
+                    b.HasKey("RecipientId");
 
-                    b.HasIndex("MessageID");
+                    b.HasIndex("MessageId");
 
-                    b.ToTable("CoreMessaging_MessagingRecipients");
+                    b.ToTable("CoreMessaging_MessageRecipients");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_NotificationType", b =>
                 {
-                    b.Property<int>("NotificationTypeID")
+                    b.Property<int>("NotificationTypeId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasMaxLength(2000);
 
-                    b.Property<int?>("DesktopModuleID");
+                    b.Property<int?>("DesktopModuleId");
 
-                    b.Property<bool>("IsTask");
+                    b.Property<bool>("IsTask")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.Property<int?>("TTL");
 
-                    b.HasKey("NotificationTypeID");
+                    b.HasKey("NotificationTypeId");
 
-                    b.HasIndex("DesktopModuleID");
+                    b.HasIndex("DesktopModuleId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("CoreMessaging_NotificationTypes");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_NotificationTypeAction", b =>
                 {
-                    b.Property<int>("NotificaationTypeActionID")
+                    b.Property<int>("NotificationTypeActionId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("APICall");
+                    b.Property<string>("APICall")
+                        .IsRequired()
+                        .HasMaxLength(500);
 
-                    b.Property<string>("ConfirmRescourceKey");
+                    b.Property<string>("ConfirmRescourceKey")
+                        .HasMaxLength(100);
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<string>("DescriptionResourceKey");
+                    b.Property<string>("DescriptionResourceKey")
+                        .HasMaxLength(100);
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<string>("NameResourceKey");
+                    b.Property<string>("NameResourceKey")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
-                    b.Property<int>("NotificationTypeID");
+                    b.Property<int>("NotificationTypeId");
 
                     b.Property<int>("Order");
 
-                    b.HasKey("NotificaationTypeActionID");
+                    b.HasKey("NotificationTypeActionId");
 
-                    b.HasIndex("NotificationTypeID");
+                    b.HasIndex("NotificationTypeId");
 
                     b.ToTable("CoreMessaging_NotificationTypeActions");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_Subscription", b =>
                 {
-                    b.Property<int>("SubscriptionID")
+                    b.Property<int>("SubscriptionId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreatedOnDate");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(255);
 
-                    b.Property<int?>("ModuleID");
+                    b.Property<int?>("ModuleId");
 
                     b.Property<string>("ObjectData");
 
-                    b.Property<string>("ObjectKey");
+                    b.Property<string>("ObjectKey")
+                        .HasMaxLength(255);
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
-                    b.Property<int>("SubscriptionTypeID");
+                    b.Property<int>("SubscriptionTypeId");
 
-                    b.Property<int?>("TabID");
+                    b.Property<int?>("TabId");
 
-                    b.Property<int>("UserID");
+                    b.Property<int>("UserId");
 
-                    b.HasKey("SubscriptionID");
+                    b.HasKey("SubscriptionId");
 
-                    b.HasIndex("ModuleID");
+                    b.HasIndex("ModuleId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
-                    b.HasIndex("SubscriptionTypeID");
+                    b.HasIndex("SubscriptionTypeId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("CoreMessaging_Subscriptions");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_SubscriptionType", b =>
                 {
-                    b.Property<int>("SubscriptionTypeID")
+                    b.Property<int>("SubscriptionTypeId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("DesktopModuleID");
+                    b.Property<int?>("DesktopModuleId");
 
-                    b.Property<string>("FriendlyName");
+                    b.Property<string>("FriendlyName")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
-                    b.Property<string>("SubscriptionName");
+                    b.Property<string>("SubscriptionName")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
-                    b.HasKey("SubscriptionTypeID");
+                    b.HasKey("SubscriptionTypeId");
+
+                    b.HasIndex("SubscriptionName")
+                        .IsUnique();
 
                     b.ToTable("CoreMessaging_SubscriptionTypes");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_UserPreference", b =>
                 {
-                    b.Property<int>("UserPreferenceID")
+                    b.Property<int>("UserPreferenceId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("MessagesEmailFrequency");
 
                     b.Property<int>("NotificationsEmailFrequency");
 
-                    b.Property<int>("PortalID");
+                    b.Property<int>("PortalId");
 
-                    b.Property<int>("UserID");
+                    b.Property<int>("UserId");
 
-                    b.HasKey("UserPreferenceID");
+                    b.HasKey("UserPreferenceId");
 
                     b.ToTable("CoreMessaging_UserPreferences");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.DesktopModule", b =>
                 {
-                    b.Property<int>("DesktopModuleID")
+                    b.Property<int>("DesktopModuleId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AdminPage");
+                    b.Property<string>("AdminPage")
+                        .HasMaxLength(128);
 
-                    b.Property<string>("BusinessControllerClass");
+                    b.Property<string>("BusinessControllerClass")
+                        .HasMaxLength(200);
 
-                    b.Property<string>("CompatibleVersions");
+                    b.Property<string>("CompatibleVersions")
+                        .HasMaxLength(500);
 
-                    b.Property<int>("ContentItemID");
+                    b.Property<int>("ContentItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(-1);
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<string>("Dependencies");
+                    b.Property<string>("Dependencies")
+                        .HasMaxLength(400);
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasMaxLength(2000);
 
-                    b.Property<string>("FolderName");
+                    b.Property<string>("FolderName")
+                        .IsRequired()
+                        .HasMaxLength(128);
 
-                    b.Property<string>("FriendlyName");
+                    b.Property<string>("FriendlyName")
+                        .IsRequired()
+                        .HasMaxLength(128);
 
-                    b.Property<string>("HostPage");
+                    b.Property<string>("HostPage")
+                        .HasMaxLength(128);
 
                     b.Property<bool>("IsAdmin");
 
                     b.Property<bool>("IsPremium");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<string>("ModuleName");
+                    b.Property<string>("ModuleName")
+                        .IsRequired()
+                        .HasMaxLength(128);
 
-                    b.Property<int>("PackageID");
+                    b.Property<int>("PackageId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(-1);
 
-                    b.Property<string>("Permissions");
+                    b.Property<string>("Permissions")
+                        .HasMaxLength(400);
 
-                    b.Property<int>("Shareable");
+                    b.Property<int>("Shareable")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(0);
 
-                    b.Property<bool>("SupportedFeatures");
+                    b.Property<int>("SupportedFeatures")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(0);
 
-                    b.Property<string>("Version");
+                    b.Property<string>("Version")
+                        .HasMaxLength(8);
 
-                    b.HasKey("DesktopModuleID");
+                    b.HasKey("DesktopModuleId");
 
-                    b.HasIndex("PackageID");
+                    b.HasIndex("PackageId");
 
                     b.ToTable("DesktopModules");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.DesktopModulePermission", b =>
                 {
-                    b.Property<int>("DesktopModulePermissionID")
+                    b.Property<int>("DesktopModulePermissionId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("AllowAccess");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("PermissionID");
+                    b.Property<int>("PermissionId");
 
-                    b.Property<int>("PortalDesktopModuleID");
+                    b.Property<int>("PortalDesktopModuleId");
 
-                    b.Property<int?>("RoleID");
+                    b.Property<int?>("RoleId");
 
-                    b.Property<int?>("UserID");
+                    b.Property<int?>("UserId");
 
-                    b.HasKey("DesktopModulePermissionID");
+                    b.HasKey("DesktopModulePermissionId");
 
-                    b.HasIndex("PermissionID");
+                    b.HasIndex("PermissionId");
 
-                    b.HasIndex("PortalDesktopModuleID");
+                    b.HasIndex("RoleId")
+                        .IsUnique()
+                        .HasFilter("[RoleId] IS NOT NULL");
 
-                    b.HasIndex("RoleID");
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("PortalDesktopModuleId", "PermissionId", "RoleId", "UserId")
+                        .IsUnique()
+                        .HasFilter("[RoleId] IS NOT NULL AND [UserId] IS NOT NULL");
 
                     b.ToTable("DesktopModulePermission");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.EventLog", b =>
                 {
-                    b.Property<long>("LogEventID")
+                    b.Property<long>("LogEventId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("EventLogConfigID");
+                    b.Property<int?>("EventLogConfigId");
 
-                    b.Property<string>("ExceptionHash");
+                    b.Property<string>("ExceptionHash")
+                        .HasMaxLength(100);
 
-                    b.Property<int>("LogConfigID");
+                    b.Property<int>("LogConfigId");
 
-                    b.Property<long?>("LogConfigLogEventID");
+                    b.Property<long?>("LogConfigLogEventId");
 
                     b.Property<DateTime>("LogCreateDate");
 
-                    b.Property<string>("LogGuid");
+                    b.Property<string>("LogGuid")
+                        .IsRequired()
+                        .HasMaxLength(36);
 
                     b.Property<bool?>("LogNotificationPending");
 
-                    b.Property<int?>("LogPortalID");
+                    b.Property<int?>("LogPortalId");
 
-                    b.Property<string>("LogPortalName");
+                    b.Property<string>("LogPortalName")
+                        .HasMaxLength(100);
 
                     b.Property<string>("LogProperties")
                         .HasColumnType("xml");
 
-                    b.Property<string>("LogServerName");
+                    b.Property<string>("LogServerName")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
-                    b.Property<string>("LogTypeKey1");
+                    b.Property<string>("LogTypeKey")
+                        .IsRequired()
+                        .HasMaxLength(35);
 
-                    b.Property<string>("LogType_Key")
-                        .HasColumnName("LogTypeKey");
+                    b.Property<int?>("LogUserId");
 
-                    b.Property<int?>("LogUserID");
+                    b.Property<string>("LogUserName")
+                        .HasMaxLength(50);
 
-                    b.Property<string>("LogUserName");
+                    b.HasKey("LogEventId");
 
-                    b.HasKey("LogEventID");
+                    b.HasIndex("EventLogConfigId");
 
-                    b.HasIndex("EventLogConfigID");
+                    b.HasIndex("LogConfigLogEventId");
 
-                    b.HasIndex("LogConfigLogEventID");
-
-                    b.HasIndex("LogTypeKey1");
+                    b.HasIndex("LogTypeKey");
 
                     b.ToTable("EventLog");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.EventLogConfig", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("EmailNotificaitonIsAcdtive");
+                    b.Property<bool>("EmailNotificaitonIsActive");
 
                     b.Property<int>("KeepMostRecent");
 
-                    b.Property<string>("LogTypeKey1");
+                    b.Property<string>("LogTypeKey")
+                        .HasMaxLength(35);
 
-                    b.Property<string>("LogTypePortalID");
-
-                    b.Property<string>("LogType_Key")
-                        .HasColumnName("LogTypeKey");
+                    b.Property<int>("LogTypePortalId");
 
                     b.Property<bool>("LoggingIsActive");
 
-                    b.Property<string>("MailFromAddress");
+                    b.Property<string>("MailFromAddress")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
-                    b.Property<string>("MailToAddress");
+                    b.Property<string>("MailToAddress")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<int?>("NotificationThreshold");
 
@@ -870,9 +1054,11 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int?>("NotificationThresholdTimeType");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("LogTypeKey1");
+                    b.HasIndex("LogTypeKey", "LogTypePortalId")
+                        .IsUnique()
+                        .HasFilter("[LogTypeKey] IS NOT NULL");
 
                     b.ToTable("EventLogConfig");
                 });
@@ -880,15 +1066,24 @@ namespace Dnn.vNext.Migrations
             modelBuilder.Entity("Dnn.vNext.Data.EventLogType", b =>
                 {
                     b.Property<string>("LogTypeKey")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(35);
 
-                    b.Property<string>("LogTypeCSSClass");
+                    b.Property<string>("LogTypeCSSClass")
+                        .IsRequired()
+                        .HasMaxLength(40);
 
-                    b.Property<string>("LogTypeDescription");
+                    b.Property<string>("LogTypeDescription")
+                        .IsRequired()
+                        .HasMaxLength(128);
 
-                    b.Property<string>("LogTypeFriendlyName");
+                    b.Property<string>("LogTypeFriendlyName")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
-                    b.Property<string>("LogTypeOwner");
+                    b.Property<string>("LogTypeOwner")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.HasKey("LogTypeKey");
 
@@ -897,18 +1092,26 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.EventQueue", b =>
                 {
-                    b.Property<int>("EventMessageID")
+                    b.Property<int>("EventMessageId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Attributes");
 
-                    b.Property<string>("AuthorizedRoles");
+                    b.Property<string>("AuthorizedRoles")
+                        .IsRequired()
+                        .HasMaxLength(250);
 
-                    b.Property<string>("Body");
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasMaxLength(250);
 
-                    b.Property<string>("EventName");
+                    b.Property<string>("EventName")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
-                    b.Property<string>("ExceptionMessage");
+                    b.Property<string>("ExceptionMessage")
+                        .IsRequired()
+                        .HasMaxLength(250);
 
                     b.Property<DateTime>("ExpirationDate");
 
@@ -916,17 +1119,25 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int>("Priority");
 
-                    b.Property<string>("ProcessorCommand");
+                    b.Property<string>("ProcessorCommand")
+                        .IsRequired()
+                        .HasMaxLength(250);
 
-                    b.Property<string>("ProcessorType");
+                    b.Property<string>("ProcessorType")
+                        .IsRequired()
+                        .HasMaxLength(250);
 
-                    b.Property<string>("Sender");
+                    b.Property<string>("Sender")
+                        .IsRequired()
+                        .HasMaxLength(250);
 
                     b.Property<DateTime>("SentDate");
 
-                    b.Property<string>("Subscriber");
+                    b.Property<string>("Subscriber")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
-                    b.HasKey("EventMessageID");
+                    b.HasKey("EventMessageId");
 
                     b.ToTable("EventQueue");
                 });
@@ -934,15 +1145,20 @@ namespace Dnn.vNext.Migrations
             modelBuilder.Entity("Dnn.vNext.Data.Exception", b =>
                 {
                     b.Property<string>("ExceptionHash")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(100);
 
-                    b.Property<string>("InnerMessage");
+                    b.Property<string>("InnerMessage")
+                        .HasMaxLength(500);
 
                     b.Property<string>("InnerStackTrace");
 
-                    b.Property<string>("Message");
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(500);
 
-                    b.Property<string>("Source");
+                    b.Property<string>("Source")
+                        .HasMaxLength(500);
 
                     b.Property<string>("StackTrace");
 
@@ -953,43 +1169,56 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.ExceptionEvent", b =>
                 {
-                    b.Property<long>("LogEventID");
+                    b.Property<long>("LogEventId");
 
-                    b.Property<string>("AssemblyVersion");
+                    b.Property<string>("AssemblyVersion")
+                        .IsRequired()
+                        .HasMaxLength(20);
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
-                    b.Property<string>("RawURL");
+                    b.Property<string>("RawURL")
+                        .HasMaxLength(260);
 
-                    b.Property<string>("Referrer");
+                    b.Property<string>("Referrer")
+                        .HasMaxLength(260);
 
-                    b.Property<int?>("TabID");
+                    b.Property<int?>("TabId");
 
-                    b.Property<string>("UserAgent");
+                    b.Property<string>("UserAgent")
+                        .HasMaxLength(260);
 
-                    b.Property<int?>("UserID");
+                    b.Property<int?>("UserId");
 
-                    b.HasKey("LogEventID");
+                    b.HasKey("LogEventId");
 
                     b.ToTable("ExceptionEvents");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ExportImportCheckpoint", b =>
                 {
-                    b.Property<int>("CheckpointID")
+                    b.Property<int>("CheckpointId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AssemblyName");
+                    b.Property<string>("AssemblyName")
+                        .IsRequired()
+                        .HasMaxLength(200);
 
-                    b.Property<string>("Category");
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
-                    b.Property<bool?>("Completed");
+                    b.Property<bool>("Completed")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
-                    b.Property<int>("JobID");
+                    b.Property<int>("JobId");
 
                     b.Property<DateTime?>("LastUpdatedDate");
 
-                    b.Property<int>("ProcessedItems");
+                    b.Property<int>("ProcessedItems")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(0);
 
                     b.Property<int>("Progress");
 
@@ -999,11 +1228,18 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<DateTime?>("StartDate");
 
-                    b.Property<int>("TotalItems");
+                    b.Property<int>("TotalItems")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(0);
 
-                    b.HasKey("CheckpointID");
+                    b.HasKey("CheckpointId");
 
-                    b.HasIndex("JobID");
+                    b.HasIndex("Category");
+
+                    b.HasIndex("JobId");
+
+                    b.HasIndex("Category", "AssemblyName", "JobId")
+                        .IsUnique();
 
                     b.ToTable("ExportImportCheckpoints");
                 });
@@ -1015,7 +1251,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<DateTime>("CompletedOnDate");
 
-                    b.Property<int>("CreatedByUserID");
+                    b.Property<int>("CreatedByUserId");
 
                     b.Property<DateTime>("CreatedOnDate");
 
@@ -1047,15 +1283,21 @@ namespace Dnn.vNext.Migrations
                     b.Property<int>("JobLogId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedOnDate");
+                    b.Property<DateTime>("CreatedOnDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<int>("JobId");
 
-                    b.Property<int>("Level");
+                    b.Property<int>("Level")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(0);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(255);
 
-                    b.Property<string>("Value");
+                    b.Property<string>("Value")
+                        .HasMaxLength(255);
 
                     b.HasKey("JobLogId");
 
@@ -1069,11 +1311,11 @@ namespace Dnn.vNext.Migrations
                     b.Property<string>("SettingName")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -1086,18 +1328,18 @@ namespace Dnn.vNext.Migrations
                     b.ToTable("ExportImportSettings");
                 });
 
-            modelBuilder.Entity("Dnn.vNext.Data.ExtensionUrlProvider", b =>
+            modelBuilder.Entity("Dnn.vNext.Data.ExtensionUrlProvIder", b =>
                 {
-                    b.Property<int>("ExtensionUrlProviderID")
+                    b.Property<int>("ExtensionUrlProvIderId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("DekstopModuleId");
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<string>("ProviderName");
+                    b.Property<string>("ProvIderName");
 
-                    b.Property<string>("ProviderType");
+                    b.Property<string>("ProvIderType");
 
                     b.Property<bool>("RedirectAllUrls");
 
@@ -1107,50 +1349,50 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("SettingsControlSrc");
 
-                    b.HasKey("ExtensionUrlProviderID");
+                    b.HasKey("ExtensionUrlProvIderId");
 
-                    b.ToTable("ExtensionUrlProviders");
+                    b.ToTable("ExtensionUrlProvIders");
                 });
 
-            modelBuilder.Entity("Dnn.vNext.Data.ExtensionUrlProviderConfiguration", b =>
+            modelBuilder.Entity("Dnn.vNext.Data.ExtensionUrlProvIderConfiguration", b =>
                 {
-                    b.Property<int>("ExtensionUrlProviderID");
+                    b.Property<int>("ExtensionUrlProvIderId");
 
-                    b.Property<int>("PortalID");
+                    b.Property<int>("PortalId");
 
-                    b.HasKey("ExtensionUrlProviderID", "PortalID");
+                    b.HasKey("ExtensionUrlProvIderId", "PortalId");
 
-                    b.ToTable("ExtensionUrlProviderConfiguration");
+                    b.ToTable("ExtensionUrlProvIderConfiguration");
                 });
 
-            modelBuilder.Entity("Dnn.vNext.Data.ExtensionUrlProviderSetting", b =>
+            modelBuilder.Entity("Dnn.vNext.Data.ExtensionUrlProvIderSetting", b =>
                 {
-                    b.Property<int>("ExtensionUrlProviderID");
+                    b.Property<int>("ExtensionUrlProvIderId");
 
-                    b.Property<int>("PortalID");
+                    b.Property<int>("PortalId");
 
                     b.Property<string>("SettingName");
 
                     b.Property<string>("SettingValue");
 
-                    b.HasKey("ExtensionUrlProviderID", "PortalID", "SettingName");
+                    b.HasKey("ExtensionUrlProvIderId", "PortalId", "SettingName");
 
-                    b.ToTable("ExtensionUrlProviderSetting");
+                    b.ToTable("ExtensionUrlProvIderSetting");
                 });
 
-            modelBuilder.Entity("Dnn.vNext.Data.ExtensionUrlProviderTab", b =>
+            modelBuilder.Entity("Dnn.vNext.Data.ExtensionUrlProvIderTab", b =>
                 {
-                    b.Property<int>("ExtensionUrlProviderID");
+                    b.Property<int>("ExtensionUrlProvIderId");
 
-                    b.Property<int>("PortalID");
+                    b.Property<int>("PortalId");
 
-                    b.Property<int>("TabID");
+                    b.Property<int>("TabId");
 
                     b.Property<bool>("IsActive");
 
-                    b.HasKey("ExtensionUrlProviderID", "PortalID", "TabID");
+                    b.HasKey("ExtensionUrlProvIderId", "PortalId", "TabId");
 
-                    b.ToTable("ExtensionUrlProviderTab");
+                    b.ToTable("ExtensionUrlProvIderTab");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.File", b =>
@@ -1160,11 +1402,11 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<byte?>("Content");
 
-                    b.Property<int?>("ContentItemID");
+                    b.Property<int?>("ContentItemId");
 
                     b.Property<string>("ContentType");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -1178,7 +1420,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("FileName");
 
-                    b.Property<int>("FolderID");
+                    b.Property<int>("FolderId");
 
                     b.Property<bool>("HasBeenPublished");
 
@@ -1186,7 +1428,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<DateTime>("LastModificationTime");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -1202,20 +1444,20 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Property<Guid>("UniqueID");
+                    b.Property<Guid>("UniqueId");
 
                     b.Property<Guid>("VersionGuid");
 
-                    b.Property<int?>("Width");
+                    b.Property<int?>("WIdth");
 
                     b.Property<string>("_Folder")
                         .HasColumnName("Folder");
 
                     b.HasKey("FileId");
 
-                    b.HasIndex("ContentItemID");
+                    b.HasIndex("ContentItemId");
 
-                    b.HasIndex("FolderID");
+                    b.HasIndex("FolderId");
 
                     b.HasIndex("PortalId");
 
@@ -1232,7 +1474,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("ContentType");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -1242,7 +1484,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int?>("Height");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -1250,7 +1492,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int>("Size");
 
-                    b.Property<int?>("Width");
+                    b.Property<int?>("WIdth");
 
                     b.HasKey("FileId", "Version");
 
@@ -1259,16 +1501,16 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.Folder", b =>
                 {
-                    b.Property<int>("FolderID")
+                    b.Property<int>("FolderId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ContentWorkflowStatePermissionWorkflowStatePermissionID");
+                    b.Property<int?>("ContentWorkflowStatePermissionWorkflowStatePermissionId");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int>("FolderMappingID");
+                    b.Property<int>("FolderMappingId");
 
                     b.Property<string>("FolderPath");
 
@@ -1278,7 +1520,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<bool>("IsVersioned");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -1286,116 +1528,116 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("MappedPath");
 
-                    b.Property<int?>("ParentID");
+                    b.Property<int?>("ParentId");
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
                     b.Property<int>("StorageLocation");
 
-                    b.Property<Guid>("UniqueID");
+                    b.Property<Guid>("UniqueId");
 
                     b.Property<Guid>("VersionGuid");
 
-                    b.Property<int?>("WorkflowID");
+                    b.Property<int?>("WorkflowId");
 
-                    b.HasKey("FolderID");
+                    b.HasKey("FolderId");
 
-                    b.HasIndex("ContentWorkflowStatePermissionWorkflowStatePermissionID");
+                    b.HasIndex("ContentWorkflowStatePermissionWorkflowStatePermissionId");
 
-                    b.HasIndex("FolderMappingID");
+                    b.HasIndex("FolderMappingId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
-                    b.HasIndex("WorkflowID");
+                    b.HasIndex("WorkflowId");
 
                     b.ToTable("Folders");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.FolderMapping", b =>
                 {
-                    b.Property<int>("FolderMappingID")
+                    b.Property<int>("FolderMappingId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<string>("FolderProviderType");
+                    b.Property<string>("FolderProvIderType");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
                     b.Property<string>("MappingName");
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
                     b.Property<int?>("Priority");
 
-                    b.HasKey("FolderMappingID");
+                    b.HasKey("FolderMappingId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
                     b.ToTable("FolderMappings");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.FolderMappingsSetting", b =>
                 {
-                    b.Property<int>("FolderMappingID");
+                    b.Property<int>("FolderMappingId");
 
                     b.Property<string>("SettingName");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
                     b.Property<string>("SettingValue");
 
-                    b.HasKey("FolderMappingID", "SettingName");
+                    b.HasKey("FolderMappingId", "SettingName");
 
                     b.ToTable("FolderMappingsSettings");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.FolderPermission", b =>
                 {
-                    b.Property<int>("FolderPermissionID")
+                    b.Property<int>("FolderPermissionId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("AllowAccess");
 
-                    b.Property<int?>("ContentWorkflowStatePermissionWorkflowStatePermissionID");
+                    b.Property<int?>("ContentWorkflowStatePermissionWorkflowStatePermissionId");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int>("FolderID");
+                    b.Property<int>("FolderId");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("PermissionID");
+                    b.Property<int>("PermissionId");
 
-                    b.Property<int?>("RoleID");
+                    b.Property<int?>("RoleId");
 
-                    b.Property<int?>("UserID");
+                    b.Property<int?>("UserId");
 
-                    b.HasKey("FolderPermissionID");
+                    b.HasKey("FolderPermissionId");
 
-                    b.HasIndex("ContentWorkflowStatePermissionWorkflowStatePermissionID");
+                    b.HasIndex("ContentWorkflowStatePermissionWorkflowStatePermissionId");
 
-                    b.HasIndex("FolderID");
+                    b.HasIndex("FolderId");
 
-                    b.HasIndex("PermissionID");
+                    b.HasIndex("PermissionId");
 
-                    b.HasIndex("RoleID");
+                    b.HasIndex("RoleId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("FolderPermission");
                 });
@@ -1405,11 +1647,11 @@ namespace Dnn.vNext.Migrations
                     b.Property<string>("SettingName")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -1424,102 +1666,102 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.HtmlText", b =>
                 {
-                    b.Property<int>("ModuleID")
+                    b.Property<int>("ModuleId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Content");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
                     b.Property<bool?>("IsPublished");
 
-                    b.Property<int>("ItemID");
+                    b.Property<int>("ItemId");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int?>("ModuleID1");
+                    b.Property<int?>("ModuleId1");
 
-                    b.Property<int?>("StateID");
+                    b.Property<int?>("StateId");
 
                     b.Property<string>("Summary");
 
                     b.Property<int?>("Version");
 
-                    b.HasKey("ModuleID");
+                    b.HasKey("ModuleId");
 
-                    b.HasIndex("ModuleID1");
+                    b.HasIndex("ModuleId1");
 
-                    b.HasIndex("StateID");
+                    b.HasIndex("StateId");
 
                     b.ToTable("HtmlText");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.HtmlTextLog", b =>
                 {
-                    b.Property<int>("HtmlTextLogID")
+                    b.Property<int>("HtmlTextLogId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Approved");
 
                     b.Property<string>("Comment");
 
-                    b.Property<int>("CreatedByUserID");
+                    b.Property<int>("CreatedByUserId");
 
                     b.Property<DateTime>("CreatedOnDate");
 
-                    b.Property<int>("ItemID");
+                    b.Property<int>("ItemId");
 
-                    b.Property<int>("StateID");
+                    b.Property<int>("StateId");
 
-                    b.HasKey("HtmlTextLogID");
+                    b.HasKey("HtmlTextLogId");
 
-                    b.HasIndex("ItemID");
+                    b.HasIndex("ItemId");
 
-                    b.HasIndex("StateID");
+                    b.HasIndex("StateId");
 
                     b.ToTable("HtmlTextLog");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.HtmlTextUser", b =>
                 {
-                    b.Property<int>("HtmlTextUserID")
+                    b.Property<int>("HtmlTextUserId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreatedOnDate");
 
-                    b.Property<int>("ItemID");
+                    b.Property<int>("ItemId");
 
-                    b.Property<int>("ModuleID");
+                    b.Property<int>("ModuleId");
 
-                    b.Property<int>("StateID");
+                    b.Property<int>("StateId");
 
-                    b.Property<int>("TabID");
+                    b.Property<int>("TabId");
 
-                    b.Property<int>("UserID");
+                    b.Property<int>("UserId");
 
-                    b.HasKey("HtmlTextUserID");
+                    b.HasKey("HtmlTextUserId");
 
-                    b.HasIndex("ItemID");
+                    b.HasIndex("ItemId");
 
                     b.ToTable("HtmlTextUsers");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.IPFilter", b =>
                 {
-                    b.Property<int>("IPFilterID")
+                    b.Property<int>("IPFilterId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
                     b.Property<string>("IPAddress");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -1527,14 +1769,14 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("SubnetMask");
 
-                    b.HasKey("IPFilterID");
+                    b.HasKey("IPFilterId");
 
                     b.ToTable("IPFilter");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.JavascriptLibrary", b =>
                 {
-                    b.Property<int>("JavaScriptLibraryID")
+                    b.Property<int>("JavaScriptLibraryId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("CDNPath");
@@ -1545,15 +1787,15 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("ObjectName");
 
-                    b.Property<int>("PackageID");
+                    b.Property<int>("PackageId");
 
                     b.Property<int>("PreferredScriptLocation");
 
                     b.Property<string>("Version");
 
-                    b.HasKey("JavaScriptLibraryID");
+                    b.HasKey("JavaScriptLibraryId");
 
-                    b.HasIndex("PackageID");
+                    b.HasIndex("PackageId");
 
                     b.ToTable("JavascriptLibraries");
                 });
@@ -1567,7 +1809,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<bool>("CommentsDisabled");
 
-                    b.Property<bool>("CommentsHidden");
+                    b.Property<bool>("CommentsHIdden");
 
                     b.Property<int?>("ContentItemId");
 
@@ -1730,10 +1972,10 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.Language", b =>
                 {
-                    b.Property<int>("LanguageID")
+                    b.Property<int>("LanguageId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -1743,55 +1985,55 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("FallbackCulture");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.HasKey("LanguageID");
+                    b.HasKey("LanguageId");
 
                     b.ToTable("Languages");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.LanguagePack", b =>
                 {
-                    b.Property<int>("LanguagePackID")
+                    b.Property<int>("LanguagePackId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int>("DependentPackageID");
+                    b.Property<int>("DependentPackageId");
 
-                    b.Property<int>("LanguageID");
+                    b.Property<int>("LanguageId");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("PackageID");
+                    b.Property<int>("PackageId");
 
-                    b.HasKey("LanguagePackID");
+                    b.HasKey("LanguagePackId");
 
-                    b.HasIndex("PackageID");
+                    b.HasIndex("PackageId");
 
                     b.ToTable("LanguagePacks");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.List", b =>
                 {
-                    b.Property<int>("EntryID")
+                    b.Property<int>("EntryId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int>("DefinitionID");
+                    b.Property<int>("DefinitionId");
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -1799,9 +2041,9 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("ListName");
 
-                    b.Property<int>("ParentID");
+                    b.Property<int>("ParentId");
 
-                    b.Property<int>("PortalID");
+                    b.Property<int>("PortalId");
 
                     b.Property<int>("SortOrder");
 
@@ -1811,14 +2053,14 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("Value");
 
-                    b.HasKey("EntryID");
+                    b.HasKey("EntryId");
 
                     b.ToTable("Lists");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Messaging_Message", b =>
                 {
-                    b.Property<int>("MessageID")
+                    b.Property<int>("MessageId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("AllowReply");
@@ -1835,11 +2077,11 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<DateTime?>("EmailSentDate");
 
-                    b.Property<int>("FromUserID");
+                    b.Property<int>("FromUserId");
 
                     b.Property<string>("FromUserName");
 
-                    b.Property<int>("PortalID");
+                    b.Property<int>("PortalId");
 
                     b.Property<int?>("ReplyTo");
 
@@ -1849,27 +2091,27 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("Subject");
 
-                    b.Property<int>("ToRoleID");
+                    b.Property<int>("ToRoleId");
 
-                    b.Property<int>("ToUserID");
+                    b.Property<int>("ToUserId");
 
                     b.Property<string>("ToUserName");
 
-                    b.HasKey("MessageID");
+                    b.HasKey("MessageId");
 
                     b.ToTable("Messaging_Messages");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.MetaData", b =>
                 {
-                    b.Property<int>("MetaDataID")
+                    b.Property<int>("MetaDataId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("MetaDataDescription");
 
                     b.Property<string>("MetaDataName");
 
-                    b.HasKey("MetaDataID");
+                    b.HasKey("MetaDataId");
 
                     b.ToTable("MetaData");
                 });
@@ -1879,13 +2121,13 @@ namespace Dnn.vNext.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
                     b.Property<int>("Height");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -1897,7 +2139,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("UserAgent");
 
-                    b.Property<int>("Width");
+                    b.Property<int>("WIdth");
 
                     b.HasKey("Id");
 
@@ -1911,7 +2153,7 @@ namespace Dnn.vNext.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -1919,7 +2161,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<bool>("IncludeChildTabs");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -1953,13 +2195,9 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("Expression");
 
-                    b.Property<int?>("Mobile_RedirectionId");
-
                     b.Property<int>("RedirectionId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Mobile_RedirectionId");
 
                     b.HasIndex("RedirectionId");
 
@@ -1968,14 +2206,14 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.Module", b =>
                 {
-                    b.Property<int>("ModuleID")
+                    b.Property<int>("ModuleId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("AllTabs");
 
-                    b.Property<int?>("ContentItemID");
+                    b.Property<int?>("ContentItemId");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -1993,34 +2231,34 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<DateTime?>("LastContentModifiedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
                     b.Property<int>("ModuleDef");
 
-                    b.Property<int>("ModuleDefID");
+                    b.Property<int>("ModuleDefId");
 
                     b.Property<string>("Name");
 
                     b.Property<string>("Path");
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
                     b.Property<DateTime?>("StartDate");
 
-                    b.HasKey("ModuleID");
+                    b.HasKey("ModuleId");
 
-                    b.HasIndex("ContentItemID");
+                    b.HasIndex("ContentItemId");
 
-                    b.HasIndex("ModuleDefID");
+                    b.HasIndex("ModuleDefId");
 
                     b.ToTable("Modules");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ModuleControl", b =>
                 {
-                    b.Property<int>("ModuleControlID")
+                    b.Property<int>("ModuleControlId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ControlKey");
@@ -2031,7 +2269,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int>("ControlType");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -2043,7 +2281,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("ModuleDefID");
+                    b.Property<int>("ModuleDefId");
 
                     b.Property<bool>("SupportPopUps");
 
@@ -2051,19 +2289,19 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int?>("ViewOrder");
 
-                    b.HasKey("ModuleControlID");
+                    b.HasKey("ModuleControlId");
 
-                    b.HasIndex("ModuleDefID");
+                    b.HasIndex("ModuleDefId");
 
                     b.ToTable("ModuleControls");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ModuleDefinition", b =>
                 {
-                    b.Property<int>("ModuleDefID")
+                    b.Property<int>("ModuleDefId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -2071,74 +2309,74 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("DefinitionName");
 
-                    b.Property<int>("DesktopModuleID");
+                    b.Property<int>("DesktopModuleId");
 
                     b.Property<string>("FriendlyName");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.HasKey("ModuleDefID");
+                    b.HasKey("ModuleDefId");
 
-                    b.HasIndex("DesktopModuleID");
+                    b.HasIndex("DesktopModuleId");
 
                     b.ToTable("ModuleDefinitions");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ModulePermission", b =>
                 {
-                    b.Property<int>("ModulePermissionID")
+                    b.Property<int>("ModulePermissionId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("AllowAccess");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("ModuleID");
+                    b.Property<int>("ModuleId");
 
-                    b.Property<int>("PermissionID");
+                    b.Property<int>("PermissionId");
 
-                    b.Property<int>("PortalID");
+                    b.Property<int>("PortalId");
 
-                    b.Property<int?>("RoleID");
+                    b.Property<int?>("RoleId");
 
-                    b.Property<int?>("UserID");
+                    b.Property<int?>("UserId");
 
-                    b.HasKey("ModulePermissionID");
+                    b.HasKey("ModulePermissionId");
 
-                    b.HasIndex("ModuleID");
+                    b.HasIndex("ModuleId");
 
-                    b.HasIndex("PermissionID");
+                    b.HasIndex("PermissionId");
 
-                    b.HasIndex("RoleID");
+                    b.HasIndex("RoleId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("ModulePermissions");
+                    b.ToTable("ModulePermission");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ModuleSetting", b =>
                 {
-                    b.Property<int>("ModuleID");
+                    b.Property<int>("ModuleId");
 
                     b.Property<string>("SettingName");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.HasKey("ModuleID", "SettingName");
+                    b.HasKey("ModuleId", "SettingName");
 
                     b.ToTable("ModuleSettings");
                 });
@@ -2161,10 +2399,10 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.Package", b =>
                 {
-                    b.Property<int>("PackageID")
+                    b.Property<int>("PackageId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -2180,7 +2418,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<bool>("IsSystemPackage");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -2196,9 +2434,9 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("PackageType");
 
-                    b.Property<int?>("PackageTypeNavigationPackageID");
+                    b.Property<int?>("PackageTypeNavigationPackageId");
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
                     b.Property<string>("ReleaseNotes");
 
@@ -2206,13 +2444,13 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("Version");
 
-                    b.HasKey("PackageID");
+                    b.HasKey("PackageId");
 
                     b.HasIndex("PackageType")
                         .IsUnique()
                         .HasFilter("[PackageType] IS NOT NULL");
 
-                    b.HasIndex("PackageTypeNavigationPackageID");
+                    b.HasIndex("PackageTypeNavigationPackageId");
 
                     b.ToTable("Packages");
                 });
@@ -2228,7 +2466,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int>("SecurityAccessLevel");
 
-                    b.Property<bool>("SupportsSideBySideInstallation");
+                    b.Property<bool>("SupportsSIdeBySIdeInstallation");
 
                     b.HasKey("PackageType");
 
@@ -2237,32 +2475,32 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.PackageDependency", b =>
                 {
-                    b.Property<int>("PackageDependencyID")
+                    b.Property<int>("PackageDependencyId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("PackageID");
+                    b.Property<int>("PackageId");
 
                     b.Property<string>("PackageName");
 
                     b.Property<string>("Version");
 
-                    b.HasKey("PackageDependencyID");
+                    b.HasKey("PackageDependencyId");
 
-                    b.HasIndex("PackageID");
+                    b.HasIndex("PackageId");
 
                     b.ToTable("PackageDependencies");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.PasswordHistory", b =>
                 {
-                    b.Property<int>("PasswordHistoryID")
+                    b.Property<int>("PasswordHistoryId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -2270,29 +2508,29 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("PasswordSalt");
 
-                    b.Property<int>("UserID");
+                    b.Property<int>("UserId");
 
-                    b.HasKey("PasswordHistoryID");
+                    b.HasKey("PasswordHistoryId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("PasswordHistory");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Permission", b =>
                 {
-                    b.Property<int>("PermissionID")
+                    b.Property<int>("PermissionId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("ModuleDefID");
+                    b.Property<int>("ModuleDefId");
 
                     b.Property<string>("PermissionCode");
 
@@ -2302,21 +2540,21 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int>("ViewOrder");
 
-                    b.HasKey("PermissionID");
+                    b.HasKey("PermissionId");
 
                     b.ToTable("Permission");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.PersonaBarExtension", b =>
                 {
-                    b.Property<int>("ExtensionID")
+                    b.Property<int>("ExtensionId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Container");
 
                     b.Property<string>("Controller");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -2326,7 +2564,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("Identifier");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -2336,7 +2574,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("Path");
 
-                    b.HasKey("ExtensionID");
+                    b.HasKey("ExtensionId");
 
                     b.HasIndex("MenuId");
 
@@ -2352,7 +2590,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("Controller");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -2364,7 +2602,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("Identifier");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -2374,7 +2612,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int>("Order");
 
-                    b.Property<int?>("ParentID");
+                    b.Property<int?>("ParentId");
 
                     b.Property<string>("Path");
 
@@ -2382,7 +2620,7 @@ namespace Dnn.vNext.Migrations
 
                     b.HasKey("MenuId");
 
-                    b.HasIndex("ParentID");
+                    b.HasIndex("ParentId");
 
                     b.ToTable("PersonaBarMenu");
                 });
@@ -2406,16 +2644,16 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.PersonaBarMenuPermission", b =>
                 {
-                    b.Property<int>("MenuPermissionID")
+                    b.Property<int>("MenuPermissionId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("AllowAccess");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -2429,7 +2667,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int?>("UserId");
 
-                    b.HasKey("MenuPermissionID");
+                    b.HasKey("MenuPermissionId");
 
                     b.HasIndex("MenuId");
 
@@ -2449,11 +2687,11 @@ namespace Dnn.vNext.Migrations
                     b.Property<int>("PermissionId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -2474,16 +2712,16 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.Portal", b =>
                 {
-                    b.Property<int>("PortalID")
+                    b.Property<int>("PortalId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AdministratorID");
+                    b.Property<int?>("AdministratorId");
 
                     b.Property<int?>("AdministratorRoleId");
 
                     b.Property<int>("BannerAdvertising");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -2493,7 +2731,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<DateTime?>("ExpiryDate");
 
-                    b.Property<Guid>("GUID");
+                    b.Property<Guid>("Guid");
 
                     b.Property<string>("HomeDirectory");
 
@@ -2501,7 +2739,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int>("HostSpace");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -2523,19 +2761,19 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int>("UserRegistration");
 
-                    b.HasKey("PortalID");
+                    b.HasKey("PortalId");
 
                     b.ToTable("Portals");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.PortalAlias", b =>
                 {
-                    b.Property<int>("PortalAliasID")
+                    b.Property<int>("PortalAliasId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("BrowserType");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -2545,111 +2783,111 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<bool>("IsPrimary");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("PortalID");
+                    b.Property<int>("PortalId");
 
                     b.Property<string>("Skin");
 
-                    b.HasKey("PortalAliasID");
+                    b.HasKey("PortalAliasId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
                     b.ToTable("PortalAlias");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.PortalDesktopModule", b =>
                 {
-                    b.Property<int>("PortalDesktopModuleID")
+                    b.Property<int>("PortalDesktopModuleId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int>("DesktopModuleID");
+                    b.Property<int>("DesktopModuleId");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("PortalID");
+                    b.Property<int>("PortalId");
 
-                    b.HasKey("PortalDesktopModuleID");
+                    b.HasKey("PortalDesktopModuleId");
 
-                    b.HasIndex("DesktopModuleID");
+                    b.HasIndex("DesktopModuleId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
                     b.ToTable("PortalDesktopModules");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.PortalGroup", b =>
                 {
-                    b.Property<int>("ProtalGroupID")
+                    b.Property<int>("ProtalGroupId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("AuthenticationDomain");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int?>("MasterPortalID");
+                    b.Property<int?>("MasterPortalId");
 
                     b.Property<string>("PortalGroupDescription");
 
                     b.Property<string>("PortalGroupName");
 
-                    b.HasKey("ProtalGroupID");
+                    b.HasKey("ProtalGroupId");
 
                     b.ToTable("PortalGroups");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.PortalLanguage", b =>
                 {
-                    b.Property<int>("PortalLanguageID")
+                    b.Property<int>("PortalLanguageId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
                     b.Property<bool>("IsPublished");
 
-                    b.Property<int>("LanguageID");
+                    b.Property<int>("LanguageId");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("PortalID");
+                    b.Property<int>("PortalId");
 
-                    b.HasKey("PortalLanguageID");
+                    b.HasKey("PortalLanguageId");
 
-                    b.HasIndex("LanguageID");
+                    b.HasIndex("LanguageId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
                     b.ToTable("PortalLanguages");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.PortalLocalization", b =>
                 {
-                    b.Property<int>("PortalID")
+                    b.Property<int>("PortalId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("AdminTabId");
 
                     b.Property<string>("BackgroundFile");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -2663,7 +2901,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("KeyWords");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -2671,7 +2909,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("LogoFile");
 
-                    b.Property<int?>("PortalID1");
+                    b.Property<int?>("PortalId1");
 
                     b.Property<string>("PortalName");
 
@@ -2679,37 +2917,37 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int?>("UserTabId");
 
-                    b.HasKey("PortalID");
+                    b.HasKey("PortalId");
 
-                    b.HasIndex("PortalID1");
+                    b.HasIndex("PortalId1");
 
                     b.ToTable("PortalLocalization");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.PortalSetting", b =>
                 {
-                    b.Property<int>("PortalSettingID")
+                    b.Property<int>("PortalSettingId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
                     b.Property<string>("CultureCode");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("PortalID");
+                    b.Property<int>("PortalId");
 
                     b.Property<string>("SettingName");
 
                     b.Property<string>("SettingValue");
 
-                    b.HasKey("PortalSettingID");
+                    b.HasKey("PortalSettingId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
                     b.ToTable("PortalSettings");
                 });
@@ -2738,10 +2976,10 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.ProfilePropertyDefinition", b =>
                 {
-                    b.Property<int>("PropertyDefinitionID")
+                    b.Property<int>("PropertyDefinitionId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -2753,7 +2991,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<bool>("Deleted");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -2761,7 +2999,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int?>("ModuleDefId");
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
                     b.Property<string>("PropertyCategory");
 
@@ -2771,15 +3009,15 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<bool>("Required");
 
-                    b.Property<string>("ValidationExpression");
+                    b.Property<string>("ValIdationExpression");
 
                     b.Property<int>("ViewOrder");
 
                     b.Property<bool>("Visible");
 
-                    b.HasKey("PropertyDefinitionID");
+                    b.HasKey("PropertyDefinitionId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
                     b.ToTable("ProfilePropertyDefinition");
                 });
@@ -2807,7 +3045,7 @@ namespace Dnn.vNext.Migrations
                     b.Property<int>("RelationshipId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -2815,35 +3053,35 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
-                    b.Property<int>("RelationshipTypeID");
+                    b.Property<int>("RelationshipTypeId");
 
-                    b.Property<int?>("UserID");
+                    b.Property<int?>("UserId");
 
                     b.HasKey("RelationshipId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
-                    b.HasIndex("RelationshipTypeID");
+                    b.HasIndex("RelationshipTypeId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Relationships");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.RelationshipType", b =>
                 {
-                    b.Property<int>("RelationshipTypeID")
+                    b.Property<int>("RelationshipTypeId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -2851,20 +3089,20 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int>("Direction");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
                     b.Property<string>("Name");
 
-                    b.HasKey("RelationshipTypeID");
+                    b.HasKey("RelationshipTypeId");
 
                     b.ToTable("RelationshipTypes");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Role", b =>
                 {
-                    b.Property<int>("RoleID")
+                    b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("AutoAssignment");
@@ -2873,7 +3111,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int?>("BillingPeriod");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -2885,15 +3123,15 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<bool>("IsSystemRole");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
                     b.Property<string>("RSVPCode");
 
-                    b.Property<int?>("RoleGroupID");
+                    b.Property<int?>("RoleGroupId");
 
                     b.Property<string>("RoleName");
 
@@ -2909,75 +3147,75 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int?>("TrialPeriod");
 
-                    b.HasKey("RoleID");
+                    b.HasKey("RoleId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
-                    b.HasIndex("RoleGroupID");
+                    b.HasIndex("RoleGroupId");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.RoleGroup", b =>
                 {
-                    b.Property<int>("RoleGroupID")
+                    b.Property<int>("RoleGroupId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("PortalID");
+                    b.Property<int>("PortalId");
 
                     b.Property<string>("RoleGroupName");
 
-                    b.HasKey("RoleGroupID");
+                    b.HasKey("RoleGroupId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
                     b.ToTable("RoleGroups");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.RoleSetting", b =>
                 {
-                    b.Property<int>("RoleSettingID")
+                    b.Property<int>("RoleSettingId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("RoleID");
+                    b.Property<int>("RoleId");
 
                     b.Property<string>("SettingName");
 
                     b.Property<string>("SettingValue");
 
-                    b.HasKey("RoleSettingID");
+                    b.HasKey("RoleSettingId");
 
                     b.ToTable("RoleSettings");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Schedule", b =>
                 {
-                    b.Property<int>("ScheduleID")
+                    b.Property<int>("ScheduleId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("AttachToEvent");
 
                     b.Property<bool>("CatchUpEnabled");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -2985,7 +3223,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("FriendlyName");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -3007,14 +3245,14 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("TypeFullName");
 
-                    b.HasKey("ScheduleID");
+                    b.HasKey("ScheduleId");
 
                     b.ToTable("Schedule");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ScheduleHistory", b =>
                 {
-                    b.Property<int>("ScheduleHistoryID")
+                    b.Property<int>("ScheduleHistoryId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("EndDate");
@@ -3023,7 +3261,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<DateTime?>("NextStart");
 
-                    b.Property<int>("ScheduleID");
+                    b.Property<int>("ScheduleId");
 
                     b.Property<string>("Server");
 
@@ -3031,98 +3269,98 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<bool?>("Succeeded");
 
-                    b.HasKey("ScheduleHistoryID");
+                    b.HasKey("ScheduleHistoryId");
 
-                    b.HasIndex("ScheduleID");
+                    b.HasIndex("ScheduleId");
 
                     b.ToTable("ScheduleHistory");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ScheduleItemSetting", b =>
                 {
-                    b.Property<int>("ScheduleID")
+                    b.Property<int>("ScheduleId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ScheduleID1");
+                    b.Property<int?>("ScheduleId1");
 
                     b.Property<string>("SettingName");
 
                     b.Property<string>("SettingValue");
 
-                    b.HasKey("ScheduleID");
+                    b.HasKey("ScheduleId");
 
-                    b.HasIndex("ScheduleID1");
+                    b.HasIndex("ScheduleId1");
 
                     b.ToTable("ScheduleItemSettings");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.SearchCommonWord", b =>
                 {
-                    b.Property<int>("CommonWordID")
+                    b.Property<int>("CommonWordId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("CommonWord");
 
                     b.Property<string>("Locale");
 
-                    b.HasKey("CommonWordID");
+                    b.HasKey("CommonWordId");
 
                     b.ToTable("SearchCommonWords");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.SearchDeletedItem", b =>
                 {
-                    b.Property<int>("SearchDeletedItemID")
+                    b.Property<int>("SearchDeletedItemId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<string>("Document");
 
-                    b.HasKey("SearchDeletedItemID");
+                    b.HasKey("SearchDeletedItemId");
 
                     b.ToTable("SearchDeletedItems");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.SearchIndexer", b =>
                 {
-                    b.Property<int>("SearchIndexerID")
+                    b.Property<int>("SearchIndexerId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("SearchIndexerAssemblyQualifiedName");
 
-                    b.HasKey("SearchIndexerID");
+                    b.HasKey("SearchIndexerId");
 
                     b.ToTable("SearchIndexer");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.SearchStopWord", b =>
                 {
-                    b.Property<int>("StopWordsID")
+                    b.Property<int>("StopWordsId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
                     b.Property<string>("CultureCode");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
                     b.Property<string>("StopWords");
 
-                    b.HasKey("StopWordsID");
+                    b.HasKey("StopWordsId");
 
                     b.ToTable("SearchStopWords");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.SearchType", b =>
                 {
-                    b.Property<int>("SearchTypeID")
+                    b.Property<int>("SearchTypeId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool?>("IsPrivate");
@@ -3131,7 +3369,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("SearchTypeName");
 
-                    b.HasKey("SearchTypeID");
+                    b.HasKey("SearchTypeId");
 
                     b.ToTable("SearchTypes");
                 });
@@ -3145,7 +3383,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<DateTime>("DateTime");
 
-                    b.Property<int>("PortalID");
+                    b.Property<int>("PortalId");
 
                     b.Property<string>("Referrer");
 
@@ -3159,41 +3397,41 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("UserHostName");
 
-                    b.Property<int?>("UserID");
+                    b.Property<int?>("UserId");
 
                     b.HasKey("SiteLogId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
                     b.ToTable("SiteLog");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Skin", b =>
                 {
-                    b.Property<int>("SkinID")
+                    b.Property<int>("SkinId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("SkinPackageID");
+                    b.Property<int>("SkinPackageId");
 
                     b.Property<string>("SkinSrc");
 
-                    b.HasKey("SkinID");
+                    b.HasKey("SkinId");
 
-                    b.HasIndex("SkinPackageID");
+                    b.HasIndex("SkinPackageId");
 
                     b.ToTable("Skins");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.SkinControl", b =>
                 {
-                    b.Property<int>("SkinControlID")
+                    b.Property<int>("SkinControlId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ControlKey");
 
                     b.Property<string>("ControlSrc");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -3201,47 +3439,47 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("IconFile");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("PackageID");
+                    b.Property<int>("PackageId");
 
                     b.Property<bool>("SupportsPartialRendering");
 
-                    b.HasKey("SkinControlID");
+                    b.HasKey("SkinControlId");
 
-                    b.HasIndex("PackageID");
+                    b.HasIndex("PackageId");
 
                     b.ToTable("SkinControls");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.SkinPackage", b =>
                 {
-                    b.Property<int>("SkinPackageID")
+                    b.Property<int>("SkinPackageId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("PackageID");
+                    b.Property<int>("PackageId");
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
                     b.Property<string>("SkinName");
 
                     b.Property<string>("SkinType");
 
-                    b.HasKey("SkinPackageID");
+                    b.HasKey("SkinPackageId");
 
-                    b.HasIndex("PackageID");
+                    b.HasIndex("PackageId");
 
-                    b.ToTable("vSkinPackages");
+                    b.ToTable("SkinPackages");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.SQLQuery", b =>
@@ -3251,11 +3489,11 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("ConnectionStringName");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -3270,62 +3508,62 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.SynonymsGroup", b =>
                 {
-                    b.Property<int>("SynonymsGroupID")
+                    b.Property<int>("SynonymsGroupId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
                     b.Property<string>("CultureCode");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("PortalID");
+                    b.Property<int>("PortalId");
 
                     b.Property<string>("SynonymsTags");
 
-                    b.HasKey("SynonymsGroupID");
+                    b.HasKey("SynonymsGroupId");
 
                     b.ToTable("SynonymsGroups");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.SystemMessage", b =>
                 {
-                    b.Property<int>("MessageID")
+                    b.Property<int>("MessageId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("MessageName");
 
                     b.Property<string>("MessageValue");
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
-                    b.HasKey("MessageID");
+                    b.HasKey("MessageId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
                     b.ToTable("SystemMessages");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Tab", b =>
                 {
-                    b.Property<int>("TabID")
+                    b.Property<int>("TabId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ContainerSrc");
 
-                    b.Property<int?>("ContentItemID");
+                    b.Property<int?>("ContentItemId");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
                     b.Property<string>("CultureCode");
 
-                    b.Property<Guid>("DefaultLanguageGUID");
+                    b.Property<Guid>("DefaultLanguageGuid");
 
                     b.Property<string>("Description");
 
@@ -3349,13 +3587,13 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("Keywords");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
                     b.Property<int>("Level");
 
-                    b.Property<Guid>("LocalizedVersionGUID");
+                    b.Property<Guid>("LocalizedVersionGuid");
 
                     b.Property<string>("Name");
 
@@ -3365,7 +3603,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<bool>("PermanentRedirect");
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
                     b.Property<int?>("RefreshInterval");
 
@@ -3387,15 +3625,15 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("Url");
 
-                    b.Property<Guid>("VersionGUID");
+                    b.Property<Guid>("VersionGuid");
 
-                    b.HasKey("TabID");
+                    b.HasKey("TabId");
 
-                    b.HasIndex("ContentItemID");
+                    b.HasIndex("ContentItemId");
 
                     b.HasIndex("ParentId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
                     b.ToTable("Tabs");
                 });
@@ -3405,11 +3643,11 @@ namespace Dnn.vNext.Migrations
                     b.Property<int>("TabAliasSkinId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -3426,7 +3664,7 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.TabModule", b =>
                 {
-                    b.Property<int>("TabModuleID")
+                    b.Property<int>("TabModuleId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Alignment");
@@ -3441,13 +3679,13 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("ContainerSrc");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
                     b.Property<string>("CultureCode");
 
-                    b.Property<Guid>("DefaultLanguageGUID");
+                    b.Property<Guid>("DefaultLanguageGuid");
 
                     b.Property<int>("DisplayPrint");
 
@@ -3467,13 +3705,13 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int>("IsWebSlice");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<Guid>("LocalizedVersionGUID");
+                    b.Property<Guid>("LocalizedVersionGuid");
 
-                    b.Property<int>("ModuleID");
+                    b.Property<int>("ModuleId");
 
                     b.Property<int>("ModuleOrder");
 
@@ -3485,11 +3723,11 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("PaneName");
 
-                    b.Property<int>("TabID");
+                    b.Property<int>("TabId");
 
                     b.Property<Guid>("UniqueId");
 
-                    b.Property<Guid>("VersionGUID");
+                    b.Property<Guid>("VersionGuid");
 
                     b.Property<int>("Visibility");
 
@@ -3499,93 +3737,93 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("WebSliceTitle");
 
-                    b.HasKey("TabModuleID");
+                    b.HasKey("TabModuleId");
 
-                    b.HasIndex("ModuleID");
+                    b.HasIndex("ModuleId");
 
-                    b.HasIndex("TabID");
+                    b.HasIndex("TabId");
 
                     b.ToTable("TabModules");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.TabModuleSetting", b =>
                 {
-                    b.Property<int>("TabModuleID");
+                    b.Property<int>("TabModuleId");
 
                     b.Property<string>("SettingName");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
                     b.Property<string>("SetttingValue");
 
-                    b.HasKey("TabModuleID", "SettingName");
+                    b.HasKey("TabModuleId", "SettingName");
 
-                    b.HasAlternateKey("SettingName", "TabModuleID");
+                    b.HasAlternateKey("SettingName", "TabModuleId");
 
                     b.ToTable("TabModuleSettings");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.TabPermission", b =>
                 {
-                    b.Property<int>("TabPermissionID")
+                    b.Property<int>("TabPermissionId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("AllowAccess");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("PermissionID");
+                    b.Property<int>("PermissionId");
 
-                    b.Property<int?>("RoleID");
+                    b.Property<int?>("RoleId");
 
-                    b.Property<int>("TabID");
+                    b.Property<int>("TabId");
 
-                    b.Property<int?>("UserID");
+                    b.Property<int?>("UserId");
 
-                    b.HasKey("TabPermissionID");
+                    b.HasKey("TabPermissionId");
 
-                    b.HasIndex("PermissionID");
+                    b.HasIndex("PermissionId");
 
-                    b.HasIndex("RoleID");
+                    b.HasIndex("RoleId");
 
-                    b.HasIndex("TabID");
+                    b.HasIndex("TabId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("TabPermission");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.TabSetting", b =>
                 {
-                    b.Property<int>("TabID");
+                    b.Property<int>("TabId");
 
                     b.Property<string>("SettingName");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
                     b.Property<string>("SettingValue");
 
-                    b.HasKey("TabID", "SettingName");
+                    b.HasKey("TabId", "SettingName");
 
-                    b.HasAlternateKey("SettingName", "TabID");
+                    b.HasAlternateKey("SettingName", "TabId");
 
                     b.ToTable("TabSettings");
                 });
@@ -3596,7 +3834,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int>("SeqNum");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -3606,7 +3844,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<bool>("IsSystem");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -3630,13 +3868,13 @@ namespace Dnn.vNext.Migrations
                     b.Property<int>("TabVersionId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
                     b.Property<bool>("IsPublished");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -3660,11 +3898,11 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<int>("Action");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -3687,135 +3925,135 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.Taxonomy_ScopeType", b =>
                 {
-                    b.Property<int>("ScopeTypeID")
+                    b.Property<int>("ScopeTypeId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ScopeType");
 
-                    b.HasKey("ScopeTypeID");
+                    b.HasKey("ScopeTypeId");
 
                     b.ToTable("Taxonomy_ScopeTypes");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Taxonomy_Term", b =>
                 {
-                    b.Property<int>("TermID")
+                    b.Property<int>("TermId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("ParentTermID");
+                    b.Property<int>("ParentTermId");
 
                     b.Property<int>("TermLeft");
 
                     b.Property<int>("TermRight");
 
-                    b.Property<int>("VocabularyID");
+                    b.Property<int>("VocabularyId");
 
                     b.Property<int>("Weight");
 
-                    b.HasKey("TermID");
+                    b.HasKey("TermId");
 
-                    b.HasIndex("ParentTermID");
+                    b.HasIndex("ParentTermId");
 
-                    b.HasIndex("VocabularyID");
+                    b.HasIndex("VocabularyId");
 
                     b.ToTable("Taxonomy_Terms");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Taxonomy_Vocabulary", b =>
                 {
-                    b.Property<int>("VocabularyID")
+                    b.Property<int>("VocabularyId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("ScopeID");
+                    b.Property<int?>("ScopeId");
 
-                    b.Property<int>("ScopeTypeID");
+                    b.Property<int>("ScopeTypeId");
 
-                    b.Property<int>("VocabularyTypeID");
+                    b.Property<int>("VocabularyTypeId");
 
                     b.Property<int>("Weight");
 
-                    b.HasKey("VocabularyID");
+                    b.HasKey("VocabularyId");
 
-                    b.HasIndex("ScopeTypeID");
+                    b.HasIndex("ScopeTypeId");
 
-                    b.HasIndex("VocabularyTypeID");
+                    b.HasIndex("VocabularyTypeId");
 
                     b.ToTable("Taxonomy_Vocabularies");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Taxonomy_VocabularyType", b =>
                 {
-                    b.Property<int>("VocabularyTypeID")
+                    b.Property<int>("VocabularyTypeId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("VocabularyType");
 
-                    b.HasKey("VocabularyTypeID");
+                    b.HasKey("VocabularyTypeId");
 
                     b.ToTable("Taxonomy_VocabularyTypes");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.UrlLog", b =>
                 {
-                    b.Property<int>("UrlLogID")
+                    b.Property<int>("UrlLogId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("ClickDate");
 
-                    b.Property<int>("UrlTrackingID");
+                    b.Property<int>("UrlTrackingId");
 
-                    b.Property<int?>("UserID");
+                    b.Property<int?>("UserId");
 
-                    b.HasKey("UrlLogID");
+                    b.HasKey("UrlLogId");
 
-                    b.HasIndex("UrlTrackingID");
+                    b.HasIndex("UrlTrackingId");
 
                     b.ToTable("UrlLog");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Urls", b =>
                 {
-                    b.Property<int>("UrlID")
+                    b.Property<int>("UrlId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
                     b.Property<string>("Url");
 
-                    b.HasKey("UrlID");
+                    b.HasKey("UrlId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
                     b.ToTable("Urls");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.UrlTracking", b =>
                 {
-                    b.Property<int>("UrlTrackingID")
+                    b.Property<int>("UrlTrackingId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("Clicks");
@@ -3826,11 +4064,11 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<bool>("LogActivity");
 
-                    b.Property<int?>("ModuleID");
+                    b.Property<int?>("ModuleId");
 
                     b.Property<bool>("NewWindow");
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
                     b.Property<bool>("TrackClicks");
 
@@ -3838,21 +4076,21 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("UrlType");
 
-                    b.HasKey("UrlTrackingID");
+                    b.HasKey("UrlTrackingId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
                     b.ToTable("UrlTracking");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.User", b =>
                 {
-                    b.Property<int>("UserID")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("AffiliateId");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -3868,7 +4106,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("LastIPAddress");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
@@ -3884,33 +4122,33 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("Username");
 
-                    b.HasKey("UserID");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.UserAuthentication", b =>
                 {
-                    b.Property<int>("UserAuthenticationID")
+                    b.Property<int>("UserAuthenticationId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("AuthenticaitonToken");
 
                     b.Property<string>("AuthenticationType");
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("UserID");
+                    b.Property<int>("UserId");
 
-                    b.HasKey("UserAuthenticationID");
+                    b.HasKey("UserAuthenticationId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserAuthentication");
                 });
@@ -3930,7 +4168,7 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<bool>("RefreshRoles");
 
-                    b.Property<int?>("UserID");
+                    b.Property<int?>("UserId1");
 
                     b.Property<int>("UserPortalId");
 
@@ -3940,107 +4178,107 @@ namespace Dnn.vNext.Migrations
 
                     b.HasIndex("PortalId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("UserPortals");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.UserProfile", b =>
                 {
-                    b.Property<int>("ProfileID")
+                    b.Property<int>("ProfileId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ExtendedVisibility");
 
                     b.Property<DateTime>("LastUpdatedDate");
 
-                    b.Property<int>("ProfilePropertyDefinitionID");
+                    b.Property<int>("ProfilePropertyDefinitionId");
 
                     b.Property<string>("PropertyText");
 
                     b.Property<string>("PropertyValue");
 
-                    b.Property<int>("UserID");
+                    b.Property<int>("UserId");
 
                     b.Property<int>("Visibility");
 
-                    b.HasKey("ProfileID");
+                    b.HasKey("ProfileId");
 
-                    b.HasIndex("ProfilePropertyDefinitionID");
+                    b.HasIndex("ProfilePropertyDefinitionId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserProfile");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.UserRelationship", b =>
                 {
-                    b.Property<int>("UserRelationshipID")
+                    b.Property<int>("UserRelationshipId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("RelatedUserID");
+                    b.Property<int>("RelatedUserId");
 
-                    b.Property<int>("RelationshipID");
+                    b.Property<int>("RelationshipId");
 
                     b.Property<int>("Status");
 
-                    b.Property<int>("UserID");
+                    b.Property<int>("UserId");
 
-                    b.HasKey("UserRelationshipID");
+                    b.HasKey("UserRelationshipId");
 
-                    b.HasIndex("RelatedUserID");
+                    b.HasIndex("RelatedUserId");
 
-                    b.HasIndex("RelationshipID");
+                    b.HasIndex("RelationshipId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserRelationships");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.UserRelationshipPreference", b =>
                 {
-                    b.Property<int>("PreferenceID")
+                    b.Property<int>("PreferenceId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
                     b.Property<int>("DefaultResponse");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("RealtionshipID");
+                    b.Property<int>("RealtionshipId");
 
                     b.Property<int?>("RelationshipId");
 
-                    b.Property<int>("UserID");
+                    b.Property<int>("UserId");
 
-                    b.HasKey("PreferenceID");
+                    b.HasKey("PreferenceId");
 
                     b.HasIndex("RelationshipId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserRelationshipPreferences");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.UserRole", b =>
                 {
-                    b.Property<int>("UserRoleID")
+                    b.Property<int>("UserRoleId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CreatedByUserID");
+                    b.Property<int?>("CreatedByUserId");
 
                     b.Property<DateTime?>("CreatedOnDate");
 
@@ -4052,52 +4290,52 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<bool?>("IsTrialUsed");
 
-                    b.Property<int?>("LastModifiedByUserID");
+                    b.Property<int?>("LastModifiedByUserId");
 
                     b.Property<DateTime?>("LastModifiedOnDate");
 
-                    b.Property<int>("RoleID");
+                    b.Property<int>("RoleId");
 
                     b.Property<int>("Status");
 
-                    b.Property<int>("UserID");
+                    b.Property<int>("UserId");
 
-                    b.HasKey("UserRoleID");
+                    b.HasKey("UserRoleId");
 
-                    b.HasIndex("RoleID");
+                    b.HasIndex("RoleId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.UsersOnline", b =>
                 {
-                    b.Property<int>("UserID")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationDate");
 
                     b.Property<DateTime>("LastActiveDate");
 
-                    b.Property<int>("PortalID");
+                    b.Property<int>("PortalId");
 
-                    b.Property<int>("TabID");
+                    b.Property<int>("TabId");
 
-                    b.Property<int?>("UserID1");
+                    b.Property<int?>("UserId1");
 
-                    b.HasKey("UserID");
+                    b.HasKey("UserId");
 
-                    b.HasIndex("PortalID");
+                    b.HasIndex("PortalId");
 
-                    b.HasIndex("UserID1");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("UsersOnline");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Version", b =>
                 {
-                    b.Property<int>("VersionID")
+                    b.Property<int>("VersionId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("Build");
@@ -4112,14 +4350,14 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("Name");
 
-                    b.HasKey("VersionID");
+                    b.HasKey("VersionId");
 
                     b.ToTable("Version");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.WebServer", b =>
                 {
-                    b.Property<int>("ServerID")
+                    b.Property<int>("ServerId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreatedDate");
@@ -4138,34 +4376,34 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("URL");
 
-                    b.Property<string>("UniqueID");
+                    b.Property<string>("UniqueId");
 
-                    b.HasKey("ServerID");
+                    b.HasKey("ServerId");
 
                     b.ToTable("WebServers");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Workflow", b =>
                 {
-                    b.Property<int>("WorkflowID")
+                    b.Property<int>("WorkflowId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<int?>("PortalID");
+                    b.Property<int?>("PortalId");
 
                     b.Property<string>("WorkflowName");
 
-                    b.HasKey("WorkflowID");
+                    b.HasKey("WorkflowId");
 
                     b.ToTable("Workflow");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.WorkflowState", b =>
                 {
-                    b.Property<int>("StateID")
+                    b.Property<int>("StateId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("IsActive");
@@ -4176,11 +4414,11 @@ namespace Dnn.vNext.Migrations
 
                     b.Property<string>("StateName");
 
-                    b.Property<int>("WorkflowID");
+                    b.Property<int>("WorkflowId");
 
-                    b.HasKey("StateID");
+                    b.HasKey("StateId");
 
-                    b.HasIndex("WorkflowID");
+                    b.HasIndex("WorkflowId");
 
                     b.ToTable("WorkflowStates");
                 });
@@ -4189,7 +4427,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("AnonymousUser")
-                        .HasForeignKey("PortalID")
+                        .HasForeignKey("PortalId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4197,7 +4435,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.aspnet_Application", "Application")
                         .WithMany()
-                        .HasForeignKey("ApplicationID")
+                        .HasForeignKey("ApplicationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4213,14 +4451,15 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Package", "Package")
                         .WithMany("Assemblies")
-                        .HasForeignKey("PackageID");
+                        .HasForeignKey("PackageId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Authentication", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.Package", "Package")
                         .WithMany("Authentications")
-                        .HasForeignKey("PackageID")
+                        .HasForeignKey("PackageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4228,24 +4467,24 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Content_Type", "ContentType")
                         .WithMany("ContentItems")
-                        .HasForeignKey("ContentTypeID")
+                        .HasForeignKey("ContentTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.ContentWorkflowState", "State")
                         .WithMany("ContentItem")
-                        .HasForeignKey("StateID");
+                        .HasForeignKey("StateId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ContentItems_MetaData", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.ContentItem", "ContentItem")
                         .WithMany("ContentItems_Meta")
-                        .HasForeignKey("ContentItemID")
+                        .HasForeignKey("ContentItemId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.MetaData", "MetaData")
                         .WithMany("ContentItems_MetaData")
-                        .HasForeignKey("MetaDataID")
+                        .HasForeignKey("MetaDataId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4253,16 +4492,12 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.ContentItem", "ContentItem")
                         .WithMany("ContentItems_Tag")
-                        .HasForeignKey("ContentItemID")
+                        .HasForeignKey("ContentItemId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Dnn.vNext.Data.ContentItems_Tag", "ContentItemTag")
-                        .WithMany()
-                        .HasForeignKey("ContentItemTagID1");
-
-                    b.HasOne("Dnn.vNext.Data.Taxonomy_Term")
+                    b.HasOne("Dnn.vNext.Data.Taxonomy_Term", "Term")
                         .WithMany("ContentItems_Tag")
-                        .HasForeignKey("TermID")
+                        .HasForeignKey("TermId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4270,26 +4505,26 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Content_Type")
                         .WithMany("ContentWorkflows")
-                        .HasForeignKey("Content_TypeContentTypeID");
+                        .HasForeignKey("Content_TypeContentTypeId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowAction", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.ContentWorkflowAction")
                         .WithMany("ContentType")
-                        .HasForeignKey("ContentWorkflowActionActionID");
+                        .HasForeignKey("ContentWorkflowActionActionId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ContentWorkflowLog", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.ContentItem", "ContentItem")
                         .WithMany("GetContentWorkflowLog")
-                        .HasForeignKey("ContentItemID")
+                        .HasForeignKey("ContentItemId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.ContentWorkflow", "ContentWorkflow")
                         .WithMany("ContentWorkflowLog")
-                        .HasForeignKey("WorkflowID")
+                        .HasForeignKey("WorkflowId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4297,7 +4532,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.ContentWorkflow", "ContentWorkflow")
                         .WithMany("ContentWorkflowSource")
-                        .HasForeignKey("WorkflowID")
+                        .HasForeignKey("WorkflowId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4305,7 +4540,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.ContentWorkflow", "ContentWorkflow")
                         .WithMany("ContentWorkflowState")
-                        .HasForeignKey("WorkflowID")
+                        .HasForeignKey("WorkflowId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4313,7 +4548,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Permission", "Permission")
                         .WithMany("ContentWorkflowStatePermission")
-                        .HasForeignKey("PermissionID")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.ContentWorkflowState", "State")
@@ -4323,21 +4558,21 @@ namespace Dnn.vNext.Migrations
 
                     b.HasOne("Dnn.vNext.Data.User", "User")
                         .WithMany("ContentWorkflowStatePermission")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_Message", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.CoreMessaging_NotificationType", "NotificationType")
                         .WithMany("CoreMessaging_Message")
-                        .HasForeignKey("NotificationTypeID");
+                        .HasForeignKey("NotificationTypeId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_MessageAttachment", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.CoreMessaging_Message", "Message")
                         .WithMany("CoreMessaging_MessageAttachment")
-                        .HasForeignKey("MessageID")
+                        .HasForeignKey("MessageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4345,7 +4580,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.CoreMessaging_Message", "Message")
                         .WithMany("CoreMessaging_MessagingRecipient")
-                        .HasForeignKey("MessageID")
+                        .HasForeignKey("MessageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4353,14 +4588,14 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.DesktopModule", "DesktopModule")
                         .WithMany("CoreMessaging_NotificationType")
-                        .HasForeignKey("DesktopModuleID");
+                        .HasForeignKey("DesktopModuleId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.CoreMessaging_NotificationTypeAction", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.CoreMessaging_NotificationType", "NotificationType")
                         .WithMany("CoreMessaging_NotificationTypeAction")
-                        .HasForeignKey("NotificationTypeID")
+                        .HasForeignKey("NotificationTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4368,20 +4603,20 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Module", "Module")
                         .WithMany("CoreMessaging_Subscription")
-                        .HasForeignKey("ModuleID");
+                        .HasForeignKey("ModuleId");
 
                     b.HasOne("Dnn.vNext.Data.Portal")
                         .WithMany("CoreMessaging_Subscription")
-                        .HasForeignKey("PortalID");
+                        .HasForeignKey("PortalId");
 
                     b.HasOne("Dnn.vNext.Data.CoreMessaging_SubscriptionType", "SubscriptionType")
                         .WithMany("CoreMessaging_Subscription")
-                        .HasForeignKey("SubscriptionTypeID")
+                        .HasForeignKey("SubscriptionTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.User", "User")
                         .WithMany("CoreMessaging_Subscription")
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4389,7 +4624,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Package", "Package")
                         .WithMany("DesktopModule")
-                        .HasForeignKey("PackageID")
+                        .HasForeignKey("PackageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4397,50 +4632,51 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Permission", "Permission")
                         .WithMany("DesktopModulePermission")
-                        .HasForeignKey("PermissionID")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.PortalDesktopModule", "PortalDesktopModule")
                         .WithMany("DesktopModulePermission")
-                        .HasForeignKey("PortalDesktopModuleID")
+                        .HasForeignKey("PortalDesktopModuleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.Role", "Role")
                         .WithMany("DesktopModulePermission")
-                        .HasForeignKey("RoleID");
+                        .HasForeignKey("RoleId");
 
                     b.HasOne("Dnn.vNext.Data.User", "User")
                         .WithMany("DesktopModulePermission")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.EventLog", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.EventLogConfig")
                         .WithMany("EventLog")
-                        .HasForeignKey("EventLogConfigID");
+                        .HasForeignKey("EventLogConfigId");
 
                     b.HasOne("Dnn.vNext.Data.EventLog", "LogConfig")
                         .WithMany()
-                        .HasForeignKey("LogConfigLogEventID");
+                        .HasForeignKey("LogConfigLogEventId");
 
-                    b.HasOne("Dnn.vNext.Data.EventLogType", "LogTypeKey")
+                    b.HasOne("Dnn.vNext.Data.EventLogType", "LogType")
                         .WithMany("EventLog")
-                        .HasForeignKey("LogTypeKey1");
+                        .HasForeignKey("LogTypeKey")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.EventLogConfig", b =>
                 {
-                    b.HasOne("Dnn.vNext.Data.EventLogType", "LogTypeKey")
+                    b.HasOne("Dnn.vNext.Data.EventLogType", "LogType")
                         .WithMany("EventLogConfig")
-                        .HasForeignKey("LogTypeKey1");
+                        .HasForeignKey("LogTypeKey");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ExceptionEvent", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.EventLog", "LogEvent")
                         .WithOne("LogEvent")
-                        .HasForeignKey("Dnn.vNext.Data.ExceptionEvent", "LogEventID")
+                        .HasForeignKey("Dnn.vNext.Data.ExceptionEvent", "LogEventId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4448,7 +4684,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.ExportImportJob", "Job")
                         .WithMany("ExportImportCheckpoint")
-                        .HasForeignKey("JobID")
+                        .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4464,11 +4700,11 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.ContentItem", "ContentItem")
                         .WithMany("File")
-                        .HasForeignKey("ContentItemID");
+                        .HasForeignKey("ContentItemId");
 
                     b.HasOne("Dnn.vNext.Data.Folder", "Folder")
                         .WithMany("File")
-                        .HasForeignKey("FolderID")
+                        .HasForeignKey("FolderId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
@@ -4488,34 +4724,34 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.ContentWorkflowStatePermission")
                         .WithMany("Folder")
-                        .HasForeignKey("ContentWorkflowStatePermissionWorkflowStatePermissionID");
+                        .HasForeignKey("ContentWorkflowStatePermissionWorkflowStatePermissionId");
 
                     b.HasOne("Dnn.vNext.Data.FolderMapping", "FolderMapping")
                         .WithMany("Folder")
-                        .HasForeignKey("FolderMappingID")
+                        .HasForeignKey("FolderMappingId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("Folder")
-                        .HasForeignKey("PortalID");
+                        .HasForeignKey("PortalId");
 
                     b.HasOne("Dnn.vNext.Data.ContentWorkflow", "Workflow")
                         .WithMany("Folder")
-                        .HasForeignKey("WorkflowID");
+                        .HasForeignKey("WorkflowId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.FolderMapping", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("FolderMapping")
-                        .HasForeignKey("PortalID");
+                        .HasForeignKey("PortalId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.FolderMappingsSetting", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.FolderMapping", "FolderMapping")
                         .WithMany("FolderMappingsSetting")
-                        .HasForeignKey("FolderMappingID")
+                        .HasForeignKey("FolderMappingId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4523,48 +4759,48 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.ContentWorkflowStatePermission")
                         .WithMany("FolderPermission")
-                        .HasForeignKey("ContentWorkflowStatePermissionWorkflowStatePermissionID");
+                        .HasForeignKey("ContentWorkflowStatePermissionWorkflowStatePermissionId");
 
                     b.HasOne("Dnn.vNext.Data.Folder", "Folder")
                         .WithMany("FolderPermission")
-                        .HasForeignKey("FolderID")
+                        .HasForeignKey("FolderId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.Permission", "Permission")
                         .WithMany("FolderPermission")
-                        .HasForeignKey("PermissionID")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.Role", "Role")
                         .WithMany("FolderPermission")
-                        .HasForeignKey("RoleID");
+                        .HasForeignKey("RoleId");
 
                     b.HasOne("Dnn.vNext.Data.User", "User")
                         .WithMany("FolderPermission")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.HtmlText", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.Module", "Module")
                         .WithMany("HtmlText")
-                        .HasForeignKey("ModuleID1");
+                        .HasForeignKey("ModuleId1");
 
                     b.HasOne("Dnn.vNext.Data.WorkflowState", "State")
                         .WithMany()
-                        .HasForeignKey("StateID");
+                        .HasForeignKey("StateId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.HtmlTextLog", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.HtmlText", "Item")
                         .WithMany("HtmlTextLog")
-                        .HasForeignKey("ItemID")
+                        .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.WorkflowState", "State")
                         .WithMany()
-                        .HasForeignKey("StateID")
+                        .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4572,7 +4808,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.HtmlText", "Item")
                         .WithMany("HtmlTextUser")
-                        .HasForeignKey("ItemID")
+                        .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4580,7 +4816,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Package", "Package")
                         .WithMany("JavascriptLibrary")
-                        .HasForeignKey("PackageID")
+                        .HasForeignKey("PackageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4612,7 +4848,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Package", "Package")
                         .WithMany("LanguagePack")
-                        .HasForeignKey("PackageID")
+                        .HasForeignKey("PackageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4634,12 +4870,8 @@ namespace Dnn.vNext.Migrations
 
             modelBuilder.Entity("Dnn.vNext.Data.Mobile_RedirectionRule", b =>
                 {
-                    b.HasOne("Dnn.vNext.Data.Mobile_Redirection")
+                    b.HasOne("Dnn.vNext.Data.Mobile_Redirection", "Redirection")
                         .WithMany("Mobile_RedirectionRule")
-                        .HasForeignKey("Mobile_RedirectionId");
-
-                    b.HasOne("Dnn.vNext.Data.Mobile_RedirectionRule", "Redirection")
-                        .WithMany()
                         .HasForeignKey("RedirectionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -4648,11 +4880,11 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.ContentItem", "ContentItem")
                         .WithMany("Module")
-                        .HasForeignKey("ContentItemID");
+                        .HasForeignKey("ContentItemId");
 
                     b.HasOne("Dnn.vNext.Data.ModuleDefinition")
                         .WithMany("Module")
-                        .HasForeignKey("ModuleDefID")
+                        .HasForeignKey("ModuleDefId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4660,7 +4892,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.ModuleDefinition", "ModuleDef")
                         .WithMany("ModuleControl")
-                        .HasForeignKey("ModuleDefID")
+                        .HasForeignKey("ModuleDefId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4668,7 +4900,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.DesktopModule", "DesktopModule")
                         .WithMany("ModuleDefinition")
-                        .HasForeignKey("DesktopModuleID")
+                        .HasForeignKey("DesktopModuleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4676,28 +4908,28 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Module", "Module")
                         .WithMany("ModulePermission")
-                        .HasForeignKey("ModuleID")
+                        .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.Permission", "Permission")
                         .WithMany("ModulePermission")
-                        .HasForeignKey("PermissionID")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.Role", "Role")
                         .WithMany("ModulePermission")
-                        .HasForeignKey("RoleID");
+                        .HasForeignKey("RoleId");
 
                     b.HasOne("Dnn.vNext.Data.User", "User")
                         .WithMany("ModulePermission")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.ModuleSetting", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.Module", "Module")
                         .WithMany("ModuleSetting")
-                        .HasForeignKey("ModuleID")
+                        .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4709,14 +4941,14 @@ namespace Dnn.vNext.Migrations
 
                     b.HasOne("Dnn.vNext.Data.Package", "PackageTypeNavigation")
                         .WithMany()
-                        .HasForeignKey("PackageTypeNavigationPackageID");
+                        .HasForeignKey("PackageTypeNavigationPackageId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.PackageDependency", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.Package", "Package")
                         .WithMany("PackageDependency")
-                        .HasForeignKey("PackageID")
+                        .HasForeignKey("PackageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4724,7 +4956,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.User", "User")
                         .WithMany("PasswordHistory")
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4740,7 +4972,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.PersonaBarMenu", "Parent")
                         .WithMany()
-                        .HasForeignKey("ParentID");
+                        .HasForeignKey("ParentId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.PersonaBarMenuDefaultPermission", b =>
@@ -4788,7 +5020,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("PortalAlias")
-                        .HasForeignKey("PortalID")
+                        .HasForeignKey("PortalId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4796,12 +5028,12 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.DesktopModule", "DesktopModule")
                         .WithMany("PortalDesktopModule")
-                        .HasForeignKey("DesktopModuleID")
+                        .HasForeignKey("DesktopModuleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("PortalDesktopModule")
-                        .HasForeignKey("PortalID")
+                        .HasForeignKey("PortalId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4809,12 +5041,12 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Language", "Language")
                         .WithMany("PortalLanguage")
-                        .HasForeignKey("LanguageID")
+                        .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("PortalLanguage")
-                        .HasForeignKey("PortalID")
+                        .HasForeignKey("PortalId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4822,14 +5054,14 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("PortalLocalization")
-                        .HasForeignKey("PortalID1");
+                        .HasForeignKey("PortalId1");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.PortalSetting", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("PortalSetting")
-                        .HasForeignKey("PortalID")
+                        .HasForeignKey("PortalId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4850,41 +5082,41 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("ProfilePropertyDefinition")
-                        .HasForeignKey("PortalID");
+                        .HasForeignKey("PortalId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Relationship", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("Relationship")
-                        .HasForeignKey("PortalID");
+                        .HasForeignKey("PortalId");
 
                     b.HasOne("Dnn.vNext.Data.RelationshipType", "RelationshipType")
                         .WithMany("Relationship")
-                        .HasForeignKey("RelationshipTypeID")
+                        .HasForeignKey("RelationshipTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.User", "User")
                         .WithMany("Relationship")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Role", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("Role")
-                        .HasForeignKey("PortalID");
+                        .HasForeignKey("PortalId");
 
                     b.HasOne("Dnn.vNext.Data.RoleGroup", "RoleGroup")
                         .WithMany("Role")
-                        .HasForeignKey("RoleGroupID");
+                        .HasForeignKey("RoleGroupId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.RoleGroup", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("RoleGroup")
-                        .HasForeignKey("PortalID")
+                        .HasForeignKey("PortalId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4892,7 +5124,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Schedule", "Schedule")
                         .WithMany("ScheduleHistory")
-                        .HasForeignKey("ScheduleID")
+                        .HasForeignKey("ScheduleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4900,14 +5132,14 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Schedule", "Schedule")
                         .WithMany("ScheduleItemSetting")
-                        .HasForeignKey("ScheduleID1");
+                        .HasForeignKey("ScheduleId1");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Sitelog", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("Sitelog")
-                        .HasForeignKey("PortalID")
+                        .HasForeignKey("PortalId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4915,7 +5147,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.SkinPackage", "SkinPackage")
                         .WithMany("Skin")
-                        .HasForeignKey("SkinPackageID")
+                        .HasForeignKey("SkinPackageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4923,7 +5155,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Package", "Package")
                         .WithMany("SkinControl")
-                        .HasForeignKey("PackageID")
+                        .HasForeignKey("PackageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4931,7 +5163,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Package", "Package")
                         .WithMany("SkinPackage")
-                        .HasForeignKey("PackageID")
+                        .HasForeignKey("PackageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4939,14 +5171,14 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("SystemMessage")
-                        .HasForeignKey("PortalID");
+                        .HasForeignKey("PortalId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.Tab", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.ContentItem", "Content")
                         .WithMany("Tab")
-                        .HasForeignKey("ContentItemID");
+                        .HasForeignKey("ContentItemId");
 
                     b.HasOne("Dnn.vNext.Data.Tab", "Parent")
                         .WithMany()
@@ -4954,19 +5186,19 @@ namespace Dnn.vNext.Migrations
 
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("Tab")
-                        .HasForeignKey("PortalID");
+                        .HasForeignKey("PortalId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.TabModule", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.Module", "Module")
                         .WithMany("TabModule")
-                        .HasForeignKey("ModuleID")
+                        .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.Tab", "Tab")
                         .WithMany("TabModules")
-                        .HasForeignKey("TabID")
+                        .HasForeignKey("TabId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4974,7 +5206,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.TabModule", "TabModule")
                         .WithMany("TabModuleSetting")
-                        .HasForeignKey("TabModuleID")
+                        .HasForeignKey("TabModuleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4982,28 +5214,28 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Permission", "Permission")
                         .WithMany("TabPermission")
-                        .HasForeignKey("PermissionID")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.Role", "Role")
                         .WithMany("TabPermission")
-                        .HasForeignKey("RoleID");
+                        .HasForeignKey("RoleId");
 
                     b.HasOne("Dnn.vNext.Data.Tab", "Tab")
                         .WithMany("TabPermission")
-                        .HasForeignKey("TabID")
+                        .HasForeignKey("TabId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.User", "User")
                         .WithMany("TabPermission")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.TabSetting", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.Tab", "Tab")
                         .WithMany("TabSetting")
-                        .HasForeignKey("TabID")
+                        .HasForeignKey("TabId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -5035,12 +5267,12 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Taxonomy_Term", "ParentTerm")
                         .WithMany()
-                        .HasForeignKey("ParentTermID")
+                        .HasForeignKey("ParentTermId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.Taxonomy_Vocabulary", "Vocabulary")
                         .WithMany("Taxonomy_Term")
-                        .HasForeignKey("VocabularyID")
+                        .HasForeignKey("VocabularyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -5048,12 +5280,12 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Taxonomy_ScopeType", "Taxonomy_ScopeType")
                         .WithMany("Taxonomy_Vocabulary")
-                        .HasForeignKey("ScopeTypeID")
+                        .HasForeignKey("ScopeTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.Taxonomy_VocabularyType", "Taxonomy_VocabularyType")
                         .WithMany("Taxonomy_Vocabulary")
-                        .HasForeignKey("VocabularyTypeID")
+                        .HasForeignKey("VocabularyTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -5061,7 +5293,7 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.UrlTracking", "UrlTracking")
                         .WithMany("UrlLog")
-                        .HasForeignKey("UrlTrackingID")
+                        .HasForeignKey("UrlTrackingId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -5069,21 +5301,21 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("Urls")
-                        .HasForeignKey("PortalID");
+                        .HasForeignKey("PortalId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.UrlTracking", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("UrlTracking")
-                        .HasForeignKey("PortalID");
+                        .HasForeignKey("PortalId");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.UserAuthentication", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.User", "User")
                         .WithMany("UserAuthentication")
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -5096,19 +5328,19 @@ namespace Dnn.vNext.Migrations
 
                     b.HasOne("Dnn.vNext.Data.User", "User")
                         .WithMany("UserPortal")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.UserProfile", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.ProfilePropertyDefinition", "ProfilePropertyDefinition")
                         .WithMany("UserProfile")
-                        .HasForeignKey("ProfilePropertyDefinitionID")
+                        .HasForeignKey("ProfilePropertyDefinitionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.User", "User")
                         .WithMany("UserProfile")
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -5116,17 +5348,17 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.User", "RelatedUser")
                         .WithMany()
-                        .HasForeignKey("RelatedUserID")
+                        .HasForeignKey("RelatedUserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.Relationship", "Relationship")
                         .WithMany("UserRelationship")
-                        .HasForeignKey("RelationshipID")
+                        .HasForeignKey("RelationshipId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -5138,7 +5370,7 @@ namespace Dnn.vNext.Migrations
 
                     b.HasOne("Dnn.vNext.Data.User", "User")
                         .WithMany("UserRelationshipPreference")
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -5146,12 +5378,12 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Role", "Role")
                         .WithMany("UserRole")
-                        .HasForeignKey("RoleID")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.User", "User")
                         .WithMany("UserRole")
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -5159,19 +5391,19 @@ namespace Dnn.vNext.Migrations
                 {
                     b.HasOne("Dnn.vNext.Data.Portal", "Portal")
                         .WithMany("UsersOnline")
-                        .HasForeignKey("PortalID")
+                        .HasForeignKey("PortalId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Dnn.vNext.Data.User", "User")
                         .WithMany("UsersOnline")
-                        .HasForeignKey("UserID1");
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Dnn.vNext.Data.WorkflowState", b =>
                 {
                     b.HasOne("Dnn.vNext.Data.Workflow", "Workflow")
                         .WithMany("WorkflowState")
-                        .HasForeignKey("WorkflowID")
+                        .HasForeignKey("WorkflowId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

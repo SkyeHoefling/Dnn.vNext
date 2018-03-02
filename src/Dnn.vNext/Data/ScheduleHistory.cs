@@ -9,8 +9,8 @@ namespace Dnn.vNext.Data
     public class ScheduleHistory
     {
         [Key]
-/*PK*/  public int ScheduleHistoryID { get; set; }
-/*FK*/  public int ScheduleID { get; set; }
+/*PK*/  public int ScheduleHistoryId { get; set; }
+/*FK*/  public int ScheduleId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool? Succeeded { get; set; }

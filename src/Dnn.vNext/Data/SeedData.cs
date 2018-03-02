@@ -22,7 +22,7 @@ namespace Dnn.vNext.Data
                 
                 var moduleDef = new ModuleDefinition
                 {
-                    ModuleDefID = 0,
+                    ModuleDefId = 0,
                     DesktopModule = new DesktopModule()
                 };
 
@@ -32,7 +32,7 @@ namespace Dnn.vNext.Data
                 var modules = new[] {
                     new Module
                     {
-                        ModuleDefID = moduleDef.ModuleDefID,
+                        ModuleDefId = moduleDef.ModuleDefId,
                         Icon = "tasks",
                         Name = "Simple Form",
                         Path = "Modules/SimpleForm"

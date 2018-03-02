@@ -10,17 +10,17 @@ namespace Dnn.vNext.Data
     {
         [Key]
         /*PK*/
-        public int PortalID { get; set; }
+        public int PortalId { get; set; }
         public DateTime? ExpiryDate { get; set; }
         public int UserRegistration { get; set; }
         public int BannerAdvertising { get; set; }
-        public int? AdministratorID { get; set; }
+        public int? AdministratorId { get; set; }
         public string Currency { get; set; }
         public decimal HostFee { get; set; }
         public int HostSpace { get; set; }
         public int? AdministratorRoleId { get; set; }
         public int? RegisteredRoleId { get; set; }
-        public Guid GUID { get; set; }
+        public Guid Guid { get; set; }
         public string PaymentProcessor { get; set; }
         public string ProcessorUserId { get; set; }
         public string ProcessorPassword { get; set; }
@@ -30,9 +30,9 @@ namespace Dnn.vNext.Data
         public string HomeDirectory { get; set; }
         public int PageQuota { get; set; }
         public int UserQuota { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
 

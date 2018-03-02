@@ -9,8 +9,8 @@ namespace Dnn.vNext.Data
     public class Skin
     {
         [Key]
-/*PK*/  public int SkinID { get; set; }
-/*FK*/  public int SkinPackageID { get; set; }
+/*PK*/  public int SkinId { get; set; }
+/*FK*/  public int SkinPackageId { get; set; }
         public string SkinSrc { get; set; }
 
         public virtual SkinPackage SkinPackage { get; set; }

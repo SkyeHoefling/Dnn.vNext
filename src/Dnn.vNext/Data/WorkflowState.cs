@@ -9,8 +9,8 @@ namespace Dnn.vNext.Data
     public class WorkflowState
     {
         [Key]
-/*PK*/  public int StateID { get; set; }
-/*FK*/  public int WorkflowID { get; set; }
+/*PK*/  public int StateId { get; set; }
+/*FK*/  public int WorkflowId { get; set; }
         public string StateName { get; set; }
         public bool Order { get; set; }
         public bool IsActive { get; set; }

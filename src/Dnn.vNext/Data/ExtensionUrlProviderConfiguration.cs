@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Dnn.vNext.Data
 {
-    public class ExtensionUrlProviderConfiguration
+    public class ExtensionUrlProvIderConfiguration
     {
         [Key, Column(Order = 0)]
- /*PK*/  public int ExtensionUrlProviderID { get; set; }
+ /*PK*/  public int ExtensionUrlProvIderId { get; set; }
 
         [Key, Column(Order = 1)]
- /*PK*/  public int PortalID { get; set; }
+ /*PK*/  public int PortalId { get; set; }
     }
 }

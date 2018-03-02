@@ -9,7 +9,7 @@ namespace Dnn.vNext.Data
     public class SearchCommonWord
     {
         [Key]
-/*PK*/  public int CommonWordID { get; set; }
+/*PK*/  public int CommonWordId { get; set; }
         public string CommonWord { get; set; }
         public string Locale { get; set; }
     }
