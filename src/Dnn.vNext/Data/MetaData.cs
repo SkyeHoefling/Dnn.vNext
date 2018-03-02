@@ -9,7 +9,7 @@ namespace Dnn.vNext.Data
     public class MetaData
     {
         [Key]
-/*PK*/  public int MetaDataID { get; set; }
+/*PK*/  public int MetaDataId { get; set; }
         public string MetaDataName { get; set; }
         public string MetaDataDescription { get; set; }
 

@@ -9,23 +9,23 @@ namespace Dnn.vNext.Data
     public class Folder
     {
         [Key]
-/*PK*/  public int FolderID { get; set; }
-        public int? PortalID { get; set; }
+/*PK*/  public int FolderId { get; set; }
+        public int? PortalId { get; set; }
         public string FolderPath { get; set; }
         public int StorageLocation { get; set; }
         public bool IsProtected { get; set; }
         public bool IsCached { get; set; }
         public DateTime LastUpdated { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
-        public Guid UniqueID { get; set; }
+        public Guid UniqueId { get; set; }
         public Guid VersionGuid { get; set; }
-/*FK*/  public int FolderMappingID { get; set; }
-        public int? ParentID { get; set; }
+/*FK*/  public int FolderMappingId { get; set; }
+        public int? ParentId { get; set; }
         public bool IsVersioned { get; set; }
-/*FK*/  public int? WorkflowID { get; set; }
+/*FK*/  public int? WorkflowId { get; set; }
         public string MappedPath { get; set; }
 
         public virtual ICollection<FolderPermission> FolderPermission { get; set; }

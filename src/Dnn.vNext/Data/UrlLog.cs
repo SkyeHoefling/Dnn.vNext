@@ -9,10 +9,10 @@ namespace Dnn.vNext.Data
     public class UrlLog
     {
         [Key]
-/*PK*/  public int UrlLogID { get; set; }
-/*FK*/  public int UrlTrackingID { get; set; }
+/*PK*/  public int UrlLogId { get; set; }
+/*FK*/  public int UrlTrackingId { get; set; }
         public DateTime ClickDate { get; set; }
-        public int? UserID { get; set; }
+        public int? UserId { get; set; }
 
         public virtual UrlTracking UrlTracking { get; set; }
     }

@@ -1,18 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Dnn.vNext.Data
 {
     public class ExportImportCheckpoint
     {
         [Key]
-/*PK*/  public int CheckpointID { get; set; }
-/*FK*/  public int JobID { get; set; }
+/*PK*/ public int CheckpointId { get; set; }
+
+/*FK*/
+        public int JobId { get; set; }
+
+        [Required]
+        [MaxLength(200)]
         public string AssemblyName { get; set; }
+
+        [Required]
+        [MaxLength(50)]
         public string Category { get; set; }
+
         public int Stage { get; set; }
         public string StageData { get; set; }
         public int Progress { get; set; }
@@ -20,7 +26,7 @@ namespace Dnn.vNext.Data
         public int ProcessedItems { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? LastUpdatedDate { get; set; }
-        public bool? Completed { get; set; }
+        public bool Completed { get; set; }
 
         public virtual ExportImportJob Job { get; set; }
     }

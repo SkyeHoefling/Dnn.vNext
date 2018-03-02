@@ -1,26 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Dnn.vNext.Data
 {
     public class DesktopModulePermission
     {
         [Key]
-/*PK*/  public int DesktopModulePermissionID { get; set; }
-/*FK*/  public int PortalDesktopModuleID { get; set; }
-/*FK*/  public int PermissionID { get; set; }
+/*PK*/ public int DesktopModulePermissionId { get; set; }
+
+/*FK*/
+        public int PortalDesktopModuleId { get; set; }
+
+/*FK*/
+        public int PermissionId { get; set; }
+
         public bool AllowAccess { get; set; }
-/*FK*/  public int? RoleID { get; set; }
-/*FK*/  public int? UserID { get; set; }
-        public int? CreatedByUserID { get; set; }
+
+/*FK*/
+        public int? RoleId { get; set; }
+
+/*FK*/
+        public int? UserId { get; set; }
+
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
-        public virtual PortalDesktopModule PortalDesktopModule  { get; set; }
+        public virtual PortalDesktopModule PortalDesktopModule { get; set; }
         public virtual Permission Permission { get; set; }
         public virtual Role Role { get; set; }
         public virtual User User { get; set; }

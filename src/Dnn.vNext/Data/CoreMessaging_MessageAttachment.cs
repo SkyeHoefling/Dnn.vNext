@@ -9,12 +9,12 @@ namespace Dnn.vNext.Data
     public class CoreMessaging_MessageAttachment
     {
         [Key]
-/*PK*/  public int MessageAttachmentID { get; set; }
-/*FK*/  public int MessageID { get; set; }
-        public int? FileID { get; set; }
-        public int? CreatedByUserID { get; set; }
+/*PK*/  public int MessageAttachmentId { get; set; }
+/*FK*/  public int MessageId { get; set; }
+        public int? FileId { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
         public virtual CoreMessaging_Message Message { get; set; }

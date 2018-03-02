@@ -9,14 +9,14 @@ namespace Dnn.vNext.Data
     public class UserRelationship
     {
         [Key]
-/*PK*/  public int UserRelationshipID { get; set; }
-/*FK*/  public int UserID { get; set; }
-/*FK*/  public int RelatedUserID { get; set; }
-/*FK*/  public int RelationshipID { get; set; }
+/*PK*/  public int UserRelationshipId { get; set; }
+/*FK*/  public int UserId { get; set; }
+/*FK*/  public int RelatedUserId { get; set; }
+/*FK*/  public int RelationshipId { get; set; }
         public int Status { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
         public virtual User User { get; set; }

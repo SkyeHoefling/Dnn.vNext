@@ -15,7 +15,7 @@ namespace Dnn.vNext.Data
         public string Descrption { get; set; }
         public int SecurityAccessLevel { get; set; }
         public string EditorControlSrc { get; set; }
-        public bool SupportsSideBySideInstallation { get; set; }
+        public bool SupportsSIdeBySIdeInstallation { get; set; }
 
         public virtual Package Package { get; set; }
     }

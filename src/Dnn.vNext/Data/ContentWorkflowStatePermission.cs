@@ -9,15 +9,15 @@ namespace Dnn.vNext.Data
     public class ContentWorkflowStatePermission
     {
         [Key]
-/*PK*/  public int WorkflowStatePermissionID { get; set; }
+/*PK*/  public int WorkflowStatePermissionId { get; set; }
 /*FK*/  public int StateId { get; set; }
-/*FK*/  public int PermissionID { get; set; }
+/*FK*/  public int PermissionId { get; set; }
         public bool AllowAccess { get; set; }
-        public int? RoleID { get; set; }
-/*FK*/  public int? UserID { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? RoleId { get; set; }
+/*FK*/  public int? UserId { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
 

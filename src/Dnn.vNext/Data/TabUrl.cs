@@ -23,9 +23,9 @@ namespace Dnn.vNext.Data
         public bool IsSystem { get; set; }
         public int? PortalAliasId { get; set; }
         public int? PortalAliasUsage { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
         public virtual Tab Tab { get; set; }

@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace Dnn.vNext.Data
 {
-    public class ExtensionUrlProviderTab
+    public class ExtensionUrlProvIderTab
     {
         [Key, Column(Order = 0)]
-/*PK*/  public int ExtensionUrlProviderID { get; set; }
+/*PK*/  public int ExtensionUrlProvIderId { get; set; }
 
         [Key, Column(Order = 1)]
-/*PK*/  public int PortalID { get; set; }
+/*PK*/  public int PortalId { get; set; }
 
         [Key, Column(Order = 2)]
-/*PK*/  public int TabID { get; set; }
+/*PK*/  public int TabId { get; set; }
         public bool IsActive { get; set; }
     }
 }

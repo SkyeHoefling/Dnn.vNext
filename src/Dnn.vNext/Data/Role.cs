@@ -9,8 +9,8 @@ namespace Dnn.vNext.Data
     public class Role
     {
         [Key]
-/*PK*/  public int RoleID { get; set; }
-/*FK*/  public int? PortalID { get; set; }
+/*PK*/  public int RoleId { get; set; }
+/*FK*/  public int? PortalId { get; set; }
         public string RoleName { get; set; }
         public string Description { get; set; }
         public decimal ServiceFee { get; set; }
@@ -21,12 +21,12 @@ namespace Dnn.vNext.Data
         public decimal? TrialFee { get; set; }
         public bool IsPublic { get; set; }
         public bool AutoAssignment { get; set; }
-/*FK*/  public int? RoleGroupID { get; set; }
+/*FK*/  public int? RoleGroupId { get; set; }
         public string RSVPCode { get; set; }
         public string IconFile { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
         public int Status { get; set; }
         public int SecurityMode { get; set; }

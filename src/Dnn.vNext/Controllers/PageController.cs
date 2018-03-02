@@ -50,7 +50,7 @@ namespace Dnn.vNext.Controllers
             {
                 PageId = pageModule.PageId,
                 ElementId = pageModule.ElementId,
-                ModuleID = findModule.ModuleID,
+                ModuleId = findModule.ModuleId,
                 Order = numberOfModulesInElement
             });
 
@@ -65,7 +65,7 @@ namespace Dnn.vNext.Controllers
             var modules = _context.Modules
                 .Select(x => new Models.Module
                 {
-                    Id = x.ModuleID.ToString(),
+                    Id = x.ModuleId.ToString(),
                     Icon = x.Icon,
                     Name = x.Name
                 });

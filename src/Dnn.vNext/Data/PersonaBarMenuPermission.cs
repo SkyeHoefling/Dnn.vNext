@@ -11,16 +11,16 @@ namespace Dnn.vNext.Data
     public class PersonaBarMenuPermission
     {
         [Key]
-/*PK*/  public int MenuPermissionID { get; set; }
+/*PK*/  public int MenuPermissionId { get; set; }
 /*FK*/  public int PortalId { get; set; }
 /*FK*/  public int MenuId { get; set; }
 /*FK*/  public int PermissionId { get; set; }
         public bool AllowAccess { get; set; }
 /*FK*/  public int? RoleId { get; set; }
 /*FK*/  public int? UserId { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
         public virtual Portal Portal { get; set; }

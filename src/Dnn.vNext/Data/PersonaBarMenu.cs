@@ -18,13 +18,13 @@ namespace Dnn.vNext.Data
         public string Path { get; set; }
         public string Link { get; set; }
         public string CssClass { get; set; }
-/*FK*/  public int? ParentID { get; set; }
+/*FK*/  public int? ParentId { get; set; }
         public int Order { get; set; }
         public bool AllowHost { get; set; }
         public bool Enabled { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
         public virtual PersonaBarMenuDefaultPermission Menu { get; set; }

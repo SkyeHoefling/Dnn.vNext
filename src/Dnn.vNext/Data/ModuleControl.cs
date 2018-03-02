@@ -6,8 +6,8 @@ namespace Dnn.vNext.Data
     public class ModuleControl
     {
         [Key]
-/*PK*/  public int ModuleControlID { get; set; }
-/*FK*/  public int ModuleDefID { get; set; }
+/*PK*/  public int ModuleControlId { get; set; }
+/*FK*/  public int ModuleDefId { get; set; }
         public string ControlKey { get; set; }
         public string ControlTitle { get; set; }
         public string ControlSrc { get; set; }
@@ -16,7 +16,7 @@ namespace Dnn.vNext.Data
         public int? ViewOrder  { get; set; }
         public string HelpUrl { get; set; }
         public bool SupportsPartialRendering { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
         public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }

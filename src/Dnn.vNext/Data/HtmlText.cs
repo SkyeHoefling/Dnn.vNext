@@ -9,15 +9,15 @@ namespace Dnn.vNext.Data
     public class HtmlText
     {
         [Key]
-/*FK*/  public int ModuleID { get; set; }
-/*PK*/  public int ItemID { get; set; }
+/*FK*/  public int ModuleId { get; set; }
+/*PK*/  public int ItemId { get; set; }
         public string Content { get; set; }
         public int? Version { get; set; }
-/*FK*/  public int? StateID { get; set; }
+/*FK*/  public int? StateId { get; set; }
         public bool? IsPublished { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
         public string Summary { get; set; }
 

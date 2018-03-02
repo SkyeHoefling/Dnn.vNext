@@ -9,8 +9,8 @@ namespace Dnn.vNext.Data
     public class JavascriptLibrary
     {
         [Key]
-/*PK*/  public int JavaScriptLibraryID { get; set; }
-/*FK*/  public int PackageID { get; set; }
+/*PK*/  public int JavaScriptLibraryId { get; set; }
+/*FK*/  public int PackageId { get; set; }
         public string LibraryName { get; set; }
         public string Version { get; set; }
         public string FileName { get; set; }

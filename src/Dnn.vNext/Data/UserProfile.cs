@@ -9,9 +9,9 @@ namespace Dnn.vNext.Data
     public class UserProfile
     {
         [Key]
-/*PK*/  public int ProfileID { get; set; }
-/*FK*/  public int UserID { get; set; }
-/*FK*/  public int ProfilePropertyDefinitionID { get; set; }
+/*PK*/  public int ProfileId { get; set; }
+/*FK*/  public int UserId { get; set; }
+/*FK*/  public int ProfilePropertyDefinitionId { get; set; }
         public string PropertyValue { get; set; }
         public string PropertyText { get; set; }
         public int Visibility { get; set; }

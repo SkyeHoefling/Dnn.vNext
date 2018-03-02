@@ -9,15 +9,15 @@ namespace Dnn.vNext.Data
     public class FolderPermission
     {
         [Key]
-/*PK*/  public int FolderPermissionID { get; set; }
-/*FK*/  public int FolderID { get; set; }
-/*FK*/  public int PermissionID { get; set; }
+/*PK*/  public int FolderPermissionId { get; set; }
+/*FK*/  public int FolderId { get; set; }
+/*FK*/  public int PermissionId { get; set; }
         public bool AllowAccess { get; set; }
-/*FK*/  public int? RoleID { get; set; }
-/*FK*/  public int? UserID { get; set; }
-        public int? CreatedByUserID { get; set; }
+/*FK*/  public int? RoleId { get; set; }
+/*FK*/  public int? UserId { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
         public virtual Folder Folder { get; set; }

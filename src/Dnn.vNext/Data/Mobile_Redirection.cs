@@ -19,9 +19,9 @@ namespace Dnn.vNext.Data
         public int TargetType { get; set; }
         public string TargetValue { get; set; }
         public bool Enabled { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
         public virtual Portal Portal { get; set; }

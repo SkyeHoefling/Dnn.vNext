@@ -11,8 +11,8 @@ namespace Dnn.vNext.Data
         [Key]
 /*PK*/  public int SiteLogId { get; set; }
         public DateTime DateTime { get; set; }
-/*FK*/  public int PortalID { get; set; }
-        public int? UserID { get; set; }
+/*FK*/  public int PortalId { get; set; }
+        public int? UserId { get; set; }
         public string Referrer { get; set; }
         public string Url { get; set; }
         public string UserAgent { get; set; }

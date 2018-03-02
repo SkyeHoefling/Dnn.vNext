@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Dnn.vNext.Migrations
 {
-    public partial class dnnDBMigration : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,10 +13,10 @@ namespace Dnn.vNext.Migrations
                 name: "aspnet_Applications",
                 columns: table => new
                 {
-                    ApplicationId = table.Column<Guid>(nullable: false),
-                    ApplicationName = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    LoweredApplicationName = table.Column<string>(nullable: true)
+                    ApplicationId = table.Column<Guid>(nullable: false, defaultValueSql: "newId()"),
+                    ApplicationName = table.Column<string>(maxLength: 256, nullable: false),
+                    Description = table.Column<string>(maxLength: 256, nullable: true),
+                    LoweredApplicationName = table.Column<string>(maxLength: 256, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,8 +27,8 @@ namespace Dnn.vNext.Migrations
                 name: "aspnet_SchemaVersions",
                 columns: table => new
                 {
-                    Feature = table.Column<string>(nullable: false),
-                    CompatibleSchemaVersion = table.Column<string>(nullable: false),
+                    Feature = table.Column<string>(maxLength: 125, nullable: false),
+                    CompatibleSchemaVersion = table.Column<string>(maxLength: 128, nullable: false),
                     IsCurrentVersion = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -41,7 +41,7 @@ namespace Dnn.vNext.Migrations
                 name: "CKE_Settings",
                 columns: table => new
                 {
-                    SettingName = table.Column<string>(nullable: false),
+                    SettingName = table.Column<string>(maxLength: 300, nullable: false),
                     SettingValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -50,37 +50,37 @@ namespace Dnn.vNext.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ContentType",
+                name: "ContentTypes",
                 columns: table => new
                 {
-                    ContentTypeID = table.Column<int>(nullable: false)
+                    ContentTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ContentType = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContentType", x => x.ContentTypeID);
+                    table.PrimaryKey("PK_ContentTypes", x => x.ContentTypeId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ContentWorkflowActios",
+                name: "ContentWorkflowActions",
                 columns: table => new
                 {
-                    ActionID = table.Column<int>(nullable: false)
+                    ActionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ActionSource = table.Column<string>(nullable: true),
                     ActionType = table.Column<string>(nullable: true),
-                    ContentTypeID = table.Column<int>(nullable: false),
-                    ContentWorkflowActionActionID = table.Column<int>(nullable: true)
+                    ContentTypeId = table.Column<int>(nullable: false),
+                    ContentWorkflowActionActionId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContentWorkflowActios", x => x.ActionID);
+                    table.PrimaryKey("PK_ContentWorkflowActions", x => x.ActionId);
                     table.ForeignKey(
-                        name: "FK_ContentWorkflowActios_ContentWorkflowActios_ContentWorkflowActionActionID",
-                        column: x => x.ContentWorkflowActionActionID,
-                        principalTable: "ContentWorkflowActios",
-                        principalColumn: "ActionID",
+                        name: "FK_ContentWorkflowActions_ContentWorkflowActions_ContentWorkflowActionActionId",
+                        column: x => x.ContentWorkflowActionActionId,
+                        principalTable: "ContentWorkflowActions",
+                        principalColumn: "ActionId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -88,42 +88,42 @@ namespace Dnn.vNext.Migrations
                 name: "CoreMessaging_SubscriptionTypes",
                 columns: table => new
                 {
-                    SubscriptionTypeID = table.Column<int>(nullable: false)
+                    SubscriptionTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    DesktopModuleID = table.Column<int>(nullable: true),
-                    FriendlyName = table.Column<string>(nullable: true),
-                    SubscriptionName = table.Column<string>(nullable: true)
+                    DesktopModuleId = table.Column<int>(nullable: true),
+                    FriendlyName = table.Column<string>(maxLength: 50, nullable: false),
+                    SubscriptionName = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CoreMessaging_SubscriptionTypes", x => x.SubscriptionTypeID);
+                    table.PrimaryKey("PK_CoreMessaging_SubscriptionTypes", x => x.SubscriptionTypeId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "CoreMessaging_UserPreferences",
                 columns: table => new
                 {
-                    UserPreferenceID = table.Column<int>(nullable: false)
+                    UserPreferenceId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     MessagesEmailFrequency = table.Column<int>(nullable: false),
                     NotificationsEmailFrequency = table.Column<int>(nullable: false),
-                    PortalID = table.Column<int>(nullable: false),
-                    UserID = table.Column<int>(nullable: false)
+                    PortalId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CoreMessaging_UserPreferences", x => x.UserPreferenceID);
+                    table.PrimaryKey("PK_CoreMessaging_UserPreferences", x => x.UserPreferenceId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "EventLogTypes",
                 columns: table => new
                 {
-                    LogTypeKey = table.Column<string>(nullable: false),
-                    LogTypeCSSClass = table.Column<string>(nullable: true),
-                    LogTypeDescription = table.Column<string>(nullable: true),
-                    LogTypeFriendlyName = table.Column<string>(nullable: true),
-                    LogTypeOwner = table.Column<string>(nullable: true)
+                    LogTypeKey = table.Column<string>(maxLength: 35, nullable: false),
+                    LogTypeCSSClass = table.Column<string>(maxLength: 40, nullable: false),
+                    LogTypeDescription = table.Column<string>(maxLength: 128, nullable: false),
+                    LogTypeFriendlyName = table.Column<string>(maxLength: 50, nullable: false),
+                    LogTypeOwner = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -134,36 +134,36 @@ namespace Dnn.vNext.Migrations
                 name: "EventQueue",
                 columns: table => new
                 {
-                    EventMessageID = table.Column<int>(nullable: false)
+                    EventMessageId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Attributes = table.Column<string>(nullable: true),
-                    AuthorizedRoles = table.Column<string>(nullable: true),
-                    Body = table.Column<string>(nullable: true),
-                    EventName = table.Column<string>(nullable: true),
-                    ExceptionMessage = table.Column<string>(nullable: true),
+                    AuthorizedRoles = table.Column<string>(maxLength: 250, nullable: false),
+                    Body = table.Column<string>(maxLength: 250, nullable: false),
+                    EventName = table.Column<string>(maxLength: 100, nullable: false),
+                    ExceptionMessage = table.Column<string>(maxLength: 250, nullable: false),
                     ExpirationDate = table.Column<DateTime>(nullable: false),
                     IsComplete = table.Column<bool>(nullable: false),
                     Priority = table.Column<int>(nullable: false),
-                    ProcessorCommand = table.Column<string>(nullable: true),
-                    ProcessorType = table.Column<string>(nullable: true),
-                    Sender = table.Column<string>(nullable: true),
+                    ProcessorCommand = table.Column<string>(maxLength: 250, nullable: false),
+                    ProcessorType = table.Column<string>(maxLength: 250, nullable: false),
+                    Sender = table.Column<string>(maxLength: 250, nullable: false),
                     SentDate = table.Column<DateTime>(nullable: false),
-                    Subscriber = table.Column<string>(nullable: true)
+                    Subscriber = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventQueue", x => x.EventMessageID);
+                    table.PrimaryKey("PK_EventQueue", x => x.EventMessageId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Exceptions",
                 columns: table => new
                 {
-                    ExceptionHash = table.Column<string>(nullable: false),
-                    InnerMessage = table.Column<string>(nullable: true),
+                    ExceptionHash = table.Column<string>(maxLength: 100, nullable: false),
+                    InnerMessage = table.Column<string>(maxLength: 500, nullable: true),
                     InnerStackTrace = table.Column<string>(nullable: true),
-                    Message = table.Column<string>(nullable: true),
-                    Source = table.Column<string>(nullable: true),
+                    Message = table.Column<string>(maxLength: 500, nullable: false),
+                    Source = table.Column<string>(maxLength: 500, nullable: true),
                     StackTrace = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -178,7 +178,7 @@ namespace Dnn.vNext.Migrations
                     JobId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CompletedOnDate = table.Column<DateTime>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: false),
+                    CreatedByUserId = table.Column<int>(nullable: false),
                     CreatedOnDate = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Directory = table.Column<string>(nullable: true),
@@ -200,9 +200,9 @@ namespace Dnn.vNext.Migrations
                 columns: table => new
                 {
                     SettingName = table.Column<string>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     SettingIsSecure = table.Column<bool>(nullable: false),
                     SettingValue = table.Column<string>(nullable: true)
@@ -213,27 +213,27 @@ namespace Dnn.vNext.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExtensionUrlProviderConfiguration",
+                name: "ExtensionUrlProvIderConfiguration",
                 columns: table => new
                 {
-                    ExtensionUrlProviderID = table.Column<int>(nullable: false),
-                    PortalID = table.Column<int>(nullable: false)
+                    ExtensionUrlProvIderId = table.Column<int>(nullable: false),
+                    PortalId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExtensionUrlProviderConfiguration", x => new { x.ExtensionUrlProviderID, x.PortalID });
+                    table.PrimaryKey("PK_ExtensionUrlProvIderConfiguration", x => new { x.ExtensionUrlProvIderId, x.PortalId });
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExtensionUrlProviders",
+                name: "ExtensionUrlProvIders",
                 columns: table => new
                 {
-                    ExtensionUrlProviderID = table.Column<int>(nullable: false)
+                    ExtensionUrlProvIderId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     DekstopModuleId = table.Column<int>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
-                    ProviderName = table.Column<string>(nullable: true),
-                    ProviderType = table.Column<string>(nullable: true),
+                    ProvIderName = table.Column<string>(nullable: true),
+                    ProvIderType = table.Column<string>(nullable: true),
                     RedirectAllUrls = table.Column<bool>(nullable: false),
                     ReplaceAllUrls = table.Column<bool>(nullable: false),
                     RewriteAllUrls = table.Column<bool>(nullable: false),
@@ -241,35 +241,35 @@ namespace Dnn.vNext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExtensionUrlProviders", x => x.ExtensionUrlProviderID);
+                    table.PrimaryKey("PK_ExtensionUrlProvIders", x => x.ExtensionUrlProvIderId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExtensionUrlProviderSetting",
+                name: "ExtensionUrlProvIderSetting",
                 columns: table => new
                 {
-                    ExtensionUrlProviderID = table.Column<int>(nullable: false),
-                    PortalID = table.Column<int>(nullable: false),
+                    ExtensionUrlProvIderId = table.Column<int>(nullable: false),
+                    PortalId = table.Column<int>(nullable: false),
                     SettingName = table.Column<string>(nullable: false),
                     SettingValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExtensionUrlProviderSetting", x => new { x.ExtensionUrlProviderID, x.PortalID, x.SettingName });
+                    table.PrimaryKey("PK_ExtensionUrlProvIderSetting", x => new { x.ExtensionUrlProvIderId, x.PortalId, x.SettingName });
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExtensionUrlProviderTab",
+                name: "ExtensionUrlProvIderTab",
                 columns: table => new
                 {
-                    ExtensionUrlProviderID = table.Column<int>(nullable: false),
-                    PortalID = table.Column<int>(nullable: false),
-                    TabID = table.Column<int>(nullable: false),
+                    ExtensionUrlProvIderId = table.Column<int>(nullable: false),
+                    PortalId = table.Column<int>(nullable: false),
+                    TabId = table.Column<int>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExtensionUrlProviderTab", x => new { x.ExtensionUrlProviderID, x.PortalID, x.TabID });
+                    table.PrimaryKey("PK_ExtensionUrlProvIderTab", x => new { x.ExtensionUrlProvIderId, x.PortalId, x.TabId });
                 });
 
             migrationBuilder.CreateTable(
@@ -277,9 +277,9 @@ namespace Dnn.vNext.Migrations
                 columns: table => new
                 {
                     SettingName = table.Column<string>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     SettingIsSecure = table.Column<bool>(nullable: false),
                     SettingValue = table.Column<string>(nullable: true)
@@ -293,19 +293,19 @@ namespace Dnn.vNext.Migrations
                 name: "IPFilter",
                 columns: table => new
                 {
-                    IPFilterID = table.Column<int>(nullable: false)
+                    IPFilterId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     IPAddress = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     RuleType = table.Column<int>(nullable: true),
                     SubnetMask = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IPFilter", x => x.IPFilterID);
+                    table.PrimaryKey("PK_IPFilter", x => x.IPFilterId);
                 });
 
             migrationBuilder.CreateTable(
@@ -381,37 +381,37 @@ namespace Dnn.vNext.Migrations
                 name: "Languages",
                 columns: table => new
                 {
-                    LanguageID = table.Column<int>(nullable: false)
+                    LanguageId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     CultureCode = table.Column<string>(nullable: true),
                     CultureName = table.Column<string>(nullable: true),
                     FallbackCulture = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Languages", x => x.LanguageID);
+                    table.PrimaryKey("PK_Languages", x => x.LanguageId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Lists",
                 columns: table => new
                 {
-                    EntryID = table.Column<int>(nullable: false)
+                    EntryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    DefinitionID = table.Column<int>(nullable: false),
+                    DefinitionId = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     Level = table.Column<int>(nullable: false),
                     ListName = table.Column<string>(nullable: true),
-                    ParentID = table.Column<int>(nullable: false),
-                    PortalID = table.Column<int>(nullable: false),
+                    ParentId = table.Column<int>(nullable: false),
+                    PortalId = table.Column<int>(nullable: false),
                     SortOrder = table.Column<int>(nullable: false),
                     SystemList = table.Column<bool>(nullable: false),
                     Text = table.Column<string>(nullable: true),
@@ -419,14 +419,14 @@ namespace Dnn.vNext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Lists", x => x.EntryID);
+                    table.PrimaryKey("PK_Lists", x => x.EntryId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Messaging_Messages",
                 columns: table => new
                 {
-                    MessageID = table.Column<int>(nullable: false)
+                    MessageId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AllowReply = table.Column<bool>(nullable: false),
                     Body = table.Column<string>(nullable: true),
@@ -435,34 +435,34 @@ namespace Dnn.vNext.Migrations
                     EmailSchedulerInstance = table.Column<Guid>(nullable: true),
                     EmailSent = table.Column<bool>(nullable: false),
                     EmailSentDate = table.Column<DateTime>(nullable: true),
-                    FromUserID = table.Column<int>(nullable: false),
+                    FromUserId = table.Column<int>(nullable: false),
                     FromUserName = table.Column<string>(nullable: true),
-                    PortalID = table.Column<int>(nullable: false),
+                    PortalId = table.Column<int>(nullable: false),
                     ReplyTo = table.Column<int>(nullable: true),
                     SkipPortal = table.Column<bool>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     Subject = table.Column<string>(nullable: true),
-                    ToRoleID = table.Column<int>(nullable: false),
-                    ToUserID = table.Column<int>(nullable: false),
+                    ToRoleId = table.Column<int>(nullable: false),
+                    ToUserId = table.Column<int>(nullable: false),
                     ToUserName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Messaging_Messages", x => x.MessageID);
+                    table.PrimaryKey("PK_Messaging_Messages", x => x.MessageId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "MetaData",
                 columns: table => new
                 {
-                    MetaDataID = table.Column<int>(nullable: false)
+                    MetaDataId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     MetaDataDescription = table.Column<string>(nullable: true),
                     MetaDataName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MetaData", x => x.MetaDataID);
+                    table.PrimaryKey("PK_MetaData", x => x.MetaDataId);
                 });
 
             migrationBuilder.CreateTable(
@@ -487,7 +487,7 @@ namespace Dnn.vNext.Migrations
                     Descrption = table.Column<string>(nullable: true),
                     EditorControlSrc = table.Column<string>(nullable: true),
                     SecurityAccessLevel = table.Column<int>(nullable: false),
-                    SupportsSideBySideInstallation = table.Column<bool>(nullable: false)
+                    SupportsSIdeBySIdeInstallation = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -498,13 +498,13 @@ namespace Dnn.vNext.Migrations
                 name: "Permission",
                 columns: table => new
                 {
-                    PermissionID = table.Column<int>(nullable: false)
+                    PermissionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    ModuleDefID = table.Column<int>(nullable: false),
+                    ModuleDefId = table.Column<int>(nullable: false),
                     PermissionCode = table.Column<string>(nullable: true),
                     PermissionKey = table.Column<string>(nullable: true),
                     PermissionName = table.Column<string>(nullable: true),
@@ -512,7 +512,7 @@ namespace Dnn.vNext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Permission", x => x.PermissionID);
+                    table.PrimaryKey("PK_Permission", x => x.PermissionId);
                 });
 
             migrationBuilder.CreateTable(
@@ -523,18 +523,18 @@ namespace Dnn.vNext.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AllowHost = table.Column<bool>(nullable: false),
                     Controller = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     CssClass = table.Column<string>(nullable: true),
                     Enabled = table.Column<bool>(nullable: false),
                     FolderName = table.Column<string>(nullable: true),
                     Identifier = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     Link = table.Column<string>(nullable: true),
                     ModuleName = table.Column<string>(nullable: true),
                     Order = table.Column<int>(nullable: false),
-                    ParentID = table.Column<int>(nullable: true),
+                    ParentId = table.Column<int>(nullable: true),
                     Path = table.Column<string>(nullable: true),
                     ResourceKey = table.Column<string>(nullable: true)
                 },
@@ -542,8 +542,8 @@ namespace Dnn.vNext.Migrations
                 {
                     table.PrimaryKey("PK_PersonaBarMenu", x => x.MenuId);
                     table.ForeignKey(
-                        name: "FK_PersonaBarMenu_PersonaBarMenu_ParentID",
-                        column: x => x.ParentID,
+                        name: "FK_PersonaBarMenu_PersonaBarMenu_ParentId",
+                        column: x => x.ParentId,
                         principalTable: "PersonaBarMenu",
                         principalColumn: "MenuId",
                         onDelete: ReferentialAction.Restrict);
@@ -553,41 +553,41 @@ namespace Dnn.vNext.Migrations
                 name: "PortalGroups",
                 columns: table => new
                 {
-                    ProtalGroupID = table.Column<int>(nullable: false)
+                    ProtalGroupId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AuthenticationDomain = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    MasterPortalID = table.Column<int>(nullable: true),
+                    MasterPortalId = table.Column<int>(nullable: true),
                     PortalGroupDescription = table.Column<string>(nullable: true),
                     PortalGroupName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PortalGroups", x => x.ProtalGroupID);
+                    table.PrimaryKey("PK_PortalGroups", x => x.ProtalGroupId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Portals",
                 columns: table => new
                 {
-                    PortalID = table.Column<int>(nullable: false)
+                    PortalId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AdministratorID = table.Column<int>(nullable: true),
+                    AdministratorId = table.Column<int>(nullable: true),
                     AdministratorRoleId = table.Column<int>(nullable: true),
                     BannerAdvertising = table.Column<int>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     Currency = table.Column<string>(nullable: true),
                     DefaultLanguage = table.Column<string>(nullable: true),
                     ExpiryDate = table.Column<DateTime>(nullable: true),
-                    GUID = table.Column<Guid>(nullable: false),
+                    Guid = table.Column<Guid>(nullable: false),
                     HomeDirectory = table.Column<string>(nullable: true),
                     HostFee = table.Column<decimal>(nullable: false),
                     HostSpace = table.Column<int>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     PageQuota = table.Column<int>(nullable: false),
                     PaymentProcessor = table.Column<string>(nullable: true),
@@ -601,7 +601,7 @@ namespace Dnn.vNext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Portals", x => x.PortalID);
+                    table.PrimaryKey("PK_Portals", x => x.PortalId);
                 });
 
             migrationBuilder.CreateTable(
@@ -623,53 +623,53 @@ namespace Dnn.vNext.Migrations
                 name: "RelationshipTypes",
                 columns: table => new
                 {
-                    RelationshipTypeID = table.Column<int>(nullable: false)
+                    RelationshipTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Direction = table.Column<int>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RelationshipTypes", x => x.RelationshipTypeID);
+                    table.PrimaryKey("PK_RelationshipTypes", x => x.RelationshipTypeId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "RoleSettings",
                 columns: table => new
                 {
-                    RoleSettingID = table.Column<int>(nullable: false)
+                    RoleSettingId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    RoleID = table.Column<int>(nullable: false),
+                    RoleId = table.Column<int>(nullable: false),
                     SettingName = table.Column<string>(nullable: true),
                     SettingValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleSettings", x => x.RoleSettingID);
+                    table.PrimaryKey("PK_RoleSettings", x => x.RoleSettingId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Schedule",
                 columns: table => new
                 {
-                    ScheduleID = table.Column<int>(nullable: false)
+                    ScheduleId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AttachToEvent = table.Column<string>(nullable: true),
                     CatchUpEnabled = table.Column<bool>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     Enabled = table.Column<bool>(nullable: false),
                     FriendlyName = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     ObjectDependencies = table.Column<string>(nullable: true),
                     RetainHistoryNumber = table.Column<int>(nullable: false),
@@ -683,74 +683,74 @@ namespace Dnn.vNext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Schedule", x => x.ScheduleID);
+                    table.PrimaryKey("PK_Schedule", x => x.ScheduleId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "SearchCommonWords",
                 columns: table => new
                 {
-                    CommonWordID = table.Column<int>(nullable: false)
+                    CommonWordId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CommonWord = table.Column<string>(nullable: true),
                     Locale = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SearchCommonWords", x => x.CommonWordID);
+                    table.PrimaryKey("PK_SearchCommonWords", x => x.CommonWordId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "SearchDeletedItems",
                 columns: table => new
                 {
-                    SearchDeletedItemID = table.Column<int>(nullable: false)
+                    SearchDeletedItemId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     Document = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SearchDeletedItems", x => x.SearchDeletedItemID);
+                    table.PrimaryKey("PK_SearchDeletedItems", x => x.SearchDeletedItemId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "SearchIndexer",
                 columns: table => new
                 {
-                    SearchIndexerID = table.Column<int>(nullable: false)
+                    SearchIndexerId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     SearchIndexerAssemblyQualifiedName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SearchIndexer", x => x.SearchIndexerID);
+                    table.PrimaryKey("PK_SearchIndexer", x => x.SearchIndexerId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "SearchStopWords",
                 columns: table => new
                 {
-                    StopWordsID = table.Column<int>(nullable: false)
+                    StopWordsId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     CultureCode = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PortalID = table.Column<int>(nullable: true),
+                    PortalId = table.Column<int>(nullable: true),
                     StopWords = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SearchStopWords", x => x.StopWordsID);
+                    table.PrimaryKey("PK_SearchStopWords", x => x.StopWordsId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "SearchTypes",
                 columns: table => new
                 {
-                    SearchTypeID = table.Column<int>(nullable: false)
+                    SearchTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     IsPrivate = table.Column<bool>(nullable: true),
                     SearchResultClass = table.Column<string>(nullable: true),
@@ -758,7 +758,7 @@ namespace Dnn.vNext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SearchTypes", x => x.SearchTypeID);
+                    table.PrimaryKey("PK_SearchTypes", x => x.SearchTypeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -768,9 +768,9 @@ namespace Dnn.vNext.Migrations
                     QueryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ConnectionStringName = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     Query = table.Column<string>(nullable: true)
@@ -784,19 +784,19 @@ namespace Dnn.vNext.Migrations
                 name: "SynonymsGroups",
                 columns: table => new
                 {
-                    SynonymsGroupID = table.Column<int>(nullable: false)
+                    SynonymsGroupId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     CultureCode = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PortalID = table.Column<int>(nullable: false),
+                    PortalId = table.Column<int>(nullable: false),
                     SynonymsTags = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SynonymsGroups", x => x.SynonymsGroupID);
+                    table.PrimaryKey("PK_SynonymsGroups", x => x.SynonymsGroupId);
                 });
 
             migrationBuilder.CreateTable(
@@ -805,9 +805,9 @@ namespace Dnn.vNext.Migrations
                 {
                     TabAliasSkinId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     PortalAliasId = table.Column<int>(nullable: false),
                     SkinSrc = table.Column<string>(nullable: true),
@@ -822,36 +822,36 @@ namespace Dnn.vNext.Migrations
                 name: "Taxonomy_ScopeTypes",
                 columns: table => new
                 {
-                    ScopeTypeID = table.Column<int>(nullable: false)
+                    ScopeTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ScopeType = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Taxonomy_ScopeTypes", x => x.ScopeTypeID);
+                    table.PrimaryKey("PK_Taxonomy_ScopeTypes", x => x.ScopeTypeId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Taxonomy_VocabularyTypes",
                 columns: table => new
                 {
-                    VocabularyTypeID = table.Column<int>(nullable: false)
+                    VocabularyTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     VocabularyType = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Taxonomy_VocabularyTypes", x => x.VocabularyTypeID);
+                    table.PrimaryKey("PK_Taxonomy_VocabularyTypes", x => x.VocabularyTypeId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
-                    UserID = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AffiliateId = table.Column<int>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     DisplayName = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
@@ -859,7 +859,7 @@ namespace Dnn.vNext.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     IsSuperUser = table.Column<bool>(nullable: false),
                     LastIPAddress = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     LowerEmail = table.Column<string>(nullable: true),
@@ -870,14 +870,14 @@ namespace Dnn.vNext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserID);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Version",
                 columns: table => new
                 {
-                    VersionID = table.Column<int>(nullable: false)
+                    VersionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Build = table.Column<int>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
@@ -888,14 +888,14 @@ namespace Dnn.vNext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Version", x => x.VersionID);
+                    table.PrimaryKey("PK_Version", x => x.VersionId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "WebServers",
                 columns: table => new
                 {
-                    ServerID = table.Column<int>(nullable: false)
+                    ServerId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     Enabled = table.Column<bool>(nullable: false),
@@ -905,35 +905,35 @@ namespace Dnn.vNext.Migrations
                     ServerGroup = table.Column<string>(nullable: true),
                     ServerName = table.Column<string>(nullable: true),
                     URL = table.Column<string>(nullable: true),
-                    UniqueID = table.Column<string>(nullable: true)
+                    UniqueId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WebServers", x => x.ServerID);
+                    table.PrimaryKey("PK_WebServers", x => x.ServerId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Workflow",
                 columns: table => new
                 {
-                    WorkflowID = table.Column<int>(nullable: false)
+                    WorkflowId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    PortalID = table.Column<int>(nullable: true),
+                    PortalId = table.Column<int>(nullable: true),
                     WorkflowName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Workflow", x => x.WorkflowID);
+                    table.PrimaryKey("PK_Workflow", x => x.WorkflowId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "aspnet_Memership",
+                name: "aspnet_Membership",
                 columns: table => new
                 {
-                    UserID = table.Column<Guid>(nullable: false),
-                    ApplicationID = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
+                    ApplicationId = table.Column<Guid>(nullable: false),
                     Comment = table.Column<string>(nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     Email = table.Column<string>(nullable: true),
@@ -956,10 +956,10 @@ namespace Dnn.vNext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_aspnet_Memership", x => x.UserID);
+                    table.PrimaryKey("PK_aspnet_Membership", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_aspnet_Memership_aspnet_Applications_ApplicationID",
-                        column: x => x.ApplicationID,
+                        name: "FK_aspnet_Membership_aspnet_Applications_ApplicationId",
+                        column: x => x.ApplicationId,
                         principalTable: "aspnet_Applications",
                         principalColumn: "ApplicationId",
                         onDelete: ReferentialAction.Cascade);
@@ -969,13 +969,13 @@ namespace Dnn.vNext.Migrations
                 name: "aspnet_Users",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false, defaultValueSql: "newId()"),
                     ApplicationId = table.Column<Guid>(nullable: false),
-                    IsAnonymous = table.Column<bool>(nullable: false),
+                    IsAnonymous = table.Column<bool>(nullable: false, defaultValue: false),
                     LastActivityDate = table.Column<DateTime>(nullable: false),
-                    LoweredUserName = table.Column<string>(nullable: true),
-                    MobileAlias = table.Column<string>(nullable: true),
-                    UserName = table.Column<string>(nullable: true)
+                    LoweredUserName = table.Column<string>(maxLength: 256, nullable: false),
+                    MobileAlias = table.Column<string>(maxLength: 16, nullable: true, defaultValueSql: "null"),
+                    UserName = table.Column<string>(maxLength: 256, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -992,27 +992,27 @@ namespace Dnn.vNext.Migrations
                 name: "ContentWorkflows",
                 columns: table => new
                 {
-                    WorkflowID = table.Column<int>(nullable: false)
+                    WorkflowId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Content_TypeContentTypeID = table.Column<int>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    DispositionEnabled = table.Column<bool>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    IsSystem = table.Column<bool>(nullable: false),
-                    PortalID = table.Column<int>(nullable: true),
-                    StartAfterCreating = table.Column<bool>(nullable: false),
-                    StartAfterEditing = table.Column<bool>(nullable: false),
-                    WorkflowKey = table.Column<string>(nullable: true),
-                    WorkflowName = table.Column<string>(nullable: true)
+                    Content_TypeContentTypeId = table.Column<int>(nullable: true),
+                    Description = table.Column<string>(maxLength: 256, nullable: true),
+                    DispositionEnabled = table.Column<bool>(nullable: false, defaultValue: false),
+                    IsDeleted = table.Column<bool>(nullable: false, defaultValue: false),
+                    IsSystem = table.Column<bool>(nullable: false, defaultValue: false),
+                    PortalId = table.Column<int>(nullable: true),
+                    StartAfterCreating = table.Column<bool>(nullable: false, defaultValue: true),
+                    StartAfterEditing = table.Column<bool>(nullable: false, defaultValue: true),
+                    WorkflowKey = table.Column<string>(maxLength: 40, nullable: false, defaultValueSql: "''"),
+                    WorkflowName = table.Column<string>(maxLength: 40, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContentWorkflows", x => x.WorkflowID);
+                    table.PrimaryKey("PK_ContentWorkflows", x => x.WorkflowId);
                     table.ForeignKey(
-                        name: "FK_ContentWorkflows_ContentType_Content_TypeContentTypeID",
-                        column: x => x.Content_TypeContentTypeID,
-                        principalTable: "ContentType",
-                        principalColumn: "ContentTypeID",
+                        name: "FK_ContentWorkflows_ContentTypes_Content_TypeContentTypeId",
+                        column: x => x.Content_TypeContentTypeId,
+                        principalTable: "ContentTypes",
+                        principalColumn: "ContentTypeId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1020,26 +1020,25 @@ namespace Dnn.vNext.Migrations
                 name: "EventLogConfig",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    EmailNotificaitonIsAcdtive = table.Column<bool>(nullable: false),
+                    EmailNotificaitonIsActive = table.Column<bool>(nullable: false),
                     KeepMostRecent = table.Column<int>(nullable: false),
-                    LogTypeKey1 = table.Column<string>(nullable: true),
-                    LogTypePortalID = table.Column<string>(nullable: true),
-                    LogTypeKey = table.Column<string>(nullable: true),
+                    LogTypeKey = table.Column<string>(maxLength: 35, nullable: true),
+                    LogTypePortalId = table.Column<int>(nullable: false),
                     LoggingIsActive = table.Column<bool>(nullable: false),
-                    MailFromAddress = table.Column<string>(nullable: true),
-                    MailToAddress = table.Column<string>(nullable: true),
+                    MailFromAddress = table.Column<string>(maxLength: 50, nullable: false),
+                    MailToAddress = table.Column<string>(maxLength: 50, nullable: false),
                     NotificationThreshold = table.Column<int>(nullable: true),
                     NotificationThresholdTime = table.Column<int>(nullable: true),
                     NotificationThresholdTimeType = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventLogConfig", x => x.ID);
+                    table.PrimaryKey("PK_EventLogConfig", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EventLogConfig_EventLogTypes_LogTypeKey1",
-                        column: x => x.LogTypeKey1,
+                        name: "FK_EventLogConfig_EventLogTypes_LogTypeKey",
+                        column: x => x.LogTypeKey,
                         principalTable: "EventLogTypes",
                         principalColumn: "LogTypeKey",
                         onDelete: ReferentialAction.Restrict);
@@ -1049,26 +1048,26 @@ namespace Dnn.vNext.Migrations
                 name: "ExportImportCheckpoints",
                 columns: table => new
                 {
-                    CheckpointID = table.Column<int>(nullable: false)
+                    CheckpointId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AssemblyName = table.Column<string>(nullable: true),
-                    Category = table.Column<string>(nullable: true),
-                    Completed = table.Column<bool>(nullable: true),
-                    JobID = table.Column<int>(nullable: false),
+                    AssemblyName = table.Column<string>(maxLength: 200, nullable: false),
+                    Category = table.Column<string>(maxLength: 50, nullable: false),
+                    Completed = table.Column<bool>(nullable: false, defaultValue: false),
+                    JobId = table.Column<int>(nullable: false),
                     LastUpdatedDate = table.Column<DateTime>(nullable: true),
-                    ProcessedItems = table.Column<int>(nullable: false),
+                    ProcessedItems = table.Column<int>(nullable: false, defaultValue: 0),
                     Progress = table.Column<int>(nullable: false),
                     Stage = table.Column<int>(nullable: false),
                     StageData = table.Column<string>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: true),
-                    TotalItems = table.Column<int>(nullable: false)
+                    TotalItems = table.Column<int>(nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExportImportCheckpoints", x => x.CheckpointID);
+                    table.PrimaryKey("PK_ExportImportCheckpoints", x => x.CheckpointId);
                     table.ForeignKey(
-                        name: "FK_ExportImportCheckpoints_ExportImportJobs_JobID",
-                        column: x => x.JobID,
+                        name: "FK_ExportImportCheckpoints_ExportImportJobs_JobId",
+                        column: x => x.JobId,
                         principalTable: "ExportImportJobs",
                         principalColumn: "JobId",
                         onDelete: ReferentialAction.Cascade);
@@ -1080,11 +1079,11 @@ namespace Dnn.vNext.Migrations
                 {
                     JobLogId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOnDate = table.Column<DateTime>(nullable: false),
+                    CreatedOnDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     JobId = table.Column<int>(nullable: false),
-                    Level = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Value = table.Column<string>(nullable: true)
+                    Level = table.Column<int>(nullable: false, defaultValue: 0),
+                    Name = table.Column<string>(maxLength: 255, nullable: true),
+                    Value = table.Column<string>(maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1105,7 +1104,7 @@ namespace Dnn.vNext.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AccessKey = table.Column<Guid>(nullable: false),
                     CommentsDisabled = table.Column<bool>(nullable: false),
-                    CommentsHidden = table.Column<bool>(nullable: false),
+                    CommentsHIdden = table.Column<bool>(nullable: false),
                     ContentItemId = table.Column<int>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: false),
@@ -1136,9 +1135,9 @@ namespace Dnn.vNext.Migrations
                 name: "Packages",
                 columns: table => new
                 {
-                    PackageID = table.Column<int>(nullable: false)
+                    PackageId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
@@ -1146,7 +1145,7 @@ namespace Dnn.vNext.Migrations
                     FriendlyName = table.Column<string>(nullable: true),
                     IconFile = table.Column<string>(nullable: true),
                     IsSystemPackage = table.Column<bool>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     License = table.Column<string>(nullable: true),
                     Manifest = table.Column<string>(nullable: true),
@@ -1154,15 +1153,15 @@ namespace Dnn.vNext.Migrations
                     Organization = table.Column<string>(nullable: true),
                     Owner = table.Column<string>(nullable: true),
                     PackageType = table.Column<string>(nullable: true),
-                    PackageTypeNavigationPackageID = table.Column<int>(nullable: true),
-                    PortalID = table.Column<int>(nullable: true),
+                    PackageTypeNavigationPackageId = table.Column<int>(nullable: true),
+                    PortalId = table.Column<int>(nullable: true),
                     ReleaseNotes = table.Column<string>(nullable: true),
                     Url = table.Column<string>(nullable: true),
                     Version = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Packages", x => x.PackageID);
+                    table.PrimaryKey("PK_Packages", x => x.PackageId);
                     table.ForeignKey(
                         name: "FK_Packages_PackageType_PackageType",
                         column: x => x.PackageType,
@@ -1170,10 +1169,10 @@ namespace Dnn.vNext.Migrations
                         principalColumn: "PackageType",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Packages_Packages_PackageTypeNavigationPackageID",
-                        column: x => x.PackageTypeNavigationPackageID,
+                        name: "FK_Packages_Packages_PackageTypeNavigationPackageId",
+                        column: x => x.PackageTypeNavigationPackageId,
                         principalTable: "Packages",
-                        principalColumn: "PackageID",
+                        principalColumn: "PackageId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1181,16 +1180,16 @@ namespace Dnn.vNext.Migrations
                 name: "PersonaBarExtensions",
                 columns: table => new
                 {
-                    ExtensionID = table.Column<int>(nullable: false)
+                    ExtensionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Container = table.Column<string>(nullable: true),
                     Controller = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     Enabled = table.Column<bool>(nullable: false),
                     FolderName = table.Column<string>(nullable: true),
                     Identifier = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     MenuId = table.Column<int>(nullable: false),
                     Order = table.Column<int>(nullable: false),
@@ -1198,7 +1197,7 @@ namespace Dnn.vNext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PersonaBarExtensions", x => x.ExtensionID);
+                    table.PrimaryKey("PK_PersonaBarExtensions", x => x.ExtensionId);
                     table.ForeignKey(
                         name: "FK_PersonaBarExtensions_PersonaBarMenu_MenuId",
                         column: x => x.MenuId,
@@ -1233,9 +1232,9 @@ namespace Dnn.vNext.Migrations
                 {
                     PermissionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     MenuId = table.Column<int>(nullable: true),
                     PermissionKey = table.Column<string>(nullable: true),
@@ -1257,21 +1256,20 @@ namespace Dnn.vNext.Migrations
                 name: "AnonymousUsers",
                 columns: table => new
                 {
-                    UserID = table.Column<int>(nullable: false),
-                    PortalID = table.Column<int>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    LastActiveDate = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(type: "char(36)", maxLength: 36, nullable: false),
+                    PortalId = table.Column<int>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    LastActiveDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
                     TabId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AnonymousUsers", x => new { x.UserID, x.PortalID });
-                    table.UniqueConstraint("AK_AnonymousUsers_PortalID_UserID", x => new { x.PortalID, x.UserID });
+                    table.PrimaryKey("PK_AnonymousUsers", x => new { x.UserId, x.PortalId });
                     table.ForeignKey(
-                        name: "FK_AnonymousUsers_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_AnonymousUsers_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1279,25 +1277,25 @@ namespace Dnn.vNext.Migrations
                 name: "FolderMappings",
                 columns: table => new
                 {
-                    FolderMappingID = table.Column<int>(nullable: false)
+                    FolderMappingId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    FolderProviderType = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    FolderProvIderType = table.Column<string>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     MappingName = table.Column<string>(nullable: true),
-                    PortalID = table.Column<int>(nullable: true),
+                    PortalId = table.Column<int>(nullable: true),
                     Priority = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FolderMappings", x => x.FolderMappingID);
+                    table.PrimaryKey("PK_FolderMappings", x => x.FolderMappingId);
                     table.ForeignKey(
-                        name: "FK_FolderMappings_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_FolderMappings_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1307,16 +1305,16 @@ namespace Dnn.vNext.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     Height = table.Column<int>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     PortalId = table.Column<int>(nullable: false),
                     SortOrder = table.Column<int>(nullable: false),
                     UserAgent = table.Column<string>(nullable: true),
-                    Width = table.Column<int>(nullable: false)
+                    WIdth = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1325,7 +1323,7 @@ namespace Dnn.vNext.Migrations
                         name: "FK_Mobile_PreviewProfiles_Portals_PortalId",
                         column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1335,11 +1333,11 @@ namespace Dnn.vNext.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     Enabled = table.Column<bool>(nullable: false),
                     IncludeChildTabs = table.Column<bool>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     PortalId = table.Column<int>(nullable: false),
@@ -1356,7 +1354,7 @@ namespace Dnn.vNext.Migrations
                         name: "FK_Mobile_Redirections_Portals_PortalId",
                         column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1364,27 +1362,27 @@ namespace Dnn.vNext.Migrations
                 name: "PortalAlias",
                 columns: table => new
                 {
-                    PortalAliasID = table.Column<int>(nullable: false)
+                    PortalAliasId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     BrowserType = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     CulturCode = table.Column<string>(nullable: true),
                     HTTPAlias = table.Column<string>(nullable: true),
                     IsPrimary = table.Column<bool>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PortalID = table.Column<int>(nullable: false),
+                    PortalId = table.Column<int>(nullable: false),
                     Skin = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PortalAlias", x => x.PortalAliasID);
+                    table.PrimaryKey("PK_PortalAlias", x => x.PortalAliasId);
                     table.ForeignKey(
-                        name: "FK_PortalAlias_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_PortalAlias_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1392,30 +1390,30 @@ namespace Dnn.vNext.Migrations
                 name: "PortalLanguages",
                 columns: table => new
                 {
-                    PortalLanguageID = table.Column<int>(nullable: false)
+                    PortalLanguageId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     IsPublished = table.Column<bool>(nullable: false),
-                    LanguageID = table.Column<int>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LanguageId = table.Column<int>(nullable: false),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PortalID = table.Column<int>(nullable: false)
+                    PortalId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PortalLanguages", x => x.PortalLanguageID);
+                    table.PrimaryKey("PK_PortalLanguages", x => x.PortalLanguageId);
                     table.ForeignKey(
-                        name: "FK_PortalLanguages_Languages_LanguageID",
-                        column: x => x.LanguageID,
+                        name: "FK_PortalLanguages_Languages_LanguageId",
+                        column: x => x.LanguageId,
                         principalTable: "Languages",
-                        principalColumn: "LanguageID",
+                        principalColumn: "LanguageId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PortalLanguages_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_PortalLanguages_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1423,34 +1421,34 @@ namespace Dnn.vNext.Migrations
                 name: "PortalLocalization",
                 columns: table => new
                 {
-                    PortalID = table.Column<int>(nullable: false)
+                    PortalId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AdminTabId = table.Column<int>(nullable: true),
                     BackgroundFile = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     CultureCode = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     FooterText = table.Column<string>(nullable: true),
                     HomeTabId = table.Column<int>(nullable: true),
                     KeyWords = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     LoginTabId = table.Column<int>(nullable: true),
                     LogoFile = table.Column<string>(nullable: true),
-                    PortalID1 = table.Column<int>(nullable: true),
+                    PortalId1 = table.Column<int>(nullable: true),
                     PortalName = table.Column<string>(nullable: true),
                     SplashTabId = table.Column<int>(nullable: true),
                     UserTabId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PortalLocalization", x => x.PortalID);
+                    table.PrimaryKey("PK_PortalLocalization", x => x.PortalId);
                     table.ForeignKey(
-                        name: "FK_PortalLocalization_Portals_PortalID1",
-                        column: x => x.PortalID1,
+                        name: "FK_PortalLocalization_Portals_PortalId1",
+                        column: x => x.PortalId1,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1458,25 +1456,25 @@ namespace Dnn.vNext.Migrations
                 name: "PortalSettings",
                 columns: table => new
                 {
-                    PortalSettingID = table.Column<int>(nullable: false)
+                    PortalSettingId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     CultureCode = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PortalID = table.Column<int>(nullable: false),
+                    PortalId = table.Column<int>(nullable: false),
                     SettingName = table.Column<string>(nullable: true),
                     SettingValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PortalSettings", x => x.PortalSettingID);
+                    table.PrimaryKey("PK_PortalSettings", x => x.PortalSettingId);
                     table.ForeignKey(
-                        name: "FK_PortalSettings_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_PortalSettings_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1484,35 +1482,35 @@ namespace Dnn.vNext.Migrations
                 name: "ProfilePropertyDefinition",
                 columns: table => new
                 {
-                    PropertyDefinitionID = table.Column<int>(nullable: false)
+                    PropertyDefinitionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     DataType = table.Column<int>(nullable: false),
                     DefaultValue = table.Column<string>(nullable: true),
                     DefaultVisibility = table.Column<int>(nullable: true),
                     Deleted = table.Column<bool>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     Length = table.Column<int>(nullable: false),
                     ModuleDefId = table.Column<int>(nullable: true),
-                    PortalID = table.Column<int>(nullable: true),
+                    PortalId = table.Column<int>(nullable: true),
                     PropertyCategory = table.Column<string>(nullable: true),
                     PropertyName = table.Column<string>(nullable: true),
                     ReadOnly = table.Column<bool>(nullable: false),
                     Required = table.Column<bool>(nullable: false),
-                    ValidationExpression = table.Column<string>(nullable: true),
+                    ValIdationExpression = table.Column<string>(nullable: true),
                     ViewOrder = table.Column<int>(nullable: false),
                     Visible = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProfilePropertyDefinition", x => x.PropertyDefinitionID);
+                    table.PrimaryKey("PK_ProfilePropertyDefinition", x => x.PropertyDefinitionId);
                     table.ForeignKey(
-                        name: "FK_ProfilePropertyDefinition_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_ProfilePropertyDefinition_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1520,24 +1518,24 @@ namespace Dnn.vNext.Migrations
                 name: "RoleGroups",
                 columns: table => new
                 {
-                    RoleGroupID = table.Column<int>(nullable: false)
+                    RoleGroupId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PortalID = table.Column<int>(nullable: false),
+                    PortalId = table.Column<int>(nullable: false),
                     RoleGroupName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleGroups", x => x.RoleGroupID);
+                    table.PrimaryKey("PK_RoleGroups", x => x.RoleGroupId);
                     table.ForeignKey(
-                        name: "FK_RoleGroups_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_RoleGroups_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1549,23 +1547,23 @@ namespace Dnn.vNext.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AffiliateId = table.Column<int>(nullable: true),
                     DateTime = table.Column<DateTime>(nullable: false),
-                    PortalID = table.Column<int>(nullable: false),
+                    PortalId = table.Column<int>(nullable: false),
                     Referrer = table.Column<string>(nullable: true),
                     TabId = table.Column<int>(nullable: true),
                     Url = table.Column<string>(nullable: true),
                     UserAgent = table.Column<string>(nullable: true),
                     UserHostAddress = table.Column<string>(nullable: true),
                     UserHostName = table.Column<string>(nullable: true),
-                    UserID = table.Column<int>(nullable: true)
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SiteLog", x => x.SiteLogId);
                     table.ForeignKey(
-                        name: "FK_SiteLog_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_SiteLog_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1573,20 +1571,20 @@ namespace Dnn.vNext.Migrations
                 name: "SystemMessages",
                 columns: table => new
                 {
-                    MessageID = table.Column<int>(nullable: false)
+                    MessageId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     MessageName = table.Column<string>(nullable: true),
                     MessageValue = table.Column<string>(nullable: true),
-                    PortalID = table.Column<int>(nullable: true)
+                    PortalId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SystemMessages", x => x.MessageID);
+                    table.PrimaryKey("PK_SystemMessages", x => x.MessageId);
                     table.ForeignKey(
-                        name: "FK_SystemMessages_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_SystemMessages_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1594,19 +1592,19 @@ namespace Dnn.vNext.Migrations
                 name: "Urls",
                 columns: table => new
                 {
-                    UrlID = table.Column<int>(nullable: false)
+                    UrlId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    PortalID = table.Column<int>(nullable: true),
+                    PortalId = table.Column<int>(nullable: true),
                     Url = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Urls", x => x.UrlID);
+                    table.PrimaryKey("PK_Urls", x => x.UrlId);
                     table.ForeignKey(
-                        name: "FK_Urls_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_Urls_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1614,27 +1612,27 @@ namespace Dnn.vNext.Migrations
                 name: "UrlTracking",
                 columns: table => new
                 {
-                    UrlTrackingID = table.Column<int>(nullable: false)
+                    UrlTrackingId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Clicks = table.Column<int>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     LastClick = table.Column<DateTime>(nullable: true),
                     LogActivity = table.Column<bool>(nullable: false),
-                    ModuleID = table.Column<int>(nullable: true),
+                    ModuleId = table.Column<int>(nullable: true),
                     NewWindow = table.Column<bool>(nullable: false),
-                    PortalID = table.Column<int>(nullable: true),
+                    PortalId = table.Column<int>(nullable: true),
                     TrackClicks = table.Column<bool>(nullable: false),
                     Url = table.Column<string>(nullable: true),
                     UrlType = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UrlTracking", x => x.UrlTrackingID);
+                    table.PrimaryKey("PK_UrlTracking", x => x.UrlTrackingId);
                     table.ForeignKey(
-                        name: "FK_UrlTracking_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_UrlTracking_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1642,24 +1640,24 @@ namespace Dnn.vNext.Migrations
                 name: "ScheduleHistory",
                 columns: table => new
                 {
-                    ScheduleHistoryID = table.Column<int>(nullable: false)
+                    ScheduleHistoryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     EndDate = table.Column<DateTime>(nullable: false),
                     LogNotes = table.Column<string>(nullable: true),
                     NextStart = table.Column<DateTime>(nullable: true),
-                    ScheduleID = table.Column<int>(nullable: false),
+                    ScheduleId = table.Column<int>(nullable: false),
                     Server = table.Column<string>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: false),
                     Succeeded = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ScheduleHistory", x => x.ScheduleHistoryID);
+                    table.PrimaryKey("PK_ScheduleHistory", x => x.ScheduleHistoryId);
                     table.ForeignKey(
-                        name: "FK_ScheduleHistory_Schedule_ScheduleID",
-                        column: x => x.ScheduleID,
+                        name: "FK_ScheduleHistory_Schedule_ScheduleId",
+                        column: x => x.ScheduleId,
                         principalTable: "Schedule",
-                        principalColumn: "ScheduleID",
+                        principalColumn: "ScheduleId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1667,20 +1665,20 @@ namespace Dnn.vNext.Migrations
                 name: "ScheduleItemSettings",
                 columns: table => new
                 {
-                    ScheduleID = table.Column<int>(nullable: false)
+                    ScheduleId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ScheduleID1 = table.Column<int>(nullable: true),
+                    ScheduleId1 = table.Column<int>(nullable: true),
                     SettingName = table.Column<string>(nullable: true),
                     SettingValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ScheduleItemSettings", x => x.ScheduleID);
+                    table.PrimaryKey("PK_ScheduleItemSettings", x => x.ScheduleId);
                     table.ForeignKey(
-                        name: "FK_ScheduleItemSettings_Schedule_ScheduleID1",
-                        column: x => x.ScheduleID1,
+                        name: "FK_ScheduleItemSettings_Schedule_ScheduleId1",
+                        column: x => x.ScheduleId1,
                         principalTable: "Schedule",
-                        principalColumn: "ScheduleID",
+                        principalColumn: "ScheduleId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1688,33 +1686,33 @@ namespace Dnn.vNext.Migrations
                 name: "Taxonomy_Vocabularies",
                 columns: table => new
                 {
-                    VocabularyID = table.Column<int>(nullable: false)
+                    VocabularyId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    ScopeID = table.Column<int>(nullable: true),
-                    ScopeTypeID = table.Column<int>(nullable: false),
-                    VocabularyTypeID = table.Column<int>(nullable: false),
+                    ScopeId = table.Column<int>(nullable: true),
+                    ScopeTypeId = table.Column<int>(nullable: false),
+                    VocabularyTypeId = table.Column<int>(nullable: false),
                     Weight = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Taxonomy_Vocabularies", x => x.VocabularyID);
+                    table.PrimaryKey("PK_Taxonomy_Vocabularies", x => x.VocabularyId);
                     table.ForeignKey(
-                        name: "FK_Taxonomy_Vocabularies_Taxonomy_ScopeTypes_ScopeTypeID",
-                        column: x => x.ScopeTypeID,
+                        name: "FK_Taxonomy_Vocabularies_Taxonomy_ScopeTypes_ScopeTypeId",
+                        column: x => x.ScopeTypeId,
                         principalTable: "Taxonomy_ScopeTypes",
-                        principalColumn: "ScopeTypeID",
+                        principalColumn: "ScopeTypeId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Taxonomy_Vocabularies_Taxonomy_VocabularyTypes_VocabularyTypeID",
-                        column: x => x.VocabularyTypeID,
+                        name: "FK_Taxonomy_Vocabularies_Taxonomy_VocabularyTypes_VocabularyTypeId",
+                        column: x => x.VocabularyTypeId,
                         principalTable: "Taxonomy_VocabularyTypes",
-                        principalColumn: "VocabularyTypeID",
+                        principalColumn: "VocabularyTypeId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1722,24 +1720,24 @@ namespace Dnn.vNext.Migrations
                 name: "PasswordHistory",
                 columns: table => new
                 {
-                    PasswordHistoryID = table.Column<int>(nullable: false)
+                    PasswordHistoryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     PasswordSalt = table.Column<string>(nullable: true),
-                    UserID = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PasswordHistory", x => x.PasswordHistoryID);
+                    table.PrimaryKey("PK_PasswordHistory", x => x.PasswordHistoryId);
                     table.ForeignKey(
-                        name: "FK_PasswordHistory_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_PasswordHistory_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1761,13 +1759,13 @@ namespace Dnn.vNext.Migrations
                         name: "FK_Profile_Portals_PortalId",
                         column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Profile_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1777,37 +1775,37 @@ namespace Dnn.vNext.Migrations
                 {
                     RelationshipId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     DefaultResponse = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    PortalID = table.Column<int>(nullable: true),
-                    RelationshipTypeID = table.Column<int>(nullable: false),
-                    UserID = table.Column<int>(nullable: true)
+                    PortalId = table.Column<int>(nullable: true),
+                    RelationshipTypeId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Relationships", x => x.RelationshipId);
                     table.ForeignKey(
-                        name: "FK_Relationships_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_Relationships_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Relationships_RelationshipTypes_RelationshipTypeID",
-                        column: x => x.RelationshipTypeID,
+                        name: "FK_Relationships_RelationshipTypes_RelationshipTypeId",
+                        column: x => x.RelationshipTypeId,
                         principalTable: "RelationshipTypes",
-                        principalColumn: "RelationshipTypeID",
+                        principalColumn: "RelationshipTypeId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Relationships_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_Relationships_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1815,24 +1813,24 @@ namespace Dnn.vNext.Migrations
                 name: "UserAuthentication",
                 columns: table => new
                 {
-                    UserAuthenticationID = table.Column<int>(nullable: false)
+                    UserAuthenticationId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AuthenticaitonToken = table.Column<string>(nullable: true),
                     AuthenticationType = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    UserID = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserAuthentication", x => x.UserAuthenticationID);
+                    table.PrimaryKey("PK_UserAuthentication", x => x.UserAuthenticationId);
                     table.ForeignKey(
-                        name: "FK_UserAuthentication_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_UserAuthentication_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1840,30 +1838,31 @@ namespace Dnn.vNext.Migrations
                 name: "UserPortals",
                 columns: table => new
                 {
-                    UserID = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Authorized = table.Column<bool>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     PortalId = table.Column<int>(nullable: false),
                     RefreshRoles = table.Column<bool>(nullable: false),
+                    UserId1 = table.Column<int>(nullable: true),
                     UserPortalId = table.Column<int>(nullable: false),
                     VanityUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserPortals", x => x.UserID);
+                    table.PrimaryKey("PK_UserPortals", x => x.UserId);
                     table.ForeignKey(
                         name: "FK_UserPortals_Portals_PortalId",
                         column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserPortals_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_UserPortals_Users_UserId1",
+                        column: x => x.UserId1,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1871,28 +1870,28 @@ namespace Dnn.vNext.Migrations
                 name: "UsersOnline",
                 columns: table => new
                 {
-                    UserID = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     LastActiveDate = table.Column<DateTime>(nullable: false),
-                    PortalID = table.Column<int>(nullable: false),
-                    TabID = table.Column<int>(nullable: false),
-                    UserID1 = table.Column<int>(nullable: true)
+                    PortalId = table.Column<int>(nullable: false),
+                    TabId = table.Column<int>(nullable: false),
+                    UserId1 = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UsersOnline", x => x.UserID);
+                    table.PrimaryKey("PK_UsersOnline", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_UsersOnline_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_UsersOnline_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UsersOnline_Users_UserID1",
-                        column: x => x.UserID1,
+                        name: "FK_UsersOnline_Users_UserId1",
+                        column: x => x.UserId1,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1900,22 +1899,22 @@ namespace Dnn.vNext.Migrations
                 name: "WorkflowStates",
                 columns: table => new
                 {
-                    StateID = table.Column<int>(nullable: false)
+                    StateId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     IsActive = table.Column<bool>(nullable: false),
                     Notify = table.Column<bool>(nullable: false),
                     Order = table.Column<bool>(nullable: false),
                     StateName = table.Column<string>(nullable: true),
-                    WorkflowID = table.Column<int>(nullable: false)
+                    WorkflowId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkflowStates", x => x.StateID);
+                    table.PrimaryKey("PK_WorkflowStates", x => x.StateId);
                     table.ForeignKey(
-                        name: "FK_WorkflowStates_Workflow_WorkflowID",
-                        column: x => x.WorkflowID,
+                        name: "FK_WorkflowStates_Workflow_WorkflowId",
+                        column: x => x.WorkflowId,
                         principalTable: "Workflow",
-                        principalColumn: "WorkflowID",
+                        principalColumn: "WorkflowId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1923,20 +1922,20 @@ namespace Dnn.vNext.Migrations
                 name: "ContentWorkflowSources",
                 columns: table => new
                 {
-                    SourceID = table.Column<int>(nullable: false)
+                    SourceId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    SourceName = table.Column<string>(nullable: true),
-                    SourceType = table.Column<string>(nullable: true),
-                    WorkflowID = table.Column<int>(nullable: false)
+                    SourceName = table.Column<string>(maxLength: 20, nullable: false),
+                    SourceType = table.Column<string>(maxLength: 250, nullable: false),
+                    WorkflowId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContentWorkflowSources", x => x.SourceID);
+                    table.PrimaryKey("PK_ContentWorkflowSources", x => x.SourceId);
                     table.ForeignKey(
-                        name: "FK_ContentWorkflowSources_ContentWorkflows_WorkflowID",
-                        column: x => x.WorkflowID,
+                        name: "FK_ContentWorkflowSources_ContentWorkflows_WorkflowId",
+                        column: x => x.WorkflowId,
                         principalTable: "ContentWorkflows",
-                        principalColumn: "WorkflowID",
+                        principalColumn: "WorkflowId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1944,30 +1943,31 @@ namespace Dnn.vNext.Migrations
                 name: "ContentWorkflowStates",
                 columns: table => new
                 {
-                    StateID = table.Column<int>(nullable: false)
+                    StateId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    IsActive = table.Column<bool>(nullable: false),
-                    IsDisposalState = table.Column<bool>(nullable: false),
-                    IsSystem = table.Column<bool>(nullable: false),
-                    OnCompleteMessageBody = table.Column<string>(nullable: true),
-                    OnCompleteMessageSubject = table.Column<string>(nullable: true),
-                    OnDiscardMessageSubject = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false, defaultValue: true),
+                    IsDisposalState = table.Column<bool>(nullable: false, defaultValue: false),
+                    IsSystem = table.Column<bool>(nullable: false, defaultValue: false),
+                    OnCompleteMessageBody = table.Column<string>(maxLength: 1024, nullable: false, defaultValueSql: "''"),
+                    OnCompleteMessageSubject = table.Column<string>(maxLength: 256, nullable: false, defaultValueSql: "''"),
+                    OnDiscardMessageBody = table.Column<string>(maxLength: 1024, nullable: false, defaultValueSql: "''"),
+                    OnDiscardMessageSubject = table.Column<string>(maxLength: 256, nullable: false, defaultValueSql: "''"),
                     Order = table.Column<int>(nullable: false),
-                    SendEmail = table.Column<bool>(nullable: false),
-                    SendMessage = table.Column<bool>(nullable: false),
-                    SendNotification = table.Column<bool>(nullable: false),
-                    SendNotificationToAdministrators = table.Column<bool>(nullable: false),
-                    StateName = table.Column<string>(nullable: true),
-                    WorkflowID = table.Column<int>(nullable: false)
+                    SendEmail = table.Column<bool>(nullable: false, defaultValue: false),
+                    SendMessage = table.Column<bool>(nullable: false, defaultValue: false),
+                    SendNotification = table.Column<bool>(nullable: false, defaultValue: true),
+                    SendNotificationToAdministrators = table.Column<bool>(nullable: false, defaultValue: true),
+                    StateName = table.Column<string>(maxLength: 40, nullable: false),
+                    WorkflowId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContentWorkflowStates", x => x.StateID);
+                    table.PrimaryKey("PK_ContentWorkflowStates", x => x.StateId);
                     table.ForeignKey(
-                        name: "FK_ContentWorkflowStates_ContentWorkflows_WorkflowID",
-                        column: x => x.WorkflowID,
+                        name: "FK_ContentWorkflowStates_ContentWorkflows_WorkflowId",
+                        column: x => x.WorkflowId,
                         principalTable: "ContentWorkflows",
-                        principalColumn: "WorkflowID",
+                        principalColumn: "WorkflowId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1975,45 +1975,44 @@ namespace Dnn.vNext.Migrations
                 name: "EventLog",
                 columns: table => new
                 {
-                    LogEventID = table.Column<long>(nullable: false)
+                    LogEventId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    EventLogConfigID = table.Column<int>(nullable: true),
-                    ExceptionHash = table.Column<string>(nullable: true),
-                    LogConfigID = table.Column<int>(nullable: false),
-                    LogConfigLogEventID = table.Column<long>(nullable: true),
+                    EventLogConfigId = table.Column<int>(nullable: true),
+                    ExceptionHash = table.Column<string>(maxLength: 100, nullable: true),
+                    LogConfigId = table.Column<int>(nullable: false),
+                    LogConfigLogEventId = table.Column<long>(nullable: true),
                     LogCreateDate = table.Column<DateTime>(nullable: false),
-                    LogGuid = table.Column<string>(nullable: true),
+                    LogGuid = table.Column<string>(maxLength: 36, nullable: false),
                     LogNotificationPending = table.Column<bool>(nullable: true),
-                    LogPortalID = table.Column<int>(nullable: true),
-                    LogPortalName = table.Column<string>(nullable: true),
+                    LogPortalId = table.Column<int>(nullable: true),
+                    LogPortalName = table.Column<string>(maxLength: 100, nullable: true),
                     LogProperties = table.Column<string>(type: "xml", nullable: true),
-                    LogServerName = table.Column<string>(nullable: true),
-                    LogTypeKey1 = table.Column<string>(nullable: true),
-                    LogTypeKey = table.Column<string>(nullable: true),
-                    LogUserID = table.Column<int>(nullable: true),
-                    LogUserName = table.Column<string>(nullable: true)
+                    LogServerName = table.Column<string>(maxLength: 50, nullable: false),
+                    LogTypeKey = table.Column<string>(maxLength: 35, nullable: false),
+                    LogUserId = table.Column<int>(nullable: true),
+                    LogUserName = table.Column<string>(maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventLog", x => x.LogEventID);
+                    table.PrimaryKey("PK_EventLog", x => x.LogEventId);
                     table.ForeignKey(
-                        name: "FK_EventLog_EventLogConfig_EventLogConfigID",
-                        column: x => x.EventLogConfigID,
+                        name: "FK_EventLog_EventLogConfig_EventLogConfigId",
+                        column: x => x.EventLogConfigId,
                         principalTable: "EventLogConfig",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_EventLog_EventLog_LogConfigLogEventID",
-                        column: x => x.LogConfigLogEventID,
+                        name: "FK_EventLog_EventLog_LogConfigLogEventId",
+                        column: x => x.LogConfigLogEventId,
                         principalTable: "EventLog",
-                        principalColumn: "LogEventID",
+                        principalColumn: "LogEventId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_EventLog_EventLogTypes_LogTypeKey1",
-                        column: x => x.LogTypeKey1,
+                        name: "FK_EventLog_EventLogTypes_LogTypeKey",
+                        column: x => x.LogTypeKey,
                         principalTable: "EventLogTypes",
                         principalColumn: "LogTypeKey",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -2064,48 +2063,48 @@ namespace Dnn.vNext.Migrations
                 name: "Assemblies",
                 columns: table => new
                 {
-                    AssemblyID = table.Column<int>(nullable: false)
+                    AssemblyId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AssemblyName = table.Column<string>(nullable: true),
-                    PackageID = table.Column<int>(nullable: true),
-                    Version = table.Column<string>(nullable: true)
+                    AssemblyName = table.Column<string>(maxLength: 250, nullable: false),
+                    PackageId = table.Column<int>(nullable: true),
+                    Version = table.Column<string>(maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Assemblies", x => x.AssemblyID);
+                    table.PrimaryKey("PK_Assemblies", x => x.AssemblyId);
                     table.ForeignKey(
-                        name: "FK_Assemblies_Packages_PackageID",
-                        column: x => x.PackageID,
+                        name: "FK_Assemblies_Packages_PackageId",
+                        column: x => x.PackageId,
                         principalTable: "Packages",
-                        principalColumn: "PackageID",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "PackageId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Authentication",
                 columns: table => new
                 {
-                    AuthenticationID = table.Column<int>(nullable: false)
+                    AuthenticationId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AuthenticationType = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    AuthenticationType = table.Column<string>(maxLength: 100, nullable: false),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    IsEnabled = table.Column<bool>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    IsEnabled = table.Column<bool>(nullable: false, defaultValue: false),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    LoginControlSrc = table.Column<string>(nullable: true),
-                    LogoffControlSrc = table.Column<string>(nullable: true),
-                    PackageID = table.Column<int>(nullable: false),
-                    SettignsControlSrc = table.Column<string>(nullable: true)
+                    LoginControlSrc = table.Column<string>(maxLength: 250, nullable: false),
+                    LogoffControlSrc = table.Column<string>(maxLength: 250, nullable: false),
+                    PackageId = table.Column<int>(nullable: false, defaultValue: -1),
+                    SettignsControlSrc = table.Column<string>(maxLength: 250, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Authentication", x => x.AuthenticationID);
+                    table.PrimaryKey("PK_Authentication", x => x.AuthenticationId);
                     table.ForeignKey(
-                        name: "FK_Authentication_Packages_PackageID",
-                        column: x => x.PackageID,
+                        name: "FK_Authentication_Packages_PackageId",
+                        column: x => x.PackageId,
                         principalTable: "Packages",
-                        principalColumn: "PackageID",
+                        principalColumn: "PackageId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2113,38 +2112,38 @@ namespace Dnn.vNext.Migrations
                 name: "DesktopModules",
                 columns: table => new
                 {
-                    DesktopModuleID = table.Column<int>(nullable: false)
+                    DesktopModuleId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AdminPage = table.Column<string>(nullable: true),
-                    BusinessControllerClass = table.Column<string>(nullable: true),
-                    CompatibleVersions = table.Column<string>(nullable: true),
-                    ContentItemID = table.Column<int>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    AdminPage = table.Column<string>(maxLength: 128, nullable: true),
+                    BusinessControllerClass = table.Column<string>(maxLength: 200, nullable: true),
+                    CompatibleVersions = table.Column<string>(maxLength: 500, nullable: true),
+                    ContentItemId = table.Column<int>(nullable: false, defaultValue: -1),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    Dependencies = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    FolderName = table.Column<string>(nullable: true),
-                    FriendlyName = table.Column<string>(nullable: true),
-                    HostPage = table.Column<string>(nullable: true),
+                    Dependencies = table.Column<string>(maxLength: 400, nullable: true),
+                    Description = table.Column<string>(maxLength: 2000, nullable: true),
+                    FolderName = table.Column<string>(maxLength: 128, nullable: false),
+                    FriendlyName = table.Column<string>(maxLength: 128, nullable: false),
+                    HostPage = table.Column<string>(maxLength: 128, nullable: true),
                     IsAdmin = table.Column<bool>(nullable: false),
                     IsPremium = table.Column<bool>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    ModuleName = table.Column<string>(nullable: true),
-                    PackageID = table.Column<int>(nullable: false),
-                    Permissions = table.Column<string>(nullable: true),
-                    Shareable = table.Column<int>(nullable: false),
-                    SupportedFeatures = table.Column<bool>(nullable: false),
-                    Version = table.Column<string>(nullable: true)
+                    ModuleName = table.Column<string>(maxLength: 128, nullable: false),
+                    PackageId = table.Column<int>(nullable: false, defaultValue: -1),
+                    Permissions = table.Column<string>(maxLength: 400, nullable: true),
+                    Shareable = table.Column<int>(nullable: false, defaultValue: 0),
+                    SupportedFeatures = table.Column<int>(nullable: false, defaultValue: 0),
+                    Version = table.Column<string>(maxLength: 8, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DesktopModules", x => x.DesktopModuleID);
+                    table.PrimaryKey("PK_DesktopModules", x => x.DesktopModuleId);
                     table.ForeignKey(
-                        name: "FK_DesktopModules_Packages_PackageID",
-                        column: x => x.PackageID,
+                        name: "FK_DesktopModules_Packages_PackageId",
+                        column: x => x.PackageId,
                         principalTable: "Packages",
-                        principalColumn: "PackageID",
+                        principalColumn: "PackageId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2152,24 +2151,24 @@ namespace Dnn.vNext.Migrations
                 name: "JavascriptLibraries",
                 columns: table => new
                 {
-                    JavaScriptLibraryID = table.Column<int>(nullable: false)
+                    JavaScriptLibraryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CDNPath = table.Column<string>(nullable: true),
                     FileName = table.Column<string>(nullable: true),
                     LibraryName = table.Column<string>(nullable: true),
                     ObjectName = table.Column<string>(nullable: true),
-                    PackageID = table.Column<int>(nullable: false),
+                    PackageId = table.Column<int>(nullable: false),
                     PreferredScriptLocation = table.Column<int>(nullable: false),
                     Version = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JavascriptLibraries", x => x.JavaScriptLibraryID);
+                    table.PrimaryKey("PK_JavascriptLibraries", x => x.JavaScriptLibraryId);
                     table.ForeignKey(
-                        name: "FK_JavascriptLibraries_Packages_PackageID",
-                        column: x => x.PackageID,
+                        name: "FK_JavascriptLibraries_Packages_PackageId",
+                        column: x => x.PackageId,
                         principalTable: "Packages",
-                        principalColumn: "PackageID",
+                        principalColumn: "PackageId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2177,24 +2176,24 @@ namespace Dnn.vNext.Migrations
                 name: "LanguagePacks",
                 columns: table => new
                 {
-                    LanguagePackID = table.Column<int>(nullable: false)
+                    LanguagePackId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    DependentPackageID = table.Column<int>(nullable: false),
-                    LanguageID = table.Column<int>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    DependentPackageId = table.Column<int>(nullable: false),
+                    LanguageId = table.Column<int>(nullable: false),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PackageID = table.Column<int>(nullable: false)
+                    PackageId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LanguagePacks", x => x.LanguagePackID);
+                    table.PrimaryKey("PK_LanguagePacks", x => x.LanguagePackId);
                     table.ForeignKey(
-                        name: "FK_LanguagePacks_Packages_PackageID",
-                        column: x => x.PackageID,
+                        name: "FK_LanguagePacks_Packages_PackageId",
+                        column: x => x.PackageId,
                         principalTable: "Packages",
-                        principalColumn: "PackageID",
+                        principalColumn: "PackageId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2202,20 +2201,20 @@ namespace Dnn.vNext.Migrations
                 name: "PackageDependencies",
                 columns: table => new
                 {
-                    PackageDependencyID = table.Column<int>(nullable: false)
+                    PackageDependencyId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    PackageID = table.Column<int>(nullable: false),
+                    PackageId = table.Column<int>(nullable: false),
                     PackageName = table.Column<string>(nullable: true),
                     Version = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PackageDependencies", x => x.PackageDependencyID);
+                    table.PrimaryKey("PK_PackageDependencies", x => x.PackageDependencyId);
                     table.ForeignKey(
-                        name: "FK_PackageDependencies_Packages_PackageID",
-                        column: x => x.PackageID,
+                        name: "FK_PackageDependencies_Packages_PackageId",
+                        column: x => x.PackageId,
                         principalTable: "Packages",
-                        principalColumn: "PackageID",
+                        principalColumn: "PackageId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2223,53 +2222,53 @@ namespace Dnn.vNext.Migrations
                 name: "SkinControls",
                 columns: table => new
                 {
-                    SkinControlID = table.Column<int>(nullable: false)
+                    SkinControlId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ControlKey = table.Column<string>(nullable: true),
                     ControlSrc = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     HelpURL = table.Column<string>(nullable: true),
                     IconFile = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PackageID = table.Column<int>(nullable: false),
+                    PackageId = table.Column<int>(nullable: false),
                     SupportsPartialRendering = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SkinControls", x => x.SkinControlID);
+                    table.PrimaryKey("PK_SkinControls", x => x.SkinControlId);
                     table.ForeignKey(
-                        name: "FK_SkinControls_Packages_PackageID",
-                        column: x => x.PackageID,
+                        name: "FK_SkinControls_Packages_PackageId",
+                        column: x => x.PackageId,
                         principalTable: "Packages",
-                        principalColumn: "PackageID",
+                        principalColumn: "PackageId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "vSkinPackages",
+                name: "SkinPackages",
                 columns: table => new
                 {
-                    SkinPackageID = table.Column<int>(nullable: false)
+                    SkinPackageId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PackageID = table.Column<int>(nullable: false),
-                    PortalID = table.Column<int>(nullable: true),
+                    PackageId = table.Column<int>(nullable: false),
+                    PortalId = table.Column<int>(nullable: true),
                     SkinName = table.Column<string>(nullable: true),
                     SkinType = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_vSkinPackages", x => x.SkinPackageID);
+                    table.PrimaryKey("PK_SkinPackages", x => x.SkinPackageId);
                     table.ForeignKey(
-                        name: "FK_vSkinPackages_Packages_PackageID",
-                        column: x => x.PackageID,
+                        name: "FK_SkinPackages_Packages_PackageId",
+                        column: x => x.PackageId,
                         principalTable: "Packages",
-                        principalColumn: "PackageID",
+                        principalColumn: "PackageId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2277,22 +2276,22 @@ namespace Dnn.vNext.Migrations
                 name: "FolderMappingsSettings",
                 columns: table => new
                 {
-                    FolderMappingID = table.Column<int>(nullable: false),
+                    FolderMappingId = table.Column<int>(nullable: false),
                     SettingName = table.Column<string>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     SettingValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FolderMappingsSettings", x => new { x.FolderMappingID, x.SettingName });
+                    table.PrimaryKey("PK_FolderMappingsSettings", x => new { x.FolderMappingId, x.SettingName });
                     table.ForeignKey(
-                        name: "FK_FolderMappingsSettings_FolderMappings_FolderMappingID",
-                        column: x => x.FolderMappingID,
+                        name: "FK_FolderMappingsSettings_FolderMappings_FolderMappingId",
+                        column: x => x.FolderMappingId,
                         principalTable: "FolderMappings",
-                        principalColumn: "FolderMappingID",
+                        principalColumn: "FolderMappingId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2304,77 +2303,70 @@ namespace Dnn.vNext.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Capability = table.Column<string>(nullable: true),
                     Expression = table.Column<string>(nullable: true),
-                    Mobile_RedirectionId = table.Column<int>(nullable: true),
                     RedirectionId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Mobile_RedirectionRules", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Mobile_RedirectionRules_Mobile_Redirections_Mobile_RedirectionId",
-                        column: x => x.Mobile_RedirectionId,
+                        name: "FK_Mobile_RedirectionRules_Mobile_Redirections_RedirectionId",
+                        column: x => x.RedirectionId,
                         principalTable: "Mobile_Redirections",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
-                    table.ForeignKey(
-                        name: "FK_Mobile_RedirectionRules_Mobile_RedirectionRules_RedirectionId",
-                        column: x => x.RedirectionId,
-                        principalTable: "Mobile_RedirectionRules",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "UserProfile",
                 columns: table => new
                 {
-                    ProfileID = table.Column<int>(nullable: false)
+                    ProfileId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ExtendedVisibility = table.Column<string>(nullable: true),
                     LastUpdatedDate = table.Column<DateTime>(nullable: false),
-                    ProfilePropertyDefinitionID = table.Column<int>(nullable: false),
+                    ProfilePropertyDefinitionId = table.Column<int>(nullable: false),
                     PropertyText = table.Column<string>(nullable: true),
                     PropertyValue = table.Column<string>(nullable: true),
-                    UserID = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false),
                     Visibility = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserProfile", x => x.ProfileID);
+                    table.PrimaryKey("PK_UserProfile", x => x.ProfileId);
                     table.ForeignKey(
-                        name: "FK_UserProfile_ProfilePropertyDefinition_ProfilePropertyDefinitionID",
-                        column: x => x.ProfilePropertyDefinitionID,
+                        name: "FK_UserProfile_ProfilePropertyDefinition_ProfilePropertyDefinitionId",
+                        column: x => x.ProfilePropertyDefinitionId,
                         principalTable: "ProfilePropertyDefinition",
-                        principalColumn: "PropertyDefinitionID",
+                        principalColumn: "PropertyDefinitionId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserProfile_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_UserProfile_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Role",
+                name: "Roles",
                 columns: table => new
                 {
-                    RoleID = table.Column<int>(nullable: false)
+                    RoleId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AutoAssignment = table.Column<bool>(nullable: false),
                     BillingFrequency = table.Column<string>(nullable: true),
                     BillingPeriod = table.Column<int>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     IconFile = table.Column<string>(nullable: true),
                     IsPublic = table.Column<bool>(nullable: false),
                     IsSystemRole = table.Column<bool>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PortalID = table.Column<int>(nullable: true),
+                    PortalId = table.Column<int>(nullable: true),
                     RSVPCode = table.Column<string>(nullable: true),
-                    RoleGroupID = table.Column<int>(nullable: true),
+                    RoleGroupId = table.Column<int>(nullable: true),
                     RoleName = table.Column<string>(nullable: true),
                     SecurityMode = table.Column<int>(nullable: false),
                     ServiceFee = table.Column<decimal>(nullable: false),
@@ -2385,18 +2377,18 @@ namespace Dnn.vNext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Role", x => x.RoleID);
+                    table.PrimaryKey("PK_Roles", x => x.RoleId);
                     table.ForeignKey(
-                        name: "FK_Role_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_Roles_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Role_RoleGroups_RoleGroupID",
-                        column: x => x.RoleGroupID,
+                        name: "FK_Roles_RoleGroups_RoleGroupId",
+                        column: x => x.RoleGroupId,
                         principalTable: "RoleGroups",
-                        principalColumn: "RoleGroupID",
+                        principalColumn: "RoleGroupId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -2404,20 +2396,20 @@ namespace Dnn.vNext.Migrations
                 name: "UrlLog",
                 columns: table => new
                 {
-                    UrlLogID = table.Column<int>(nullable: false)
+                    UrlLogId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ClickDate = table.Column<DateTime>(nullable: false),
-                    UrlTrackingID = table.Column<int>(nullable: false),
-                    UserID = table.Column<int>(nullable: true)
+                    UrlTrackingId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UrlLog", x => x.UrlLogID);
+                    table.PrimaryKey("PK_UrlLog", x => x.UrlLogId);
                     table.ForeignKey(
-                        name: "FK_UrlLog_UrlTracking_UrlTrackingID",
-                        column: x => x.UrlTrackingID,
+                        name: "FK_UrlLog_UrlTracking_UrlTrackingId",
+                        column: x => x.UrlTrackingId,
                         principalTable: "UrlTracking",
-                        principalColumn: "UrlTrackingID",
+                        principalColumn: "UrlTrackingId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2425,55 +2417,55 @@ namespace Dnn.vNext.Migrations
                 name: "Taxonomy_Terms",
                 columns: table => new
                 {
-                    TermID = table.Column<int>(nullable: false)
+                    TermId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    ParentTermID = table.Column<int>(nullable: false),
+                    ParentTermId = table.Column<int>(nullable: false),
                     TermLeft = table.Column<int>(nullable: false),
                     TermRight = table.Column<int>(nullable: false),
-                    VocabularyID = table.Column<int>(nullable: false),
+                    VocabularyId = table.Column<int>(nullable: false),
                     Weight = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Taxonomy_Terms", x => x.TermID);
+                    table.PrimaryKey("PK_Taxonomy_Terms", x => x.TermId);
                     table.ForeignKey(
-                        name: "FK_Taxonomy_Terms_Taxonomy_Terms_ParentTermID",
-                        column: x => x.ParentTermID,
+                        name: "FK_Taxonomy_Terms_Taxonomy_Terms_ParentTermId",
+                        column: x => x.ParentTermId,
                         principalTable: "Taxonomy_Terms",
-                        principalColumn: "TermID",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "TermId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Taxonomy_Terms_Taxonomy_Vocabularies_VocabularyID",
-                        column: x => x.VocabularyID,
+                        name: "FK_Taxonomy_Terms_Taxonomy_Vocabularies_VocabularyId",
+                        column: x => x.VocabularyId,
                         principalTable: "Taxonomy_Vocabularies",
-                        principalColumn: "VocabularyID",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "VocabularyId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "UserRelationshipPreferences",
                 columns: table => new
                 {
-                    PreferenceID = table.Column<int>(nullable: false)
+                    PreferenceId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     DefaultResponse = table.Column<int>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    RealtionshipID = table.Column<int>(nullable: false),
+                    RealtionshipId = table.Column<int>(nullable: false),
                     RelationshipId = table.Column<int>(nullable: true),
-                    UserID = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRelationshipPreferences", x => x.PreferenceID);
+                    table.PrimaryKey("PK_UserRelationshipPreferences", x => x.PreferenceId);
                     table.ForeignKey(
                         name: "FK_UserRelationshipPreferences_Relationships_RelationshipId",
                         column: x => x.RelationshipId,
@@ -2481,10 +2473,10 @@ namespace Dnn.vNext.Migrations
                         principalColumn: "RelationshipId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserRelationshipPreferences_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_UserRelationshipPreferences_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2492,72 +2484,72 @@ namespace Dnn.vNext.Migrations
                 name: "UserRelationships",
                 columns: table => new
                 {
-                    UserRelationshipID = table.Column<int>(nullable: false)
+                    UserRelationshipId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    RelatedUserID = table.Column<int>(nullable: false),
-                    RelationshipID = table.Column<int>(nullable: false),
+                    RelatedUserId = table.Column<int>(nullable: false),
+                    RelationshipId = table.Column<int>(nullable: false),
                     Status = table.Column<int>(nullable: false),
-                    UserID = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRelationships", x => x.UserRelationshipID);
+                    table.PrimaryKey("PK_UserRelationships", x => x.UserRelationshipId);
                     table.ForeignKey(
-                        name: "FK_UserRelationships_Users_RelatedUserID",
-                        column: x => x.RelatedUserID,
+                        name: "FK_UserRelationships_Users_RelatedUserId",
+                        column: x => x.RelatedUserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserRelationships_Relationships_RelationshipID",
-                        column: x => x.RelationshipID,
+                        name: "FK_UserRelationships_Relationships_RelationshipId",
+                        column: x => x.RelationshipId,
                         principalTable: "Relationships",
                         principalColumn: "RelationshipId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserRelationships_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_UserRelationships_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ContentItems",
                 columns: table => new
                 {
-                    ContentItemID = table.Column<int>(nullable: false)
+                    ContentItemId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Content = table.Column<string>(nullable: true),
-                    ContentKey = table.Column<string>(nullable: true),
-                    ContentTypeID = table.Column<int>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    ContentKey = table.Column<string>(maxLength: 250, nullable: true),
+                    ContentTypeId = table.Column<int>(nullable: false),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    Indexed = table.Column<bool>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    Indexed = table.Column<bool>(nullable: false, defaultValue: false),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    ModuleID = table.Column<int>(nullable: false),
-                    StateID = table.Column<int>(nullable: true),
-                    TabID = table.Column<int>(nullable: false)
+                    ModuleId = table.Column<int>(nullable: false),
+                    StateId = table.Column<int>(nullable: true),
+                    TabId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContentItems", x => x.ContentItemID);
+                    table.PrimaryKey("PK_ContentItems", x => x.ContentItemId);
                     table.ForeignKey(
-                        name: "FK_ContentItems_ContentType_ContentTypeID",
-                        column: x => x.ContentTypeID,
-                        principalTable: "ContentType",
-                        principalColumn: "ContentTypeID",
+                        name: "FK_ContentItems_ContentTypes_ContentTypeId",
+                        column: x => x.ContentTypeId,
+                        principalTable: "ContentTypes",
+                        principalColumn: "ContentTypeId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ContentItems_ContentWorkflowStates_StateID",
-                        column: x => x.StateID,
+                        name: "FK_ContentItems_ContentWorkflowStates_StateId",
+                        column: x => x.StateId,
                         principalTable: "ContentWorkflowStates",
-                        principalColumn: "StateID",
+                        principalColumn: "StateId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -2565,38 +2557,38 @@ namespace Dnn.vNext.Migrations
                 name: "ContentWorkflowStatePermission",
                 columns: table => new
                 {
-                    WorkflowStatePermissionID = table.Column<int>(nullable: false)
+                    WorkflowStatePermissionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AllowAccess = table.Column<bool>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PermissionID = table.Column<int>(nullable: false),
-                    RoleID = table.Column<int>(nullable: true),
+                    PermissionId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<int>(nullable: true),
                     StateId = table.Column<int>(nullable: false),
-                    UserID = table.Column<int>(nullable: true)
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContentWorkflowStatePermission", x => x.WorkflowStatePermissionID);
+                    table.PrimaryKey("PK_ContentWorkflowStatePermission", x => x.WorkflowStatePermissionId);
                     table.ForeignKey(
-                        name: "FK_ContentWorkflowStatePermission_Permission_PermissionID",
-                        column: x => x.PermissionID,
+                        name: "FK_ContentWorkflowStatePermission_Permission_PermissionId",
+                        column: x => x.PermissionId,
                         principalTable: "Permission",
-                        principalColumn: "PermissionID",
+                        principalColumn: "PermissionId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ContentWorkflowStatePermission_ContentWorkflowStates_StateId",
                         column: x => x.StateId,
                         principalTable: "ContentWorkflowStates",
-                        principalColumn: "StateID",
+                        principalColumn: "StateId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ContentWorkflowStatePermission_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_ContentWorkflowStatePermission_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -2604,23 +2596,23 @@ namespace Dnn.vNext.Migrations
                 name: "ExceptionEvents",
                 columns: table => new
                 {
-                    LogEventID = table.Column<long>(nullable: false),
-                    AssemblyVersion = table.Column<string>(nullable: true),
-                    PortalID = table.Column<int>(nullable: true),
-                    RawURL = table.Column<string>(nullable: true),
-                    Referrer = table.Column<string>(nullable: true),
-                    TabID = table.Column<int>(nullable: true),
-                    UserAgent = table.Column<string>(nullable: true),
-                    UserID = table.Column<int>(nullable: true)
+                    LogEventId = table.Column<long>(nullable: false),
+                    AssemblyVersion = table.Column<string>(maxLength: 20, nullable: false),
+                    PortalId = table.Column<int>(nullable: true),
+                    RawURL = table.Column<string>(maxLength: 260, nullable: true),
+                    Referrer = table.Column<string>(maxLength: 260, nullable: true),
+                    TabId = table.Column<int>(nullable: true),
+                    UserAgent = table.Column<string>(maxLength: 260, nullable: true),
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExceptionEvents", x => x.LogEventID);
+                    table.PrimaryKey("PK_ExceptionEvents", x => x.LogEventId);
                     table.ForeignKey(
-                        name: "FK_ExceptionEvents_EventLog_LogEventID",
-                        column: x => x.LogEventID,
+                        name: "FK_ExceptionEvents_EventLog_LogEventId",
+                        column: x => x.LogEventId,
                         principalTable: "EventLog",
-                        principalColumn: "LogEventID",
+                        principalColumn: "LogEventId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2628,26 +2620,26 @@ namespace Dnn.vNext.Migrations
                 name: "CoreMessaging_NotificationTypes",
                 columns: table => new
                 {
-                    NotificationTypeID = table.Column<int>(nullable: false)
+                    NotificationTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    DesktopModuleID = table.Column<int>(nullable: true),
-                    IsTask = table.Column<bool>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    Description = table.Column<string>(maxLength: 2000, nullable: true),
+                    DesktopModuleId = table.Column<int>(nullable: true),
+                    IsTask = table.Column<bool>(nullable: false, defaultValue: false),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
                     TTL = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CoreMessaging_NotificationTypes", x => x.NotificationTypeID);
+                    table.PrimaryKey("PK_CoreMessaging_NotificationTypes", x => x.NotificationTypeId);
                     table.ForeignKey(
-                        name: "FK_CoreMessaging_NotificationTypes_DesktopModules_DesktopModuleID",
-                        column: x => x.DesktopModuleID,
+                        name: "FK_CoreMessaging_NotificationTypes_DesktopModules_DesktopModuleId",
+                        column: x => x.DesktopModuleId,
                         principalTable: "DesktopModules",
-                        principalColumn: "DesktopModuleID",
+                        principalColumn: "DesktopModuleId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -2655,25 +2647,25 @@ namespace Dnn.vNext.Migrations
                 name: "ModuleDefinitions",
                 columns: table => new
                 {
-                    ModuleDefID = table.Column<int>(nullable: false)
+                    ModuleDefId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     DefaultCacheTime = table.Column<int>(nullable: false),
                     DefinitionName = table.Column<string>(nullable: true),
-                    DesktopModuleID = table.Column<int>(nullable: false),
+                    DesktopModuleId = table.Column<int>(nullable: false),
                     FriendlyName = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ModuleDefinitions", x => x.ModuleDefID);
+                    table.PrimaryKey("PK_ModuleDefinitions", x => x.ModuleDefId);
                     table.ForeignKey(
-                        name: "FK_ModuleDefinitions_DesktopModules_DesktopModuleID",
-                        column: x => x.DesktopModuleID,
+                        name: "FK_ModuleDefinitions_DesktopModules_DesktopModuleId",
+                        column: x => x.DesktopModuleId,
                         principalTable: "DesktopModules",
-                        principalColumn: "DesktopModuleID",
+                        principalColumn: "DesktopModuleId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2681,29 +2673,29 @@ namespace Dnn.vNext.Migrations
                 name: "PortalDesktopModules",
                 columns: table => new
                 {
-                    PortalDesktopModuleID = table.Column<int>(nullable: false)
+                    PortalDesktopModuleId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    DesktopModuleID = table.Column<int>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    DesktopModuleId = table.Column<int>(nullable: false),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PortalID = table.Column<int>(nullable: false)
+                    PortalId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PortalDesktopModules", x => x.PortalDesktopModuleID);
+                    table.PrimaryKey("PK_PortalDesktopModules", x => x.PortalDesktopModuleId);
                     table.ForeignKey(
-                        name: "FK_PortalDesktopModules_DesktopModules_DesktopModuleID",
-                        column: x => x.DesktopModuleID,
+                        name: "FK_PortalDesktopModules_DesktopModules_DesktopModuleId",
+                        column: x => x.DesktopModuleId,
                         principalTable: "DesktopModules",
-                        principalColumn: "DesktopModuleID",
+                        principalColumn: "DesktopModuleId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PortalDesktopModules_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_PortalDesktopModules_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2711,19 +2703,19 @@ namespace Dnn.vNext.Migrations
                 name: "Skins",
                 columns: table => new
                 {
-                    SkinID = table.Column<int>(nullable: false)
+                    SkinId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    SkinPackageID = table.Column<int>(nullable: false),
+                    SkinPackageId = table.Column<int>(nullable: false),
                     SkinSrc = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Skins", x => x.SkinID);
+                    table.PrimaryKey("PK_Skins", x => x.SkinId);
                     table.ForeignKey(
-                        name: "FK_Skins_vSkinPackages_SkinPackageID",
-                        column: x => x.SkinPackageID,
-                        principalTable: "vSkinPackages",
-                        principalColumn: "SkinPackageID",
+                        name: "FK_Skins_SkinPackages_SkinPackageId",
+                        column: x => x.SkinPackageId,
+                        principalTable: "SkinPackages",
+                        principalColumn: "SkinPackageId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2731,12 +2723,12 @@ namespace Dnn.vNext.Migrations
                 name: "PersonaBarMenuPermission",
                 columns: table => new
                 {
-                    MenuPermissionID = table.Column<int>(nullable: false)
+                    MenuPermissionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AllowAccess = table.Column<bool>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     MenuId = table.Column<int>(nullable: false),
                     PermissionId = table.Column<int>(nullable: false),
@@ -2746,7 +2738,7 @@ namespace Dnn.vNext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PersonaBarMenuPermission", x => x.MenuPermissionID);
+                    table.PrimaryKey("PK_PersonaBarMenuPermission", x => x.MenuPermissionId);
                     table.ForeignKey(
                         name: "FK_PersonaBarMenuPermission_PersonaBarMenu_MenuId",
                         column: x => x.MenuId,
@@ -2763,19 +2755,19 @@ namespace Dnn.vNext.Migrations
                         name: "FK_PersonaBarMenuPermission_Portals_PortalId",
                         column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PersonaBarMenuPermission_Role_RoleId",
+                        name: "FK_PersonaBarMenuPermission_Roles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "Role",
-                        principalColumn: "RoleID",
+                        principalTable: "Roles",
+                        principalColumn: "RoleId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PersonaBarMenuPermission_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -2783,34 +2775,34 @@ namespace Dnn.vNext.Migrations
                 name: "UserRoles",
                 columns: table => new
                 {
-                    UserRoleID = table.Column<int>(nullable: false)
+                    UserRoleId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     EffectiveDate = table.Column<DateTime>(nullable: true),
                     ExpiryDate = table.Column<DateTime>(nullable: true),
                     IsOwner = table.Column<bool>(nullable: false),
                     IsTrialUsed = table.Column<bool>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    RoleID = table.Column<int>(nullable: false),
+                    RoleId = table.Column<int>(nullable: false),
                     Status = table.Column<int>(nullable: false),
-                    UserID = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRoles", x => x.UserRoleID);
+                    table.PrimaryKey("PK_UserRoles", x => x.UserRoleId);
                     table.ForeignKey(
-                        name: "FK_UserRoles_Role_RoleID",
-                        column: x => x.RoleID,
-                        principalTable: "Role",
-                        principalColumn: "RoleID",
+                        name: "FK_UserRoles_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "RoleId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserRoles_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_UserRoles_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2818,26 +2810,26 @@ namespace Dnn.vNext.Migrations
                 name: "ContentItems_MetaData",
                 columns: table => new
                 {
-                    ContetnItemMetaDataID = table.Column<int>(nullable: false)
+                    ContentItemMetaDataId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ContentItemID = table.Column<int>(nullable: false),
-                    MetaDataID = table.Column<int>(nullable: false),
+                    ContentItemId = table.Column<int>(nullable: false),
+                    MetaDataId = table.Column<int>(nullable: false),
                     MetaDataValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContentItems_MetaData", x => x.ContetnItemMetaDataID);
+                    table.PrimaryKey("PK_ContentItems_MetaData", x => x.ContentItemMetaDataId);
                     table.ForeignKey(
-                        name: "FK_ContentItems_MetaData_ContentItems_ContentItemID",
-                        column: x => x.ContentItemID,
+                        name: "FK_ContentItems_MetaData_ContentItems_ContentItemId",
+                        column: x => x.ContentItemId,
                         principalTable: "ContentItems",
-                        principalColumn: "ContentItemID",
+                        principalColumn: "ContentItemId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ContentItems_MetaData_MetaData_MetaDataID",
-                        column: x => x.MetaDataID,
+                        name: "FK_ContentItems_MetaData_MetaData_MetaDataId",
+                        column: x => x.MetaDataId,
                         principalTable: "MetaData",
-                        principalColumn: "MetaDataID",
+                        principalColumn: "MetaDataId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2845,32 +2837,25 @@ namespace Dnn.vNext.Migrations
                 name: "ContentItems_Tags",
                 columns: table => new
                 {
-                    ContentItemTagID = table.Column<int>(nullable: false)
+                    ContentItemTagId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ContentItemID = table.Column<int>(nullable: false),
-                    ContentItemTagID1 = table.Column<int>(nullable: true),
-                    TermID = table.Column<int>(nullable: false)
+                    ContentItemId = table.Column<int>(nullable: false),
+                    TermId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContentItems_Tags", x => x.ContentItemTagID);
+                    table.PrimaryKey("PK_ContentItems_Tags", x => x.ContentItemTagId);
                     table.ForeignKey(
-                        name: "FK_ContentItems_Tags_ContentItems_ContentItemID",
-                        column: x => x.ContentItemID,
+                        name: "FK_ContentItems_Tags_ContentItems_ContentItemId",
+                        column: x => x.ContentItemId,
                         principalTable: "ContentItems",
-                        principalColumn: "ContentItemID",
+                        principalColumn: "ContentItemId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ContentItems_Tags_ContentItems_Tags_ContentItemTagID1",
-                        column: x => x.ContentItemTagID1,
-                        principalTable: "ContentItems_Tags",
-                        principalColumn: "ContentItemTagID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ContentItems_Tags_Taxonomy_Terms_TermID",
-                        column: x => x.TermID,
+                        name: "FK_ContentItems_Tags_Taxonomy_Terms_TermId",
+                        column: x => x.TermId,
                         principalTable: "Taxonomy_Terms",
-                        principalColumn: "TermID",
+                        principalColumn: "TermId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2878,30 +2863,30 @@ namespace Dnn.vNext.Migrations
                 name: "ContentWorkflowLogs",
                 columns: table => new
                 {
-                    WorkflowLogID = table.Column<int>(nullable: false)
+                    WorkflowLogId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Action = table.Column<string>(nullable: true),
-                    Comment = table.Column<string>(nullable: true),
-                    ContentItemID = table.Column<int>(nullable: false),
+                    Action = table.Column<string>(maxLength: 40, nullable: false),
+                    Comment = table.Column<string>(nullable: false),
+                    ContentItemId = table.Column<int>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
-                    Type = table.Column<int>(nullable: false),
-                    User = table.Column<int>(nullable: true),
-                    WorkflowID = table.Column<int>(nullable: false)
+                    Type = table.Column<int>(nullable: false, defaultValue: -1),
+                    User = table.Column<int>(nullable: false),
+                    WorkflowId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContentWorkflowLogs", x => x.WorkflowLogID);
+                    table.PrimaryKey("PK_ContentWorkflowLogs", x => x.WorkflowLogId);
                     table.ForeignKey(
-                        name: "FK_ContentWorkflowLogs_ContentItems_ContentItemID",
-                        column: x => x.ContentItemID,
+                        name: "FK_ContentWorkflowLogs_ContentItems_ContentItemId",
+                        column: x => x.ContentItemId,
                         principalTable: "ContentItems",
-                        principalColumn: "ContentItemID",
+                        principalColumn: "ContentItemId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ContentWorkflowLogs_ContentWorkflows_WorkflowID",
-                        column: x => x.WorkflowID,
+                        name: "FK_ContentWorkflowLogs_ContentWorkflows_WorkflowId",
+                        column: x => x.WorkflowId,
                         principalTable: "ContentWorkflows",
-                        principalColumn: "WorkflowID",
+                        principalColumn: "WorkflowId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -2909,14 +2894,14 @@ namespace Dnn.vNext.Migrations
                 name: "Tabs",
                 columns: table => new
                 {
-                    TabID = table.Column<int>(nullable: false)
+                    TabId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ContainerSrc = table.Column<string>(nullable: true),
-                    ContentItemID = table.Column<int>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    ContentItemId = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     CultureCode = table.Column<string>(nullable: true),
-                    DefaultLanguageGUID = table.Column<Guid>(nullable: false),
+                    DefaultLanguageGuid = table.Column<Guid>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     DisableLink = table.Column<bool>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: true),
@@ -2928,15 +2913,15 @@ namespace Dnn.vNext.Migrations
                     IsSystem = table.Column<bool>(nullable: false),
                     IsVisible = table.Column<bool>(nullable: false),
                     Keywords = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     Level = table.Column<int>(nullable: false),
-                    LocalizedVersionGUID = table.Column<Guid>(nullable: false),
+                    LocalizedVersionGuid = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     PageHeadText = table.Column<string>(nullable: true),
                     ParentId = table.Column<int>(nullable: true),
                     PermanentRedirect = table.Column<bool>(nullable: false),
-                    PortalID = table.Column<int>(nullable: true),
+                    PortalId = table.Column<int>(nullable: true),
                     RefreshInterval = table.Column<int>(nullable: true),
                     SiteMapPriority = table.Column<float>(nullable: false),
                     SkinSrc = table.Column<string>(nullable: true),
@@ -2947,28 +2932,28 @@ namespace Dnn.vNext.Migrations
                     Title = table.Column<string>(nullable: true),
                     UniqueId = table.Column<Guid>(nullable: false),
                     Url = table.Column<string>(nullable: true),
-                    VersionGUID = table.Column<Guid>(nullable: false)
+                    VersionGuid = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tabs", x => x.TabID);
+                    table.PrimaryKey("PK_Tabs", x => x.TabId);
                     table.ForeignKey(
-                        name: "FK_Tabs_ContentItems_ContentItemID",
-                        column: x => x.ContentItemID,
+                        name: "FK_Tabs_ContentItems_ContentItemId",
+                        column: x => x.ContentItemId,
                         principalTable: "ContentItems",
-                        principalColumn: "ContentItemID",
+                        principalColumn: "ContentItemId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Tabs_Tabs_ParentId",
                         column: x => x.ParentId,
                         principalTable: "Tabs",
-                        principalColumn: "TabID",
+                        principalColumn: "TabId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Tabs_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_Tabs_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -2976,53 +2961,53 @@ namespace Dnn.vNext.Migrations
                 name: "Folders",
                 columns: table => new
                 {
-                    FolderID = table.Column<int>(nullable: false)
+                    FolderId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ContentWorkflowStatePermissionWorkflowStatePermissionID = table.Column<int>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    ContentWorkflowStatePermissionWorkflowStatePermissionId = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    FolderMappingID = table.Column<int>(nullable: false),
+                    FolderMappingId = table.Column<int>(nullable: false),
                     FolderPath = table.Column<string>(nullable: true),
                     IsCached = table.Column<bool>(nullable: false),
                     IsProtected = table.Column<bool>(nullable: false),
                     IsVersioned = table.Column<bool>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     LastUpdated = table.Column<DateTime>(nullable: false),
                     MappedPath = table.Column<string>(nullable: true),
-                    ParentID = table.Column<int>(nullable: true),
-                    PortalID = table.Column<int>(nullable: true),
+                    ParentId = table.Column<int>(nullable: true),
+                    PortalId = table.Column<int>(nullable: true),
                     StorageLocation = table.Column<int>(nullable: false),
-                    UniqueID = table.Column<Guid>(nullable: false),
+                    UniqueId = table.Column<Guid>(nullable: false),
                     VersionGuid = table.Column<Guid>(nullable: false),
-                    WorkflowID = table.Column<int>(nullable: true)
+                    WorkflowId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Folders", x => x.FolderID);
+                    table.PrimaryKey("PK_Folders", x => x.FolderId);
                     table.ForeignKey(
-                        name: "FK_Folders_ContentWorkflowStatePermission_ContentWorkflowStatePermissionWorkflowStatePermissionID",
-                        column: x => x.ContentWorkflowStatePermissionWorkflowStatePermissionID,
+                        name: "FK_Folders_ContentWorkflowStatePermission_ContentWorkflowStatePermissionWorkflowStatePermissionId",
+                        column: x => x.ContentWorkflowStatePermissionWorkflowStatePermissionId,
                         principalTable: "ContentWorkflowStatePermission",
-                        principalColumn: "WorkflowStatePermissionID",
+                        principalColumn: "WorkflowStatePermissionId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Folders_FolderMappings_FolderMappingID",
-                        column: x => x.FolderMappingID,
+                        name: "FK_Folders_FolderMappings_FolderMappingId",
+                        column: x => x.FolderMappingId,
                         principalTable: "FolderMappings",
-                        principalColumn: "FolderMappingID",
+                        principalColumn: "FolderMappingId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Folders_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_Folders_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Folders_ContentWorkflows_WorkflowID",
-                        column: x => x.WorkflowID,
+                        name: "FK_Folders_ContentWorkflows_WorkflowId",
+                        column: x => x.WorkflowId,
                         principalTable: "ContentWorkflows",
-                        principalColumn: "WorkflowID",
+                        principalColumn: "WorkflowId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -3030,33 +3015,33 @@ namespace Dnn.vNext.Migrations
                 name: "CoreMessaging_Messages",
                 columns: table => new
                 {
-                    MessageID = table.Column<int>(nullable: false)
+                    MessageId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Body = table.Column<string>(nullable: true),
-                    Context = table.Column<string>(nullable: true),
-                    ConversationID = table.Column<int>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    Context = table.Column<string>(maxLength: 200, nullable: true),
+                    ConversationId = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     ExpirationDate = table.Column<DateTime>(nullable: true),
-                    From = table.Column<string>(nullable: true),
+                    From = table.Column<string>(maxLength: 200, nullable: true),
                     IncludeDismissAction = table.Column<bool>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    NotificationTypeID = table.Column<int>(nullable: true),
-                    PortalID = table.Column<int>(nullable: true),
+                    NotificationTypeId = table.Column<int>(nullable: true),
+                    PortalId = table.Column<int>(nullable: true),
                     ReplyAllAllowed = table.Column<bool>(nullable: true),
-                    SenderUserID = table.Column<int>(nullable: true),
-                    Subject = table.Column<string>(nullable: true),
-                    To = table.Column<string>(nullable: true)
+                    SenderUserId = table.Column<int>(nullable: true),
+                    Subject = table.Column<string>(maxLength: 400, nullable: true),
+                    To = table.Column<string>(maxLength: 2000, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CoreMessaging_Messages", x => x.MessageID);
+                    table.PrimaryKey("PK_CoreMessaging_Messages", x => x.MessageId);
                     table.ForeignKey(
-                        name: "FK_CoreMessaging_Messages_CoreMessaging_NotificationTypes_NotificationTypeID",
-                        column: x => x.NotificationTypeID,
+                        name: "FK_CoreMessaging_Messages_CoreMessaging_NotificationTypes_NotificationTypeId",
+                        column: x => x.NotificationTypeId,
                         principalTable: "CoreMessaging_NotificationTypes",
-                        principalColumn: "NotificationTypeID",
+                        principalColumn: "NotificationTypeId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -3064,27 +3049,27 @@ namespace Dnn.vNext.Migrations
                 name: "CoreMessaging_NotificationTypeActions",
                 columns: table => new
                 {
-                    NotificaationTypeActionID = table.Column<int>(nullable: false)
+                    NotificationTypeActionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    APICall = table.Column<string>(nullable: true),
-                    ConfirmRescourceKey = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    APICall = table.Column<string>(maxLength: 500, nullable: false),
+                    ConfirmRescourceKey = table.Column<string>(maxLength: 100, nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    DescriptionResourceKey = table.Column<string>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    DescriptionResourceKey = table.Column<string>(maxLength: 100, nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    NameResourceKey = table.Column<string>(nullable: true),
-                    NotificationTypeID = table.Column<int>(nullable: false),
+                    NameResourceKey = table.Column<string>(maxLength: 100, nullable: false),
+                    NotificationTypeId = table.Column<int>(nullable: false),
                     Order = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CoreMessaging_NotificationTypeActions", x => x.NotificaationTypeActionID);
+                    table.PrimaryKey("PK_CoreMessaging_NotificationTypeActions", x => x.NotificationTypeActionId);
                     table.ForeignKey(
-                        name: "FK_CoreMessaging_NotificationTypeActions_CoreMessaging_NotificationTypes_NotificationTypeID",
-                        column: x => x.NotificationTypeID,
+                        name: "FK_CoreMessaging_NotificationTypeActions_CoreMessaging_NotificationTypes_NotificationTypeId",
+                        column: x => x.NotificationTypeId,
                         principalTable: "CoreMessaging_NotificationTypes",
-                        principalColumn: "NotificationTypeID",
+                        principalColumn: "NotificationTypeId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -3092,31 +3077,31 @@ namespace Dnn.vNext.Migrations
                 name: "ModuleControls",
                 columns: table => new
                 {
-                    ModuleControlID = table.Column<int>(nullable: false)
+                    ModuleControlId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ControlKey = table.Column<string>(nullable: true),
                     ControlSrc = table.Column<string>(nullable: true),
                     ControlTitle = table.Column<string>(nullable: true),
                     ControlType = table.Column<int>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     HelpUrl = table.Column<string>(nullable: true),
                     IconFile = table.Column<string>(nullable: true),
                     LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    ModuleDefID = table.Column<int>(nullable: false),
+                    ModuleDefId = table.Column<int>(nullable: false),
                     SupportPopUps = table.Column<bool>(nullable: false),
                     SupportsPartialRendering = table.Column<bool>(nullable: false),
                     ViewOrder = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ModuleControls", x => x.ModuleControlID);
+                    table.PrimaryKey("PK_ModuleControls", x => x.ModuleControlId);
                     table.ForeignKey(
-                        name: "FK_ModuleControls_ModuleDefinitions_ModuleDefID",
-                        column: x => x.ModuleDefID,
+                        name: "FK_ModuleControls_ModuleDefinitions_ModuleDefId",
+                        column: x => x.ModuleDefId,
                         principalTable: "ModuleDefinitions",
-                        principalColumn: "ModuleDefID",
+                        principalColumn: "ModuleDefId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -3124,11 +3109,11 @@ namespace Dnn.vNext.Migrations
                 name: "Modules",
                 columns: table => new
                 {
-                    ModuleID = table.Column<int>(nullable: false)
+                    ModuleId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AllTabs = table.Column<bool>(nullable: false),
-                    ContentItemID = table.Column<int>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    ContentItemId = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     EndDate = table.Column<DateTime>(nullable: true),
                     Icon = table.Column<string>(nullable: true),
@@ -3137,29 +3122,29 @@ namespace Dnn.vNext.Migrations
                     IsShareable = table.Column<bool>(nullable: true),
                     IsShareableViewOnly = table.Column<bool>(nullable: true),
                     LastContentModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     ModuleDef = table.Column<int>(nullable: false),
-                    ModuleDefID = table.Column<int>(nullable: false),
+                    ModuleDefId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Path = table.Column<string>(nullable: true),
-                    PortalID = table.Column<int>(nullable: true),
+                    PortalId = table.Column<int>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Modules", x => x.ModuleID);
+                    table.PrimaryKey("PK_Modules", x => x.ModuleId);
                     table.ForeignKey(
-                        name: "FK_Modules_ContentItems_ContentItemID",
-                        column: x => x.ContentItemID,
+                        name: "FK_Modules_ContentItems_ContentItemId",
+                        column: x => x.ContentItemId,
                         principalTable: "ContentItems",
-                        principalColumn: "ContentItemID",
+                        principalColumn: "ContentItemId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Modules_ModuleDefinitions_ModuleDefID",
-                        column: x => x.ModuleDefID,
+                        name: "FK_Modules_ModuleDefinitions_ModuleDefId",
+                        column: x => x.ModuleDefId,
                         principalTable: "ModuleDefinitions",
-                        principalColumn: "ModuleDefID",
+                        principalColumn: "ModuleDefId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -3167,44 +3152,44 @@ namespace Dnn.vNext.Migrations
                 name: "DesktopModulePermission",
                 columns: table => new
                 {
-                    DesktopModulePermissionID = table.Column<int>(nullable: false)
+                    DesktopModulePermissionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AllowAccess = table.Column<bool>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PermissionID = table.Column<int>(nullable: false),
-                    PortalDesktopModuleID = table.Column<int>(nullable: false),
-                    RoleID = table.Column<int>(nullable: true),
-                    UserID = table.Column<int>(nullable: true)
+                    PermissionId = table.Column<int>(nullable: false),
+                    PortalDesktopModuleId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<int>(nullable: true),
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DesktopModulePermission", x => x.DesktopModulePermissionID);
+                    table.PrimaryKey("PK_DesktopModulePermission", x => x.DesktopModulePermissionId);
                     table.ForeignKey(
-                        name: "FK_DesktopModulePermission_Permission_PermissionID",
-                        column: x => x.PermissionID,
+                        name: "FK_DesktopModulePermission_Permission_PermissionId",
+                        column: x => x.PermissionId,
                         principalTable: "Permission",
-                        principalColumn: "PermissionID",
+                        principalColumn: "PermissionId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DesktopModulePermission_PortalDesktopModules_PortalDesktopModuleID",
-                        column: x => x.PortalDesktopModuleID,
+                        name: "FK_DesktopModulePermission_PortalDesktopModules_PortalDesktopModuleId",
+                        column: x => x.PortalDesktopModuleId,
                         principalTable: "PortalDesktopModules",
-                        principalColumn: "PortalDesktopModuleID",
+                        principalColumn: "PortalDesktopModuleId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DesktopModulePermission_Role_RoleID",
-                        column: x => x.RoleID,
-                        principalTable: "Role",
-                        principalColumn: "RoleID",
+                        name: "FK_DesktopModulePermission_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "RoleId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_DesktopModulePermission_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_DesktopModulePermission_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -3212,44 +3197,44 @@ namespace Dnn.vNext.Migrations
                 name: "TabPermission",
                 columns: table => new
                 {
-                    TabPermissionID = table.Column<int>(nullable: false)
+                    TabPermissionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AllowAccess = table.Column<bool>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PermissionID = table.Column<int>(nullable: false),
-                    RoleID = table.Column<int>(nullable: true),
-                    TabID = table.Column<int>(nullable: false),
-                    UserID = table.Column<int>(nullable: true)
+                    PermissionId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<int>(nullable: true),
+                    TabId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TabPermission", x => x.TabPermissionID);
+                    table.PrimaryKey("PK_TabPermission", x => x.TabPermissionId);
                     table.ForeignKey(
-                        name: "FK_TabPermission_Permission_PermissionID",
-                        column: x => x.PermissionID,
+                        name: "FK_TabPermission_Permission_PermissionId",
+                        column: x => x.PermissionId,
                         principalTable: "Permission",
-                        principalColumn: "PermissionID",
+                        principalColumn: "PermissionId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TabPermission_Role_RoleID",
-                        column: x => x.RoleID,
-                        principalTable: "Role",
-                        principalColumn: "RoleID",
+                        name: "FK_TabPermission_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "RoleId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TabPermission_Tabs_TabID",
-                        column: x => x.TabID,
+                        name: "FK_TabPermission_Tabs_TabId",
+                        column: x => x.TabId,
                         principalTable: "Tabs",
-                        principalColumn: "TabID",
+                        principalColumn: "TabId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TabPermission_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_TabPermission_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -3257,23 +3242,23 @@ namespace Dnn.vNext.Migrations
                 name: "TabSettings",
                 columns: table => new
                 {
-                    TabID = table.Column<int>(nullable: false),
+                    TabId = table.Column<int>(nullable: false),
                     SettingName = table.Column<string>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     SettingValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TabSettings", x => new { x.TabID, x.SettingName });
-                    table.UniqueConstraint("AK_TabSettings_SettingName_TabID", x => new { x.SettingName, x.TabID });
+                    table.PrimaryKey("PK_TabSettings", x => new { x.TabId, x.SettingName });
+                    table.UniqueConstraint("AK_TabSettings_SettingName_TabId", x => new { x.SettingName, x.TabId });
                     table.ForeignKey(
-                        name: "FK_TabSettings_Tabs_TabID",
-                        column: x => x.TabID,
+                        name: "FK_TabSettings_Tabs_TabId",
+                        column: x => x.TabId,
                         principalTable: "Tabs",
-                        principalColumn: "TabID",
+                        principalColumn: "TabId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -3283,12 +3268,12 @@ namespace Dnn.vNext.Migrations
                 {
                     TabId = table.Column<int>(nullable: false),
                     SeqNum = table.Column<int>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     CultureCode = table.Column<string>(nullable: true),
                     HttpStatus = table.Column<string>(nullable: true),
                     IsSystem = table.Column<bool>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     PortalAliasId = table.Column<int>(nullable: true),
                     PortalAliasUsage = table.Column<int>(nullable: true),
@@ -3303,7 +3288,7 @@ namespace Dnn.vNext.Migrations
                         name: "FK_TabUrls_Tabs_TabId",
                         column: x => x.TabId,
                         principalTable: "Tabs",
-                        principalColumn: "TabID",
+                        principalColumn: "TabId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -3313,10 +3298,10 @@ namespace Dnn.vNext.Migrations
                 {
                     TabVersionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     IsPublished = table.Column<bool>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     TabId = table.Column<int>(nullable: false),
                     TimeStamp = table.Column<DateTime>(nullable: false),
@@ -3329,7 +3314,7 @@ namespace Dnn.vNext.Migrations
                         name: "FK_TabVersions_Tabs_TabId",
                         column: x => x.TabId,
                         principalTable: "Tabs",
-                        principalColumn: "TabID",
+                        principalColumn: "TabId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -3340,20 +3325,20 @@ namespace Dnn.vNext.Migrations
                     FileId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Content = table.Column<byte>(nullable: true),
-                    ContentItemID = table.Column<int>(nullable: true),
+                    ContentItemId = table.Column<int>(nullable: true),
                     ContentType = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     EnablePublishPeriod = table.Column<bool>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
                     Extension = table.Column<string>(nullable: true),
                     FileName = table.Column<string>(nullable: true),
-                    FolderID = table.Column<int>(nullable: false),
+                    FolderId = table.Column<int>(nullable: false),
                     HasBeenPublished = table.Column<bool>(nullable: false),
                     Hieght = table.Column<int>(nullable: true),
                     LastModificationTime = table.Column<DateTime>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     PortalId = table.Column<int>(nullable: true),
                     PublishedVersion = table.Column<int>(nullable: false),
@@ -3361,31 +3346,31 @@ namespace Dnn.vNext.Migrations
                     Size = table.Column<int>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
                     Title = table.Column<string>(nullable: true),
-                    UniqueID = table.Column<Guid>(nullable: false),
+                    UniqueId = table.Column<Guid>(nullable: false),
                     VersionGuid = table.Column<Guid>(nullable: false),
-                    Width = table.Column<int>(nullable: true),
+                    WIdth = table.Column<int>(nullable: true),
                     Folder = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Files", x => x.FileId);
                     table.ForeignKey(
-                        name: "FK_Files_ContentItems_ContentItemID",
-                        column: x => x.ContentItemID,
+                        name: "FK_Files_ContentItems_ContentItemId",
+                        column: x => x.ContentItemId,
                         principalTable: "ContentItems",
-                        principalColumn: "ContentItemID",
+                        principalColumn: "ContentItemId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Files_Folders_FolderID",
-                        column: x => x.FolderID,
+                        name: "FK_Files_Folders_FolderId",
+                        column: x => x.FolderId,
                         principalTable: "Folders",
-                        principalColumn: "FolderID",
+                        principalColumn: "FolderId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Files_Portals_PortalId",
                         column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -3393,51 +3378,51 @@ namespace Dnn.vNext.Migrations
                 name: "FolderPermission",
                 columns: table => new
                 {
-                    FolderPermissionID = table.Column<int>(nullable: false)
+                    FolderPermissionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AllowAccess = table.Column<bool>(nullable: false),
-                    ContentWorkflowStatePermissionWorkflowStatePermissionID = table.Column<int>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    ContentWorkflowStatePermissionWorkflowStatePermissionId = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    FolderID = table.Column<int>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    FolderId = table.Column<int>(nullable: false),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    PermissionID = table.Column<int>(nullable: false),
-                    RoleID = table.Column<int>(nullable: true),
-                    UserID = table.Column<int>(nullable: true)
+                    PermissionId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<int>(nullable: true),
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FolderPermission", x => x.FolderPermissionID);
+                    table.PrimaryKey("PK_FolderPermission", x => x.FolderPermissionId);
                     table.ForeignKey(
-                        name: "FK_FolderPermission_ContentWorkflowStatePermission_ContentWorkflowStatePermissionWorkflowStatePermissionID",
-                        column: x => x.ContentWorkflowStatePermissionWorkflowStatePermissionID,
+                        name: "FK_FolderPermission_ContentWorkflowStatePermission_ContentWorkflowStatePermissionWorkflowStatePermissionId",
+                        column: x => x.ContentWorkflowStatePermissionWorkflowStatePermissionId,
                         principalTable: "ContentWorkflowStatePermission",
-                        principalColumn: "WorkflowStatePermissionID",
+                        principalColumn: "WorkflowStatePermissionId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_FolderPermission_Folders_FolderID",
-                        column: x => x.FolderID,
+                        name: "FK_FolderPermission_Folders_FolderId",
+                        column: x => x.FolderId,
                         principalTable: "Folders",
-                        principalColumn: "FolderID",
+                        principalColumn: "FolderId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FolderPermission_Permission_PermissionID",
-                        column: x => x.PermissionID,
+                        name: "FK_FolderPermission_Permission_PermissionId",
+                        column: x => x.PermissionId,
                         principalTable: "Permission",
-                        principalColumn: "PermissionID",
+                        principalColumn: "PermissionId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FolderPermission_Role_RoleID",
-                        column: x => x.RoleID,
-                        principalTable: "Role",
-                        principalColumn: "RoleID",
+                        name: "FK_FolderPermission_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "RoleId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_FolderPermission_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_FolderPermission_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -3445,53 +3430,53 @@ namespace Dnn.vNext.Migrations
                 name: "CoreMessaging_MessageAttachments",
                 columns: table => new
                 {
-                    MessageAttachmentID = table.Column<int>(nullable: false)
+                    MessageAttachmentId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    FileID = table.Column<int>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    FileId = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    MessageID = table.Column<int>(nullable: false)
+                    MessageId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CoreMessaging_MessageAttachments", x => x.MessageAttachmentID);
+                    table.PrimaryKey("PK_CoreMessaging_MessageAttachments", x => x.MessageAttachmentId);
                     table.ForeignKey(
-                        name: "FK_CoreMessaging_MessageAttachments_CoreMessaging_Messages_MessageID",
-                        column: x => x.MessageID,
+                        name: "FK_CoreMessaging_MessageAttachments_CoreMessaging_Messages_MessageId",
+                        column: x => x.MessageId,
                         principalTable: "CoreMessaging_Messages",
-                        principalColumn: "MessageID",
+                        principalColumn: "MessageId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CoreMessaging_MessagingRecipients",
+                name: "CoreMessaging_MessageRecipients",
                 columns: table => new
                 {
-                    RecipientID = table.Column<int>(nullable: false)
+                    RecipientId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Archived = table.Column<bool>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     EmailSchedulerInstance = table.Column<Guid>(nullable: true),
                     EmailSent = table.Column<bool>(nullable: false),
                     EmailSentDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    MessageID = table.Column<int>(nullable: false),
+                    MessageId = table.Column<int>(nullable: false),
                     Read = table.Column<bool>(nullable: false),
                     SendToast = table.Column<bool>(nullable: false),
-                    UserID = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CoreMessaging_MessagingRecipients", x => x.RecipientID);
+                    table.PrimaryKey("PK_CoreMessaging_MessageRecipients", x => x.RecipientId);
                     table.ForeignKey(
-                        name: "FK_CoreMessaging_MessagingRecipients_CoreMessaging_Messages_MessageID",
-                        column: x => x.MessageID,
+                        name: "FK_CoreMessaging_MessageRecipients_CoreMessaging_Messages_MessageId",
+                        column: x => x.MessageId,
                         principalTable: "CoreMessaging_Messages",
-                        principalColumn: "MessageID",
+                        principalColumn: "MessageId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -3499,44 +3484,44 @@ namespace Dnn.vNext.Migrations
                 name: "CoreMessaging_Subscriptions",
                 columns: table => new
                 {
-                    SubscriptionID = table.Column<int>(nullable: false)
+                    SubscriptionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedOnDate = table.Column<DateTime>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    ModuleID = table.Column<int>(nullable: true),
+                    Description = table.Column<string>(maxLength: 255, nullable: false),
+                    ModuleId = table.Column<int>(nullable: true),
                     ObjectData = table.Column<string>(nullable: true),
-                    ObjectKey = table.Column<string>(nullable: true),
-                    PortalID = table.Column<int>(nullable: true),
-                    SubscriptionTypeID = table.Column<int>(nullable: false),
-                    TabID = table.Column<int>(nullable: true),
-                    UserID = table.Column<int>(nullable: false)
+                    ObjectKey = table.Column<string>(maxLength: 255, nullable: true),
+                    PortalId = table.Column<int>(nullable: true),
+                    SubscriptionTypeId = table.Column<int>(nullable: false),
+                    TabId = table.Column<int>(nullable: true),
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CoreMessaging_Subscriptions", x => x.SubscriptionID);
+                    table.PrimaryKey("PK_CoreMessaging_Subscriptions", x => x.SubscriptionId);
                     table.ForeignKey(
-                        name: "FK_CoreMessaging_Subscriptions_Modules_ModuleID",
-                        column: x => x.ModuleID,
+                        name: "FK_CoreMessaging_Subscriptions_Modules_ModuleId",
+                        column: x => x.ModuleId,
                         principalTable: "Modules",
-                        principalColumn: "ModuleID",
+                        principalColumn: "ModuleId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CoreMessaging_Subscriptions_Portals_PortalID",
-                        column: x => x.PortalID,
+                        name: "FK_CoreMessaging_Subscriptions_Portals_PortalId",
+                        column: x => x.PortalId,
                         principalTable: "Portals",
-                        principalColumn: "PortalID",
+                        principalColumn: "PortalId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CoreMessaging_Subscriptions_CoreMessaging_SubscriptionTypes_SubscriptionTypeID",
-                        column: x => x.SubscriptionTypeID,
+                        name: "FK_CoreMessaging_Subscriptions_CoreMessaging_SubscriptionTypes_SubscriptionTypeId",
+                        column: x => x.SubscriptionTypeId,
                         principalTable: "CoreMessaging_SubscriptionTypes",
-                        principalColumn: "SubscriptionTypeID",
+                        principalColumn: "SubscriptionTypeId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CoreMessaging_Subscriptions_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_CoreMessaging_Subscriptions_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -3544,80 +3529,80 @@ namespace Dnn.vNext.Migrations
                 name: "HtmlText",
                 columns: table => new
                 {
-                    ModuleID = table.Column<int>(nullable: false)
+                    ModuleId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Content = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     IsPublished = table.Column<bool>(nullable: true),
-                    ItemID = table.Column<int>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    ItemId = table.Column<int>(nullable: false),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    ModuleID1 = table.Column<int>(nullable: true),
-                    StateID = table.Column<int>(nullable: true),
+                    ModuleId1 = table.Column<int>(nullable: true),
+                    StateId = table.Column<int>(nullable: true),
                     Summary = table.Column<string>(nullable: true),
                     Version = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HtmlText", x => x.ModuleID);
+                    table.PrimaryKey("PK_HtmlText", x => x.ModuleId);
                     table.ForeignKey(
-                        name: "FK_HtmlText_Modules_ModuleID1",
-                        column: x => x.ModuleID1,
+                        name: "FK_HtmlText_Modules_ModuleId1",
+                        column: x => x.ModuleId1,
                         principalTable: "Modules",
-                        principalColumn: "ModuleID",
+                        principalColumn: "ModuleId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_HtmlText_WorkflowStates_StateID",
-                        column: x => x.StateID,
+                        name: "FK_HtmlText_WorkflowStates_StateId",
+                        column: x => x.StateId,
                         principalTable: "WorkflowStates",
-                        principalColumn: "StateID",
+                        principalColumn: "StateId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ModulePermissions",
+                name: "ModulePermission",
                 columns: table => new
                 {
-                    ModulePermissionID = table.Column<int>(nullable: false)
+                    ModulePermissionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AllowAccess = table.Column<bool>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    ModuleID = table.Column<int>(nullable: false),
-                    PermissionID = table.Column<int>(nullable: false),
-                    PortalID = table.Column<int>(nullable: false),
-                    RoleID = table.Column<int>(nullable: true),
-                    UserID = table.Column<int>(nullable: true)
+                    ModuleId = table.Column<int>(nullable: false),
+                    PermissionId = table.Column<int>(nullable: false),
+                    PortalId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<int>(nullable: true),
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ModulePermissions", x => x.ModulePermissionID);
+                    table.PrimaryKey("PK_ModulePermission", x => x.ModulePermissionId);
                     table.ForeignKey(
-                        name: "FK_ModulePermissions_Modules_ModuleID",
-                        column: x => x.ModuleID,
+                        name: "FK_ModulePermission_Modules_ModuleId",
+                        column: x => x.ModuleId,
                         principalTable: "Modules",
-                        principalColumn: "ModuleID",
+                        principalColumn: "ModuleId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ModulePermissions_Permission_PermissionID",
-                        column: x => x.PermissionID,
+                        name: "FK_ModulePermission_Permission_PermissionId",
+                        column: x => x.PermissionId,
                         principalTable: "Permission",
-                        principalColumn: "PermissionID",
+                        principalColumn: "PermissionId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ModulePermissions_Role_RoleID",
-                        column: x => x.RoleID,
-                        principalTable: "Role",
-                        principalColumn: "RoleID",
+                        name: "FK_ModulePermission_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "RoleId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ModulePermissions_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_ModulePermission_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -3625,21 +3610,21 @@ namespace Dnn.vNext.Migrations
                 name: "ModuleSettings",
                 columns: table => new
                 {
-                    ModuleID = table.Column<int>(nullable: false),
+                    ModuleId = table.Column<int>(nullable: false),
                     SettingName = table.Column<string>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ModuleSettings", x => new { x.ModuleID, x.SettingName });
+                    table.PrimaryKey("PK_ModuleSettings", x => new { x.ModuleId, x.SettingName });
                     table.ForeignKey(
-                        name: "FK_ModuleSettings_Modules_ModuleID",
-                        column: x => x.ModuleID,
+                        name: "FK_ModuleSettings_Modules_ModuleId",
+                        column: x => x.ModuleId,
                         principalTable: "Modules",
-                        principalColumn: "ModuleID",
+                        principalColumn: "ModuleId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -3647,7 +3632,7 @@ namespace Dnn.vNext.Migrations
                 name: "TabModules",
                 columns: table => new
                 {
-                    TabModuleID = table.Column<int>(nullable: false)
+                    TabModuleId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Alignment = table.Column<string>(nullable: true),
                     Border = table.Column<string>(nullable: true),
@@ -3655,10 +3640,10 @@ namespace Dnn.vNext.Migrations
                     CacheTime = table.Column<int>(nullable: false),
                     Color = table.Column<string>(nullable: true),
                     ContainerSrc = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     CultureCode = table.Column<string>(nullable: true),
-                    DefaultLanguageGUID = table.Column<Guid>(nullable: false),
+                    DefaultLanguageGuid = table.Column<Guid>(nullable: false),
                     DisplayPrint = table.Column<int>(nullable: false),
                     DisplaySyndicate = table.Column<int>(nullable: false),
                     DisplayTitle = table.Column<int>(nullable: false),
@@ -3668,18 +3653,18 @@ namespace Dnn.vNext.Migrations
                     IconFile = table.Column<string>(nullable: true),
                     IsDeleted = table.Column<int>(nullable: false),
                     IsWebSlice = table.Column<int>(nullable: false),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
-                    LocalizedVersionGUID = table.Column<Guid>(nullable: false),
-                    ModuleID = table.Column<int>(nullable: false),
+                    LocalizedVersionGuid = table.Column<Guid>(nullable: false),
+                    ModuleId = table.Column<int>(nullable: false),
                     ModuleOrder = table.Column<int>(nullable: false),
                     ModuleTitle = table.Column<string>(nullable: true),
                     Order = table.Column<int>(nullable: false),
                     PageId = table.Column<int>(nullable: false),
                     PaneName = table.Column<string>(nullable: true),
-                    TabID = table.Column<int>(nullable: false),
+                    TabId = table.Column<int>(nullable: false),
                     UniqueId = table.Column<Guid>(nullable: false),
-                    VersionGUID = table.Column<Guid>(nullable: false),
+                    VersionGuid = table.Column<Guid>(nullable: false),
                     Visibility = table.Column<int>(nullable: false),
                     WebSliceExpiryDate = table.Column<DateTime>(nullable: true),
                     WebSliceTTL = table.Column<int>(nullable: true),
@@ -3687,18 +3672,18 @@ namespace Dnn.vNext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TabModules", x => x.TabModuleID);
+                    table.PrimaryKey("PK_TabModules", x => x.TabModuleId);
                     table.ForeignKey(
-                        name: "FK_TabModules_Modules_ModuleID",
-                        column: x => x.ModuleID,
+                        name: "FK_TabModules_Modules_ModuleId",
+                        column: x => x.ModuleId,
                         principalTable: "Modules",
-                        principalColumn: "ModuleID",
+                        principalColumn: "ModuleId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TabModules_Tabs_TabID",
-                        column: x => x.TabID,
+                        name: "FK_TabModules_Tabs_TabId",
+                        column: x => x.TabId,
                         principalTable: "Tabs",
-                        principalColumn: "TabID",
+                        principalColumn: "TabId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -3709,9 +3694,9 @@ namespace Dnn.vNext.Migrations
                     TabVersionDetailId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Action = table.Column<int>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     ModuleId = table.Column<int>(nullable: false),
                     ModuleOrder = table.Column<int>(nullable: false),
@@ -3738,16 +3723,16 @@ namespace Dnn.vNext.Migrations
                     Version = table.Column<int>(nullable: false),
                     Content = table.Column<byte>(nullable: true),
                     ContentType = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
                     Extension = table.Column<string>(nullable: true),
                     FileName = table.Column<string>(nullable: true),
                     Height = table.Column<int>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     SHA1Hash = table.Column<string>(nullable: true),
                     Size = table.Column<int>(nullable: false),
-                    Width = table.Column<int>(nullable: true)
+                    WIdth = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -3764,29 +3749,29 @@ namespace Dnn.vNext.Migrations
                 name: "HtmlTextLog",
                 columns: table => new
                 {
-                    HtmlTextLogID = table.Column<int>(nullable: false)
+                    HtmlTextLogId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Approved = table.Column<bool>(nullable: false),
                     Comment = table.Column<string>(nullable: true),
-                    CreatedByUserID = table.Column<int>(nullable: false),
+                    CreatedByUserId = table.Column<int>(nullable: false),
                     CreatedOnDate = table.Column<DateTime>(nullable: false),
-                    ItemID = table.Column<int>(nullable: false),
-                    StateID = table.Column<int>(nullable: false)
+                    ItemId = table.Column<int>(nullable: false),
+                    StateId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HtmlTextLog", x => x.HtmlTextLogID);
+                    table.PrimaryKey("PK_HtmlTextLog", x => x.HtmlTextLogId);
                     table.ForeignKey(
-                        name: "FK_HtmlTextLog_HtmlText_ItemID",
-                        column: x => x.ItemID,
+                        name: "FK_HtmlTextLog_HtmlText_ItemId",
+                        column: x => x.ItemId,
                         principalTable: "HtmlText",
-                        principalColumn: "ModuleID",
+                        principalColumn: "ModuleId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_HtmlTextLog_WorkflowStates_StateID",
-                        column: x => x.StateID,
+                        name: "FK_HtmlTextLog_WorkflowStates_StateId",
+                        column: x => x.StateId,
                         principalTable: "WorkflowStates",
-                        principalColumn: "StateID",
+                        principalColumn: "StateId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -3794,23 +3779,23 @@ namespace Dnn.vNext.Migrations
                 name: "HtmlTextUsers",
                 columns: table => new
                 {
-                    HtmlTextUserID = table.Column<int>(nullable: false)
+                    HtmlTextUserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedOnDate = table.Column<DateTime>(nullable: false),
-                    ItemID = table.Column<int>(nullable: false),
-                    ModuleID = table.Column<int>(nullable: false),
-                    StateID = table.Column<int>(nullable: false),
-                    TabID = table.Column<int>(nullable: false),
-                    UserID = table.Column<int>(nullable: false)
+                    ItemId = table.Column<int>(nullable: false),
+                    ModuleId = table.Column<int>(nullable: false),
+                    StateId = table.Column<int>(nullable: false),
+                    TabId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HtmlTextUsers", x => x.HtmlTextUserID);
+                    table.PrimaryKey("PK_HtmlTextUsers", x => x.HtmlTextUserId);
                     table.ForeignKey(
-                        name: "FK_HtmlTextUsers_HtmlText_ItemID",
-                        column: x => x.ItemID,
+                        name: "FK_HtmlTextUsers_HtmlText_ItemId",
+                        column: x => x.ItemId,
                         principalTable: "HtmlText",
-                        principalColumn: "ModuleID",
+                        principalColumn: "ModuleId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -3818,220 +3803,283 @@ namespace Dnn.vNext.Migrations
                 name: "TabModuleSettings",
                 columns: table => new
                 {
-                    TabModuleID = table.Column<int>(nullable: false),
+                    TabModuleId = table.Column<int>(nullable: false),
                     SettingName = table.Column<string>(nullable: false),
-                    CreatedByUserID = table.Column<int>(nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
                     CreatedOnDate = table.Column<DateTime>(nullable: true),
-                    LastModifiedByUserID = table.Column<int>(nullable: true),
+                    LastModifiedByUserId = table.Column<int>(nullable: true),
                     LastModifiedOnDate = table.Column<DateTime>(nullable: true),
                     SetttingValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TabModuleSettings", x => new { x.TabModuleID, x.SettingName });
-                    table.UniqueConstraint("AK_TabModuleSettings_SettingName_TabModuleID", x => new { x.SettingName, x.TabModuleID });
+                    table.PrimaryKey("PK_TabModuleSettings", x => new { x.TabModuleId, x.SettingName });
+                    table.UniqueConstraint("AK_TabModuleSettings_SettingName_TabModuleId", x => new { x.SettingName, x.TabModuleId });
                     table.ForeignKey(
-                        name: "FK_TabModuleSettings_TabModules_TabModuleID",
-                        column: x => x.TabModuleID,
+                        name: "FK_TabModuleSettings_TabModules_TabModuleId",
+                        column: x => x.TabModuleId,
                         principalTable: "TabModules",
-                        principalColumn: "TabModuleID",
+                        principalColumn: "TabModuleId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_aspnet_Memership_ApplicationID",
-                table: "aspnet_Memership",
-                column: "ApplicationID");
+                name: "IX_AnonymousUsers_PortalId",
+                table: "AnonymousUsers",
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_aspnet_Users_ApplicationId",
-                table: "aspnet_Users",
+                name: "IX_aspnet_Membership_ApplicationId",
+                table: "aspnet_Membership",
                 column: "ApplicationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Assemblies_PackageID",
+                name: "IX_aspnet_Users_ApplicationId_LastActivityDate",
+                table: "aspnet_Users",
+                columns: new[] { "ApplicationId", "LastActivityDate" })
+                .Annotation("SqlServer:Clustered", false);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_aspnet_Users_ApplicationId_LoweredUserName",
+                table: "aspnet_Users",
+                columns: new[] { "ApplicationId", "LoweredUserName" })
+                .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Assemblies_PackageId",
                 table: "Assemblies",
-                column: "PackageID");
+                column: "PackageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Authentication_PackageID",
+                name: "IX_Authentication_PackageId",
                 table: "Authentication",
-                column: "PackageID");
+                column: "PackageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContentItems_ContentTypeID",
+                name: "IX_ContentItems_ContentTypeId",
                 table: "ContentItems",
-                column: "ContentTypeID");
+                column: "ContentTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContentItems_StateID",
+                name: "IX_ContentItems_StateId",
                 table: "ContentItems",
-                column: "StateID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContentItems_MetaData_ContentItemID",
-                table: "ContentItems_MetaData",
-                column: "ContentItemID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContentItems_MetaData_MetaDataID",
-                table: "ContentItems_MetaData",
-                column: "MetaDataID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContentItems_Tags_ContentItemID",
-                table: "ContentItems_Tags",
-                column: "ContentItemID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContentItems_Tags_ContentItemTagID1",
-                table: "ContentItems_Tags",
-                column: "ContentItemTagID1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContentItems_Tags_TermID",
-                table: "ContentItems_Tags",
-                column: "TermID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContentWorkflowActios_ContentWorkflowActionActionID",
-                table: "ContentWorkflowActios",
-                column: "ContentWorkflowActionActionID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContentWorkflowLogs_ContentItemID",
-                table: "ContentWorkflowLogs",
-                column: "ContentItemID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContentWorkflowLogs_WorkflowID",
-                table: "ContentWorkflowLogs",
-                column: "WorkflowID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContentWorkflows_Content_TypeContentTypeID",
-                table: "ContentWorkflows",
-                column: "Content_TypeContentTypeID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContentWorkflowSources_WorkflowID",
-                table: "ContentWorkflowSources",
-                column: "WorkflowID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContentWorkflowStatePermission_PermissionID",
-                table: "ContentWorkflowStatePermission",
-                column: "PermissionID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContentWorkflowStatePermission_StateId",
-                table: "ContentWorkflowStatePermission",
                 column: "StateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContentWorkflowStatePermission_UserID",
+                name: "IX_ContentItems_TabId",
+                table: "ContentItems",
+                column: "TabId")
+                .Annotation("SqlServer:Clustered", false);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentItems_MetaData_ContentItemId",
+                table: "ContentItems_MetaData",
+                column: "ContentItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentItems_MetaData_MetaDataId",
+                table: "ContentItems_MetaData",
+                column: "MetaDataId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentItems_Tags_TermId",
+                table: "ContentItems_Tags",
+                column: "TermId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentItems_Tags_ContentItemId_TermId",
+                table: "ContentItems_Tags",
+                columns: new[] { "ContentItemId", "TermId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentWorkflowActions_ContentWorkflowActionActionId",
+                table: "ContentWorkflowActions",
+                column: "ContentWorkflowActionActionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentWorkflowLogs_ContentItemId",
+                table: "ContentWorkflowLogs",
+                column: "ContentItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentWorkflowLogs_WorkflowId",
+                table: "ContentWorkflowLogs",
+                column: "WorkflowId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentWorkflows_Content_TypeContentTypeId",
+                table: "ContentWorkflows",
+                column: "Content_TypeContentTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentWorkflows_PortalId_WorkflowName",
+                table: "ContentWorkflows",
+                columns: new[] { "PortalId", "WorkflowName" },
+                unique: true,
+                filter: "[PortalId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentWorkflowSources_WorkflowId_SourceName",
+                table: "ContentWorkflowSources",
+                columns: new[] { "WorkflowId", "SourceName" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentWorkflowStatePermission_PermissionId",
                 table: "ContentWorkflowStatePermission",
-                column: "UserID");
+                column: "PermissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContentWorkflowStates_WorkflowID",
+                name: "IX_ContentWorkflowStatePermission_UserId",
+                table: "ContentWorkflowStatePermission",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentWorkflowStatePermission_StateId_PermissionId_RoleId_UserId",
+                table: "ContentWorkflowStatePermission",
+                columns: new[] { "StateId", "PermissionId", "RoleId", "UserId" },
+                unique: true,
+                filter: "[RoleId] IS NOT NULL AND [UserId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentWorkflowStates_WorkflowId_StateName",
                 table: "ContentWorkflowStates",
-                column: "WorkflowID");
+                columns: new[] { "WorkflowId", "StateName" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CoreMessaging_MessageAttachments_MessageID",
+                name: "IX_CoreMessaging_MessageAttachments_MessageId",
                 table: "CoreMessaging_MessageAttachments",
-                column: "MessageID");
+                column: "MessageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CoreMessaging_Messages_NotificationTypeID",
+                name: "IX_CoreMessaging_MessageRecipients_MessageId",
+                table: "CoreMessaging_MessageRecipients",
+                column: "MessageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CoreMessaging_Messages_NotificationTypeId",
                 table: "CoreMessaging_Messages",
-                column: "NotificationTypeID");
+                column: "NotificationTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CoreMessaging_MessagingRecipients_MessageID",
-                table: "CoreMessaging_MessagingRecipients",
-                column: "MessageID");
+                name: "IX_CoreMessaging_Messages_MessageId_PortalId_NotificationTypeId_ExpirationDate",
+                table: "CoreMessaging_Messages",
+                columns: new[] { "MessageId", "PortalId", "NotificationTypeId", "ExpirationDate" },
+                unique: true,
+                filter: "[PortalId] IS NOT NULL AND [NotificationTypeId] IS NOT NULL AND [ExpirationDate] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CoreMessaging_NotificationTypeActions_NotificationTypeID",
+                name: "IX_CoreMessaging_NotificationTypeActions_NotificationTypeId",
                 table: "CoreMessaging_NotificationTypeActions",
-                column: "NotificationTypeID");
+                column: "NotificationTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CoreMessaging_NotificationTypes_DesktopModuleID",
+                name: "IX_CoreMessaging_NotificationTypes_DesktopModuleId",
                 table: "CoreMessaging_NotificationTypes",
-                column: "DesktopModuleID");
+                column: "DesktopModuleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CoreMessaging_Subscriptions_ModuleID",
+                name: "IX_CoreMessaging_NotificationTypes_Name",
+                table: "CoreMessaging_NotificationTypes",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CoreMessaging_Subscriptions_ModuleId",
                 table: "CoreMessaging_Subscriptions",
-                column: "ModuleID");
+                column: "ModuleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CoreMessaging_Subscriptions_PortalID",
+                name: "IX_CoreMessaging_Subscriptions_PortalId",
                 table: "CoreMessaging_Subscriptions",
-                column: "PortalID");
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CoreMessaging_Subscriptions_SubscriptionTypeID",
+                name: "IX_CoreMessaging_Subscriptions_SubscriptionTypeId",
                 table: "CoreMessaging_Subscriptions",
-                column: "SubscriptionTypeID");
+                column: "SubscriptionTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CoreMessaging_Subscriptions_UserID",
+                name: "IX_CoreMessaging_Subscriptions_UserId",
                 table: "CoreMessaging_Subscriptions",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DesktopModulePermission_PermissionID",
+                name: "IX_CoreMessaging_SubscriptionTypes_SubscriptionName",
+                table: "CoreMessaging_SubscriptionTypes",
+                column: "SubscriptionName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DesktopModulePermission_PermissionId",
                 table: "DesktopModulePermission",
-                column: "PermissionID");
+                column: "PermissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DesktopModulePermission_PortalDesktopModuleID",
+                name: "IX_DesktopModulePermission_RoleId",
                 table: "DesktopModulePermission",
-                column: "PortalDesktopModuleID");
+                column: "RoleId",
+                unique: true,
+                filter: "[RoleId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DesktopModulePermission_RoleID",
+                name: "IX_DesktopModulePermission_UserId",
                 table: "DesktopModulePermission",
-                column: "RoleID");
+                column: "UserId",
+                unique: true,
+                filter: "[UserId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DesktopModulePermission_UserID",
+                name: "IX_DesktopModulePermission_PortalDesktopModuleId_PermissionId_RoleId_UserId",
                 table: "DesktopModulePermission",
-                column: "UserID");
+                columns: new[] { "PortalDesktopModuleId", "PermissionId", "RoleId", "UserId" },
+                unique: true,
+                filter: "[RoleId] IS NOT NULL AND [UserId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DesktopModules_PackageID",
+                name: "IX_DesktopModules_PackageId",
                 table: "DesktopModules",
-                column: "PackageID");
+                column: "PackageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventLog_EventLogConfigID",
+                name: "IX_EventLog_EventLogConfigId",
                 table: "EventLog",
-                column: "EventLogConfigID");
+                column: "EventLogConfigId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventLog_LogConfigLogEventID",
+                name: "IX_EventLog_LogConfigLogEventId",
                 table: "EventLog",
-                column: "LogConfigLogEventID");
+                column: "LogConfigLogEventId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventLog_LogTypeKey1",
+                name: "IX_EventLog_LogTypeKey",
                 table: "EventLog",
-                column: "LogTypeKey1");
+                column: "LogTypeKey");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventLogConfig_LogTypeKey1",
+                name: "IX_EventLogConfig_LogTypeKey_LogTypePortalId",
                 table: "EventLogConfig",
-                column: "LogTypeKey1");
+                columns: new[] { "LogTypeKey", "LogTypePortalId" },
+                unique: true,
+                filter: "[LogTypeKey] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExportImportCheckpoints_JobID",
+                name: "IX_ExportImportCheckpoints_Category",
                 table: "ExportImportCheckpoints",
-                column: "JobID");
+                column: "Category");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExportImportCheckpoints_JobId",
+                table: "ExportImportCheckpoints",
+                column: "JobId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExportImportCheckpoints_Category_AssemblyName_JobId",
+                table: "ExportImportCheckpoints",
+                columns: new[] { "Category", "AssemblyName", "JobId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExportImportJobLogs_JobId",
@@ -4039,14 +4087,14 @@ namespace Dnn.vNext.Migrations
                 column: "JobId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Files_ContentItemID",
+                name: "IX_Files_ContentItemId",
                 table: "Files",
-                column: "ContentItemID");
+                column: "ContentItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Files_FolderID",
+                name: "IX_Files_FolderId",
                 table: "Files",
-                column: "FolderID");
+                column: "FolderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Files_PortalId",
@@ -4054,84 +4102,84 @@ namespace Dnn.vNext.Migrations
                 column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FolderMappings_PortalID",
+                name: "IX_FolderMappings_PortalId",
                 table: "FolderMappings",
-                column: "PortalID");
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FolderPermission_ContentWorkflowStatePermissionWorkflowStatePermissionID",
+                name: "IX_FolderPermission_ContentWorkflowStatePermissionWorkflowStatePermissionId",
                 table: "FolderPermission",
-                column: "ContentWorkflowStatePermissionWorkflowStatePermissionID");
+                column: "ContentWorkflowStatePermissionWorkflowStatePermissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FolderPermission_FolderID",
+                name: "IX_FolderPermission_FolderId",
                 table: "FolderPermission",
-                column: "FolderID");
+                column: "FolderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FolderPermission_PermissionID",
+                name: "IX_FolderPermission_PermissionId",
                 table: "FolderPermission",
-                column: "PermissionID");
+                column: "PermissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FolderPermission_RoleID",
+                name: "IX_FolderPermission_RoleId",
                 table: "FolderPermission",
-                column: "RoleID");
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FolderPermission_UserID",
+                name: "IX_FolderPermission_UserId",
                 table: "FolderPermission",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Folders_ContentWorkflowStatePermissionWorkflowStatePermissionID",
+                name: "IX_Folders_ContentWorkflowStatePermissionWorkflowStatePermissionId",
                 table: "Folders",
-                column: "ContentWorkflowStatePermissionWorkflowStatePermissionID");
+                column: "ContentWorkflowStatePermissionWorkflowStatePermissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Folders_FolderMappingID",
+                name: "IX_Folders_FolderMappingId",
                 table: "Folders",
-                column: "FolderMappingID");
+                column: "FolderMappingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Folders_PortalID",
+                name: "IX_Folders_PortalId",
                 table: "Folders",
-                column: "PortalID");
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Folders_WorkflowID",
+                name: "IX_Folders_WorkflowId",
                 table: "Folders",
-                column: "WorkflowID");
+                column: "WorkflowId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HtmlText_ModuleID1",
+                name: "IX_HtmlText_ModuleId1",
                 table: "HtmlText",
-                column: "ModuleID1");
+                column: "ModuleId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HtmlText_StateID",
+                name: "IX_HtmlText_StateId",
                 table: "HtmlText",
-                column: "StateID");
+                column: "StateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HtmlTextLog_ItemID",
+                name: "IX_HtmlTextLog_ItemId",
                 table: "HtmlTextLog",
-                column: "ItemID");
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HtmlTextLog_StateID",
+                name: "IX_HtmlTextLog_StateId",
                 table: "HtmlTextLog",
-                column: "StateID");
+                column: "StateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HtmlTextUsers_ItemID",
+                name: "IX_HtmlTextUsers_ItemId",
                 table: "HtmlTextUsers",
-                column: "ItemID");
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_JavascriptLibraries_PackageID",
+                name: "IX_JavascriptLibraries_PackageId",
                 table: "JavascriptLibraries",
-                column: "PackageID");
+                column: "PackageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Journal_JournalTypeId",
@@ -4149,19 +4197,14 @@ namespace Dnn.vNext.Migrations
                 column: "JournalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LanguagePacks_PackageID",
+                name: "IX_LanguagePacks_PackageId",
                 table: "LanguagePacks",
-                column: "PackageID");
+                column: "PackageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Mobile_PreviewProfiles_PortalId",
                 table: "Mobile_PreviewProfiles",
                 column: "PortalId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Mobile_RedirectionRules_Mobile_RedirectionId",
-                table: "Mobile_RedirectionRules",
-                column: "Mobile_RedirectionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Mobile_RedirectionRules_RedirectionId",
@@ -4174,49 +4217,49 @@ namespace Dnn.vNext.Migrations
                 column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ModuleControls_ModuleDefID",
+                name: "IX_ModuleControls_ModuleDefId",
                 table: "ModuleControls",
-                column: "ModuleDefID");
+                column: "ModuleDefId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ModuleDefinitions_DesktopModuleID",
+                name: "IX_ModuleDefinitions_DesktopModuleId",
                 table: "ModuleDefinitions",
-                column: "DesktopModuleID");
+                column: "DesktopModuleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ModulePermissions_ModuleID",
-                table: "ModulePermissions",
-                column: "ModuleID");
+                name: "IX_ModulePermission_ModuleId",
+                table: "ModulePermission",
+                column: "ModuleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ModulePermissions_PermissionID",
-                table: "ModulePermissions",
-                column: "PermissionID");
+                name: "IX_ModulePermission_PermissionId",
+                table: "ModulePermission",
+                column: "PermissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ModulePermissions_RoleID",
-                table: "ModulePermissions",
-                column: "RoleID");
+                name: "IX_ModulePermission_RoleId",
+                table: "ModulePermission",
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ModulePermissions_UserID",
-                table: "ModulePermissions",
-                column: "UserID");
+                name: "IX_ModulePermission_UserId",
+                table: "ModulePermission",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Modules_ContentItemID",
+                name: "IX_Modules_ContentItemId",
                 table: "Modules",
-                column: "ContentItemID");
+                column: "ContentItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Modules_ModuleDefID",
+                name: "IX_Modules_ModuleDefId",
                 table: "Modules",
-                column: "ModuleDefID");
+                column: "ModuleDefId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PackageDependencies_PackageID",
+                name: "IX_PackageDependencies_PackageId",
                 table: "PackageDependencies",
-                column: "PackageID");
+                column: "PackageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Packages_PackageType",
@@ -4226,14 +4269,14 @@ namespace Dnn.vNext.Migrations
                 filter: "[PackageType] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Packages_PackageTypeNavigationPackageID",
+                name: "IX_Packages_PackageTypeNavigationPackageId",
                 table: "Packages",
-                column: "PackageTypeNavigationPackageID");
+                column: "PackageTypeNavigationPackageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PasswordHistory_UserID",
+                name: "IX_PasswordHistory_UserId",
                 table: "PasswordHistory",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersonaBarExtensions_MenuId",
@@ -4241,9 +4284,9 @@ namespace Dnn.vNext.Migrations
                 column: "MenuId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PersonaBarMenu_ParentID",
+                name: "IX_PersonaBarMenu_ParentId",
                 table: "PersonaBarMenu",
-                column: "ParentID");
+                column: "ParentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersonaBarMenuDefaultPermissions_MenuId",
@@ -4282,39 +4325,39 @@ namespace Dnn.vNext.Migrations
                 column: "MenuId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PortalAlias_PortalID",
+                name: "IX_PortalAlias_PortalId",
                 table: "PortalAlias",
-                column: "PortalID");
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PortalDesktopModules_DesktopModuleID",
+                name: "IX_PortalDesktopModules_DesktopModuleId",
                 table: "PortalDesktopModules",
-                column: "DesktopModuleID");
+                column: "DesktopModuleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PortalDesktopModules_PortalID",
+                name: "IX_PortalDesktopModules_PortalId",
                 table: "PortalDesktopModules",
-                column: "PortalID");
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PortalLanguages_LanguageID",
+                name: "IX_PortalLanguages_LanguageId",
                 table: "PortalLanguages",
-                column: "LanguageID");
+                column: "LanguageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PortalLanguages_PortalID",
+                name: "IX_PortalLanguages_PortalId",
                 table: "PortalLanguages",
-                column: "PortalID");
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PortalLocalization_PortalID1",
+                name: "IX_PortalLocalization_PortalId1",
                 table: "PortalLocalization",
-                column: "PortalID1");
+                column: "PortalId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PortalSettings_PortalID",
+                name: "IX_PortalSettings_PortalId",
                 table: "PortalSettings",
-                column: "PortalID");
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Profile_PortalId",
@@ -4327,104 +4370,109 @@ namespace Dnn.vNext.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProfilePropertyDefinition_PortalID",
+                name: "IX_ProfilePropertyDefinition_PortalId",
                 table: "ProfilePropertyDefinition",
-                column: "PortalID");
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Relationships_PortalID",
+                name: "IX_Relationships_PortalId",
                 table: "Relationships",
-                column: "PortalID");
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Relationships_RelationshipTypeID",
+                name: "IX_Relationships_RelationshipTypeId",
                 table: "Relationships",
-                column: "RelationshipTypeID");
+                column: "RelationshipTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Relationships_UserID",
+                name: "IX_Relationships_UserId",
                 table: "Relationships",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Role_PortalID",
-                table: "Role",
-                column: "PortalID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Role_RoleGroupID",
-                table: "Role",
-                column: "RoleGroupID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RoleGroups_PortalID",
+                name: "IX_RoleGroups_PortalId",
                 table: "RoleGroups",
-                column: "PortalID");
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ScheduleHistory_ScheduleID",
+                name: "IX_Roles_PortalId",
+                table: "Roles",
+                column: "PortalId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Roles_RoleGroupId",
+                table: "Roles",
+                column: "RoleGroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ScheduleHistory_ScheduleId",
                 table: "ScheduleHistory",
-                column: "ScheduleID");
+                column: "ScheduleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ScheduleItemSettings_ScheduleID1",
+                name: "IX_ScheduleItemSettings_ScheduleId1",
                 table: "ScheduleItemSettings",
-                column: "ScheduleID1");
+                column: "ScheduleId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SiteLog_PortalID",
+                name: "IX_SiteLog_PortalId",
                 table: "SiteLog",
-                column: "PortalID");
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SkinControls_PackageID",
+                name: "IX_SkinControls_PackageId",
                 table: "SkinControls",
-                column: "PackageID");
+                column: "PackageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Skins_SkinPackageID",
+                name: "IX_SkinPackages_PackageId",
+                table: "SkinPackages",
+                column: "PackageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Skins_SkinPackageId",
                 table: "Skins",
-                column: "SkinPackageID");
+                column: "SkinPackageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SystemMessages_PortalID",
+                name: "IX_SystemMessages_PortalId",
                 table: "SystemMessages",
-                column: "PortalID");
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TabModules_ModuleID",
+                name: "IX_TabModules_ModuleId",
                 table: "TabModules",
-                column: "ModuleID");
+                column: "ModuleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TabModules_TabID",
+                name: "IX_TabModules_TabId",
                 table: "TabModules",
-                column: "TabID");
+                column: "TabId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TabPermission_PermissionID",
+                name: "IX_TabPermission_PermissionId",
                 table: "TabPermission",
-                column: "PermissionID");
+                column: "PermissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TabPermission_RoleID",
+                name: "IX_TabPermission_RoleId",
                 table: "TabPermission",
-                column: "RoleID");
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TabPermission_TabID",
+                name: "IX_TabPermission_TabId",
                 table: "TabPermission",
-                column: "TabID");
+                column: "TabId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TabPermission_UserID",
+                name: "IX_TabPermission_UserId",
                 table: "TabPermission",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tabs_ContentItemID",
+                name: "IX_Tabs_ContentItemId",
                 table: "Tabs",
-                column: "ContentItemID");
+                column: "ContentItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tabs_ParentId",
@@ -4432,9 +4480,9 @@ namespace Dnn.vNext.Migrations
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tabs_PortalID",
+                name: "IX_Tabs_PortalId",
                 table: "Tabs",
-                column: "PortalID");
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TabVersionDetails_TabVersionId",
@@ -4447,44 +4495,44 @@ namespace Dnn.vNext.Migrations
                 column: "TabId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Taxonomy_Terms_ParentTermID",
+                name: "IX_Taxonomy_Terms_ParentTermId",
                 table: "Taxonomy_Terms",
-                column: "ParentTermID");
+                column: "ParentTermId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Taxonomy_Terms_VocabularyID",
+                name: "IX_Taxonomy_Terms_VocabularyId",
                 table: "Taxonomy_Terms",
-                column: "VocabularyID");
+                column: "VocabularyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Taxonomy_Vocabularies_ScopeTypeID",
+                name: "IX_Taxonomy_Vocabularies_ScopeTypeId",
                 table: "Taxonomy_Vocabularies",
-                column: "ScopeTypeID");
+                column: "ScopeTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Taxonomy_Vocabularies_VocabularyTypeID",
+                name: "IX_Taxonomy_Vocabularies_VocabularyTypeId",
                 table: "Taxonomy_Vocabularies",
-                column: "VocabularyTypeID");
+                column: "VocabularyTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UrlLog_UrlTrackingID",
+                name: "IX_UrlLog_UrlTrackingId",
                 table: "UrlLog",
-                column: "UrlTrackingID");
+                column: "UrlTrackingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Urls_PortalID",
+                name: "IX_Urls_PortalId",
                 table: "Urls",
-                column: "PortalID");
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UrlTracking_PortalID",
+                name: "IX_UrlTracking_PortalId",
                 table: "UrlTracking",
-                column: "PortalID");
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserAuthentication_UserID",
+                name: "IX_UserAuthentication_UserId",
                 table: "UserAuthentication",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserPortals_PortalId",
@@ -4492,19 +4540,19 @@ namespace Dnn.vNext.Migrations
                 column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserPortals_UserID",
+                name: "IX_UserPortals_UserId1",
                 table: "UserPortals",
-                column: "UserID");
+                column: "UserId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserProfile_ProfilePropertyDefinitionID",
+                name: "IX_UserProfile_ProfilePropertyDefinitionId",
                 table: "UserProfile",
-                column: "ProfilePropertyDefinitionID");
+                column: "ProfilePropertyDefinitionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserProfile_UserID",
+                name: "IX_UserProfile_UserId",
                 table: "UserProfile",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRelationshipPreferences_RelationshipId",
@@ -4512,54 +4560,49 @@ namespace Dnn.vNext.Migrations
                 column: "RelationshipId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRelationshipPreferences_UserID",
+                name: "IX_UserRelationshipPreferences_UserId",
                 table: "UserRelationshipPreferences",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRelationships_RelatedUserID",
+                name: "IX_UserRelationships_RelatedUserId",
                 table: "UserRelationships",
-                column: "RelatedUserID");
+                column: "RelatedUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRelationships_RelationshipID",
+                name: "IX_UserRelationships_RelationshipId",
                 table: "UserRelationships",
-                column: "RelationshipID");
+                column: "RelationshipId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRelationships_UserID",
+                name: "IX_UserRelationships_UserId",
                 table: "UserRelationships",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_RoleID",
+                name: "IX_UserRoles_RoleId",
                 table: "UserRoles",
-                column: "RoleID");
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_UserID",
+                name: "IX_UserRoles_UserId",
                 table: "UserRoles",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UsersOnline_PortalID",
+                name: "IX_UsersOnline_PortalId",
                 table: "UsersOnline",
-                column: "PortalID");
+                column: "PortalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UsersOnline_UserID1",
+                name: "IX_UsersOnline_UserId1",
                 table: "UsersOnline",
-                column: "UserID1");
+                column: "UserId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_vSkinPackages_PackageID",
-                table: "vSkinPackages",
-                column: "PackageID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_WorkflowStates_WorkflowID",
+                name: "IX_WorkflowStates_WorkflowId",
                 table: "WorkflowStates",
-                column: "WorkflowID");
+                column: "WorkflowId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -4568,7 +4611,7 @@ namespace Dnn.vNext.Migrations
                 name: "AnonymousUsers");
 
             migrationBuilder.DropTable(
-                name: "aspnet_Memership");
+                name: "aspnet_Membership");
 
             migrationBuilder.DropTable(
                 name: "aspnet_SchemaVersions");
@@ -4592,7 +4635,7 @@ namespace Dnn.vNext.Migrations
                 name: "ContentItems_Tags");
 
             migrationBuilder.DropTable(
-                name: "ContentWorkflowActios");
+                name: "ContentWorkflowActions");
 
             migrationBuilder.DropTable(
                 name: "ContentWorkflowLogs");
@@ -4604,7 +4647,7 @@ namespace Dnn.vNext.Migrations
                 name: "CoreMessaging_MessageAttachments");
 
             migrationBuilder.DropTable(
-                name: "CoreMessaging_MessagingRecipients");
+                name: "CoreMessaging_MessageRecipients");
 
             migrationBuilder.DropTable(
                 name: "CoreMessaging_NotificationTypeActions");
@@ -4637,16 +4680,16 @@ namespace Dnn.vNext.Migrations
                 name: "ExportImportSettings");
 
             migrationBuilder.DropTable(
-                name: "ExtensionUrlProviderConfiguration");
+                name: "ExtensionUrlProvIderConfiguration");
 
             migrationBuilder.DropTable(
-                name: "ExtensionUrlProviders");
+                name: "ExtensionUrlProvIders");
 
             migrationBuilder.DropTable(
-                name: "ExtensionUrlProviderSetting");
+                name: "ExtensionUrlProvIderSetting");
 
             migrationBuilder.DropTable(
-                name: "ExtensionUrlProviderTab");
+                name: "ExtensionUrlProvIderTab");
 
             migrationBuilder.DropTable(
                 name: "FileVersions");
@@ -4706,7 +4749,7 @@ namespace Dnn.vNext.Migrations
                 name: "ModuleControls");
 
             migrationBuilder.DropTable(
-                name: "ModulePermissions");
+                name: "ModulePermission");
 
             migrationBuilder.DropTable(
                 name: "ModuleSettings");
@@ -4889,7 +4932,7 @@ namespace Dnn.vNext.Migrations
                 name: "Schedule");
 
             migrationBuilder.DropTable(
-                name: "vSkinPackages");
+                name: "SkinPackages");
 
             migrationBuilder.DropTable(
                 name: "TabModules");
@@ -4907,7 +4950,7 @@ namespace Dnn.vNext.Migrations
                 name: "Relationships");
 
             migrationBuilder.DropTable(
-                name: "Role");
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Taxonomy_Vocabularies");
@@ -4991,7 +5034,7 @@ namespace Dnn.vNext.Migrations
                 name: "PackageType");
 
             migrationBuilder.DropTable(
-                name: "ContentType");
+                name: "ContentTypes");
         }
     }
 }

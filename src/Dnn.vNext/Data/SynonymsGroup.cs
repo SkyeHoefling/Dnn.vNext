@@ -9,13 +9,13 @@ namespace Dnn.vNext.Data
     public class SynonymsGroup
     {
         [Key]
-/*PK*/  public int SynonymsGroupID { get; set; }
+/*PK*/  public int SynonymsGroupId { get; set; }
         public string SynonymsTags { get; set; }
-        public int PortalID { get; set; }
+        public int PortalId { get; set; }
         public string CultureCode { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
     }
 }

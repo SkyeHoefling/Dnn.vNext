@@ -9,7 +9,7 @@ namespace Dnn.vNext.Data
     public class Schedule
     {
         [Key]
-/*PK*/  public int ScheduleID { get; set; }
+/*PK*/  public int ScheduleId { get; set; }
         public string TypeFullName { get; set; }
         public int TimeLapse { get; set; }
         public string TimeLapseMeasurement { get; set; }
@@ -21,9 +21,9 @@ namespace Dnn.vNext.Data
         public bool Enabled { get; set; }
         public string ObjectDependencies { get; set; }
         public string Servers { get; set; }
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
         public string FriendlyName { get; set; }
         public DateTime ScheduleStartDate { get; set; }

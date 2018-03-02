@@ -8,14 +8,14 @@ namespace Dnn.vNext.Data
     public class ModuleSetting
     {
         [Key, Column(Order = 0)]
-/*PK*/  public int ModuleID { get; set; }
+/*PK*/  public int ModuleId { get; set; }
 
         [Key, Column(Order = 1)]
 /*PK*/  public string SettingName { get; set; }
 
-        public int? CreatedByUserID { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID{ get; set; }
+        public int? LastModifiedByUserId{ get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
         public virtual Module Module { get; set; }

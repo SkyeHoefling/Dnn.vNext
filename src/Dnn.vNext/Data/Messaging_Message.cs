@@ -9,13 +9,13 @@ namespace Dnn.vNext.Data
     public class Messaging_Message
     {
         [Key]
-/*PK*/  public int MessageID { get; set; }
-        public int PortalID { get; set; }
-        public int FromUserID { get; set; }
+/*PK*/  public int MessageId { get; set; }
+        public int PortalId { get; set; }
+        public int FromUserId { get; set; }
         public string ToUserName { get; set; }
         public string FromUserName { get; set; }
-        public int ToUserID { get; set; }
-        public int ToRoleID { get; set; }
+        public int ToUserId { get; set; }
+        public int ToRoleId { get; set; }
         public int Status { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }

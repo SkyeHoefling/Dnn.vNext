@@ -9,12 +9,12 @@ namespace Dnn.vNext.Data
     public class PortalDesktopModule
     {
         [Key]
-/*PK*/  public int PortalDesktopModuleID { get; set; }
-/*FK*/  public int PortalID { get; set; }
-/*FK*/  public int DesktopModuleID { get; set; }
-        public int? CreatedByUserID { get; set; }
+/*PK*/  public int PortalDesktopModuleId { get; set; }
+/*FK*/  public int PortalId { get; set; }
+/*FK*/  public int DesktopModuleId { get; set; }
+        public int? CreatedByUserId { get; set; }
         public DateTime? CreatedOnDate { get; set; }
-        public int? LastModifiedByUserID { get; set; }
+        public int? LastModifiedByUserId { get; set; }
         public DateTime? LastModifiedOnDate { get; set; }
 
         public virtual Portal Portal { get; set; }

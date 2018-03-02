@@ -1,18 +1,22 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Dnn.vNext.Data
 {
     public class CoreMessaging_SubscriptionType
     {
         [Key]
-/*PK*/  public int SubscriptionTypeID { get; set; }
+/*PK*/ public int SubscriptionTypeId { get; set; }
+
+        [Required]
+        [MaxLength(50)]
         public string SubscriptionName { get; set; }
+
+        [Required]
+        [MaxLength(50)]
         public string FriendlyName { get; set; }
-        public int? DesktopModuleID { get; set; }
+
+        public int? DesktopModuleId { get; set; }
 
         public virtual ICollection<CoreMessaging_Subscription> CoreMessaging_Subscription { get; set; }
     }
