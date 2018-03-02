@@ -50,6 +50,62 @@ body {
 }
 
 
+.persona-bar {
+    position: fixed;
+    width: 6em;
+    height: 100%;
+    background-color: #3d3c3c;
+    top: 0px;
+    float: left;
+}
+
+.flyout {
+    display:none;
+    width: 80%;
+    background: #fff;
+    opacity: 0.96;
+    height: 100%;
+    margin-left: 84px;
+    float: left;
+    clear: left;
+    padding: 5px 5px 5px 20px;
+    position: fixed;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+
+.close-icon {
+    background: url('../images/close_icon.png');
+    background-repeat:no-repeat;
+    background-size:30px 30px;
+    float:right;
+    width:30px;
+    height:30px;
+    cursor:pointer;
+}
+
+. element.style {
+}
+
+.navbar-inverse {
+    background-color: #222;
+    border-color: #080808;
+}
+
+.navbar-fixed-top {
+    top: 0;
+    border-width: 0 0 1px;
+}
+
+@media (min-width: 768px) .navbar-fixed-top, .navbar-fixed-bottom {
+    border-radius: 0;
+}
+
+.navbar-fixed-top {
+    z-index:0 !important;
+}
+
 
 
 /* Hide/rearrange for smaller screens */
@@ -288,13 +344,7 @@ footer.admin {
     cursor:pointer;
 }
 
-.persona-bar {
-    position: fixed;
-    width: 6em;
-    height: 100%;
-    background-color: #3d3c3c;
-    top:0px;
-}
+
 
 .logo {
     height: 4em;
