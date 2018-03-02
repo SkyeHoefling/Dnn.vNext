@@ -20,7 +20,6 @@
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
-        @Html.Partial("_PersonaBar")
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -69,11 +68,19 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
+
+    @Html.Partial("_PersonaBar")
+
+
     @RenderSection("Scripts", required: false)
 
     <script>
+        isEditMode = false;
         $(function () {
             $('#persona-edit-button').click(function () {
+                       
+                isEditMode = true;
+
                 $.ajax({
                     url: 'api/page/EditPage',
                     type: 'POST',
@@ -94,6 +101,7 @@
 
         $(function () {
             $('#persona-cancel-edit-button').click(function () {
+                isEditMode = false;
                 $('#persona-edit-button').show();
                 $('#persona-cancel-edit-button').hide();
                 $('footer').remove();
@@ -145,6 +153,38 @@
         $('.persona-bar-settings-menu').mouseleave(function () {
             $('.persona-bar-settings-menu').hide()
         });
+
+        //***************
+
+        $('.persona-bar').mouseleave(function () {
+            closeAllMenus();
+        });
+
+        $('.flyout').mouseenter(function () {
+            closeAllMenus();
+        });
+
+        //***************
+        $('.persona-bar-menu ul li').click(function () {
+            $('.flyout').show("fold", 500);
+            $('.persona-edit').hide();
+        });
+
+        //***************
+        $('.close-icon').click(function () {
+            $('.flyout').hide("fold", 300);
+
+            if (isEditMode) {
+                $('.persona-edit').hide();
+            }
+            else { 
+                $('.persona-edit').show();
+            }
+            
+        });
+
+        //***************
+
 
     </script>
 
