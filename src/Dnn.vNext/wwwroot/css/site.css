@@ -129,6 +129,7 @@ body {
     min-height: 200px;
     background: #f0f8ff;
     position:relative;
+    padding:5px;
 }
 
 .paneEditMode::before, .paneEditMode::after {
