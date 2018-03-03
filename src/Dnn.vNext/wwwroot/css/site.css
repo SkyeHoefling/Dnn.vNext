@@ -21,6 +21,94 @@ body {
     width: 100%;
 }
 
+.persona-bar-menu{
+    min-height: 200px;
+    background: #000;
+    opacity: 0.7;
+    margin-left: 6em;
+    min-width: 300px;
+    padding: 10px 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    display: none;
+}
+
+.persona-bar-menu ul {
+    list-style:none;
+    margin-left:-30px;
+}
+
+.persona-bar-menu ul li {
+    padding-top: 2px;
+}
+
+
+.persona-bar-manage-menu {
+}
+
+
+.persona-bar {
+    position: fixed;
+    width: 6em;
+    height: 100%;
+    background-color: #3d3c3c;
+    top: 0px;
+    float: left;
+    z-index:2 !important;
+}
+
+.flyout {
+    display:none;
+    width: 80%;
+    background: #fff;
+    opacity: 0.96;
+    height: 100%;
+    margin-left: 84px;
+    float: left;
+    clear: left;
+    padding: 5px 5px 5px 20px;
+    position: fixed;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+
+.close-icon {
+    background: url('../images/close_icon.png');
+    background-repeat:no-repeat;
+    background-size:30px 30px;
+    float:right;
+    width:30px;
+    height:30px;
+    cursor:pointer;
+}
+
+. element.style {
+}
+
+.navbar-inverse {
+    background-color: #222;
+    border-color: #080808;
+}
+
+.navbar-fixed-top {
+    top: 0;
+    border-width: 0 0 1px;
+}
+
+@media (min-width: 768px) .navbar-fixed-top, .navbar-fixed-bottom {
+    border-radius: 0;
+}
+
+.navbar-fixed-top {
+    z-index:1 !important;
+}
+
+
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
@@ -29,11 +117,96 @@ body {
     }
 }
 
-.module {
-    border:gray dotted;
-    margin:1em;
-    min-height:200px;
+/*.module {
+    border: gray dotted;
+    margin: 1em;
+    min-height: 200px;
+}*/
+
+.paneEditMode {
+    border: 1px solid #DBDBEA;
+    margin: 1em;
+    min-height: 200px;
+    background: #f0f8ff;
+    position:relative;
 }
+
+.paneEditMode::before, .paneEditMode::after {
+    border: 0 solid transparent;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.paneEditMode::before {
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+}
+
+.paneEditMode::after {
+    border-top-width: 3px;
+    border-right-width: 3px;
+}
+
+.paneEditMode:hover {
+    color: #4DA6FF;
+    -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+}
+
+.paneEditMode:hover::before, .paneEditMode:hover::after {
+    border-color: #4DA6FF;
+    -webkit-transition: border-color 0s, width 0.25s, height 0.25s;
+    transition: border-color 0s, width 0.25s, height 0.25s;
+    width: 100%;
+    height: 100%;
+}
+
+.paneEditMode:hover::before {
+    -webkit-transition-delay: 0s, 0s, 0.2s;
+    transition-delay: 0s, 0s, 0.2s;
+}
+
+.paneEditMode:hover::after {
+    -webkit-transition-delay: 0s, 0.2s, 0s;
+    transition-delay: 0s, 0.2s, 0s;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*.pane:hover {
+    -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+}*/
 
 .new-module {
     height: 150px;
@@ -51,14 +224,19 @@ body {
 .floating-add-module:hover {
     animation: none;
     border: green solid;
-    position: absolute ;
+    position: fixed;
+    top: 40%;
+    left: 45%;
 }
 
 
 .new-module-add-animation {
     -webkit-animation: myfirst linear 2s infinite alternate; /* Safari 4.0 - 8.0 */
     animation: myfirst linear 2s infinite alternate;
-    position: absolute !important;
+    /*position: absolute !important;*/
+    position: fixed;
+    top: 50%;
+    left: 50%;
 }
 
 /* Safari 4.0 - 8.0 */
@@ -252,13 +430,7 @@ footer.admin {
     cursor:pointer;
 }
 
-.persona-bar {
-    position: fixed;
-    width: 6em;
-    height: 100%;
-    background-color: #3d3c3c;
-    top:0px;
-}
+
 
 .logo {
     height: 4em;
@@ -288,7 +460,15 @@ footer.admin {
 }
 
 .persona-edit {
-    bottom:0;
-    color:white;
-    position:absolute;
+    bottom: 0;
+    color: white;
+    position: absolute;
+}
+
+.edit-cancel{
+    bottom: 0;
+    color: white;
+    position: absolute;
+    width: 100%;
+    display:none;
 }

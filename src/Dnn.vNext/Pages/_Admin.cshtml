@@ -20,7 +20,6 @@
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
-        @Html.Partial("_PersonaBar")
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -69,24 +68,135 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
+
+    @Html.Partial("_PersonaBar")
+
+
     @RenderSection("Scripts", required: false)
+
     <script>
+        isEditMode = false;
         $(function () {
             $('#persona-edit-button').click(function () {
+                       
+                isEditMode = true;
+
+                $('.pane').each(function () { 
+                    $(this).addClass('paneEditMode');
+                });
+
                 $.ajax({
                     url: 'api/page/EditPage',
                     type: 'POST',
                     success: function (data) {
+                        $('#persona-edit-button').hide();
+                        $('#persona-cancel-edit-button').show();
+
                         if ($('footer').length) {
                             $('footer').remove();
                         }
                         else {
-                            $('#main').append(data);    
-                        }                        
+                            $('#main').append(data);
+                        }
                     }
                 });
             });
         });
+
+        $(function () {
+            $('#persona-cancel-edit-button').click(function () {
+                isEditMode = false;
+                $('#persona-edit-button').show();
+                $('#persona-cancel-edit-button').hide();
+                $('footer').remove();
+
+                $('.pane').each(function () {
+                    $(this).removeClass('paneEditMode');
+                });
+            });
+        });
+
+
+
+
+        function closeAllMenus() {
+            $('.persona-bar-content-menu').hide();
+            $('.persona-bar-manage-menu').hide();
+            $('.persona-bar-settings-menu').hide();
+        };
+
+        $(document).ready(function () {
+            closeAllMenus();
+        });
+
+        //**************
+
+        $('.persona-bar-content-icon').hover(function () {
+            closeAllMenus();
+            $('.persona-bar-content-menu').show()
+        });
+
+        $('.persona-bar-content-menu').mouseleave(function () {
+            $('.persona-bar-content-menu').hide()
+        });
+
+        //**************
+
+        $('.persona-bar-manage-icon').hover(function () {
+            closeAllMenus();
+            $('.persona-bar-manage-menu').show()
+        });
+
+        $('.persona-bar-manage-menu').mouseleave(function () {
+            $('.persona-bar-manage-menu').hide()
+        });
+
+        //**************
+
+        $('.persona-bar-settings-icon').hover(function () {
+            closeAllMenus();
+            $('.persona-bar-settings-menu').show()
+        });
+
+        $('.persona-bar-settings-menu').mouseleave(function () {
+            $('.persona-bar-settings-menu').hide()
+        });
+
+        //***************
+
+        $('.persona-bar').mouseleave(function () {
+            closeAllMenus();
+        });
+
+        $('.flyout').mouseenter(function () {
+            closeAllMenus();
+        });
+
+        //***************
+        $('.persona-bar-menu ul li').click(function () {
+            $('.flyout').show("fold", 500);
+            $('.persona-edit').hide();
+        });
+
+        //***************
+        $('.close-icon').click(function () {
+            $('.flyout').hide("fold", 300);
+
+            if (isEditMode) {
+                $('.persona-edit').hide();
+            }
+            else { 
+                $('.persona-edit').show();
+            }
+            
+        });
+
+        //***************
+
+
     </script>
+
+
+
 </body>
 </html>
