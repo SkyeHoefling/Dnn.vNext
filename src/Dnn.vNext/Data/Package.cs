@@ -15,8 +15,11 @@ namespace Dnn.vNext.Data
         public string Name { get; set; }
         public string FriendlyName { get; set; }
         public string Description { get; set; }
-
-        //[ForeignKey ("PackageTypeNavigation")]
+        
+        // AH - Since this FK doesn't follow convention of having an Id
+        // at the end we need to specify the ForeignKey Navigation property
+        // the parameter here *has* to match the property name below
+        [ForeignKey("PackageTypeNavigation")]
 /*FK*/  public string PackageType { get; set; }
 
         public string Version { get; set; }
@@ -35,8 +38,8 @@ namespace Dnn.vNext.Data
         public string FolderName { get; set; }
         public string IconFile { get; set; }
 
-
-        public virtual Package_Type Package_Type { get; set; }
+                
+        public virtual Package_Type PackageTypeNavigation { get; set; }
         public virtual ICollection<Assembly> Assemblies { get; set; }
         public virtual ICollection<SkinPackage> SkinPackage { get; set; }
         public virtual ICollection<JavascriptLibrary> JavascriptLibrary { get; set; }
@@ -44,9 +47,6 @@ namespace Dnn.vNext.Data
         public virtual ICollection<SkinControl> SkinControl { get; set; }
         public virtual ICollection<DesktopModule> DesktopModule { get; set; }
         public virtual ICollection<PackageDependency> PackageDependency { get; set; }
-        public virtual ICollection<Authentication> Authentications { get; set; }
-
-        public virtual Package PackageTypeNavigation {get; set;}
-        
+        public virtual ICollection<Authentication> Authentications { get; set; }        
     }
 }
