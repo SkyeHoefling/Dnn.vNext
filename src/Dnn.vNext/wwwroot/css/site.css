@@ -123,7 +123,7 @@ body {
     min-height: 200px;
 }*/
 
-.pane {
+.paneEditMode {
     border: 1px solid #DBDBEA;
     margin: 1em;
     min-height: 200px;
@@ -131,7 +131,7 @@ body {
     position:relative;
 }
 
-.pane::before, .pane::after {
+.paneEditMode::before, .paneEditMode::after {
     border: 0 solid transparent;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -144,24 +144,24 @@ body {
     right: 0;
 }
 
-.pane::before {
+.paneEditMode::before {
     border-bottom-width: 3px;
     border-left-width: 3px;
 }
 
-.pane::after {
+.paneEditMode::after {
     border-top-width: 3px;
     border-right-width: 3px;
 }
 
-.pane:hover {
+.paneEditMode:hover {
     color: #4DA6FF;
     -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
 }
 
-.pane:hover::before, .pane:hover::after {
+.paneEditMode:hover::before, .paneEditMode:hover::after {
     border-color: #4DA6FF;
     -webkit-transition: border-color 0s, width 0.25s, height 0.25s;
     transition: border-color 0s, width 0.25s, height 0.25s;
@@ -169,12 +169,12 @@ body {
     height: 100%;
 }
 
-.pane:hover::before {
+.paneEditMode:hover::before {
     -webkit-transition-delay: 0s, 0s, 0.2s;
     transition-delay: 0s, 0s, 0.2s;
 }
 
-.pane:hover::after {
+.paneEditMode:hover::after {
     -webkit-transition-delay: 0s, 0.2s, 0s;
     transition-delay: 0s, 0.2s, 0s;
 }

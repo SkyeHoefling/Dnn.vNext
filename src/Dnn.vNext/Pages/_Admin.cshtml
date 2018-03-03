@@ -81,6 +81,10 @@
                        
                 isEditMode = true;
 
+                $('.pane').each(function () { 
+                    $(this).addClass('paneEditMode');
+                });
+
                 $.ajax({
                     url: 'api/page/EditPage',
                     type: 'POST',
@@ -105,6 +109,10 @@
                 $('#persona-edit-button').show();
                 $('#persona-cancel-edit-button').hide();
                 $('footer').remove();
+
+                $('.pane').each(function () {
+                    $(this).removeClass('paneEditMode');
+                });
             });
         });
 
