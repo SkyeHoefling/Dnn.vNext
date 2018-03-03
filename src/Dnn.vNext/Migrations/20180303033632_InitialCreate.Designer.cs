@@ -11,8 +11,8 @@ using System;
 namespace Dnn.vNext.Migrations
 {
     [DbContext(typeof(DnnDbContext))]
-    [Migration("20180302190321_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20180303033632_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

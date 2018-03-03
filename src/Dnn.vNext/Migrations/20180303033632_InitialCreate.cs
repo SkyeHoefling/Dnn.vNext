@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.Collections.Generic;
 
 namespace Dnn.vNext.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -2439,7 +2438,7 @@ namespace Dnn.vNext.Migrations
                         column: x => x.ParentTermId,
                         principalTable: "Taxonomy_Terms",
                         principalColumn: "TermId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Taxonomy_Terms_Taxonomy_Vocabularies_VocabularyId",
                         column: x => x.VocabularyId,
@@ -2515,7 +2514,7 @@ namespace Dnn.vNext.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -3838,13 +3837,7 @@ namespace Dnn.vNext.Migrations
                 table: "aspnet_Users",
                 columns: new[] { "ApplicationId", "LastActivityDate" })
                 .Annotation("SqlServer:Clustered", false);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_aspnet_Users_ApplicationId_LoweredUserName",
-                table: "aspnet_Users",
-                columns: new[] { "ApplicationId", "LoweredUserName" })
-                .Annotation("SqlServer:Clustered", true);
-
+            
             migrationBuilder.CreateIndex(
                 name: "IX_Assemblies_PackageId",
                 table: "Assemblies",
