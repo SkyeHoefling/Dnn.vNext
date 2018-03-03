@@ -36,7 +36,8 @@
                 </text>
             }
         }
-        $('.module').droppable({
+            $('.module').droppable({
+            hoverClass: "paneEditModeActive",
             drop: function (e, u) {
                 $('#module-1').detach().css({ top: 0, left: 0, width: '100%', 'background-color': 'transparent', border: 'none' }).appendTo(this);
 
