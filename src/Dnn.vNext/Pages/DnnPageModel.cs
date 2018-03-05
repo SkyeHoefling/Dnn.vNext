@@ -15,7 +15,7 @@ namespace Dnn.vNext.Pages
         }
 
         public IDictionary<string, IEnumerable<string>> Modules { get; set; }
-        public string ModulePath { get; } = "Modules/SimpleForm";
+        public string ModulePath { get; } = "Modules/RazorPagesModule/Pages/Index";
         public int PageId { get; set; }
 
         public void OnGet()

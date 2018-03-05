@@ -18,65 +18,66 @@ namespace Dnn.vNext.Data
                 };
                 context.Tabs.Add(page);
 
-
-                var moduleDef1 = new ModuleDefinition
-                {
-                    ModuleDefId = 0,
-                    DesktopModule = new DesktopModule
-                    {
-                        DesktopModuleId = 0,
-                        FolderName = "RazorPagesModule",
-                        FriendlyName = "RazorPagesModule",
-                        ModuleName = "RazorPagesModule",
-                        Package = new Package
-                        {
-                            PackageId = 0,
-                            PackageTypeNavigation = new Package_Type
-                            {
-                                PackageType = Guid.NewGuid().ToString()
-                            }
-                        }
-                    }
-                };
-
-                // AH - we need to add a second module later
-                //var moduleDef2 = new ModuleDefinition
+                //var package1 = new Package
                 //{
-                //    ModuleDefId = 1,
-                //    DesktopModule = new DesktopModule
+                //    PackageId = 0,
+                //    PackageTypeNavigation = new Package_Type
                 //    {
-                //        DesktopModuleId = 1,
-                //        FolderName = "RazorPagesModule",
-                //        FriendlyName = "RazorPagesModule",
-                //        ModuleName = "RazorPagesModule",
-                //        Package = new Package
-                //        {
-                //            PackageId = 1,
-                //            PackageTypeNavigation = new Package_Type
-                //            {
-                //                PackageType = Guid.NewGuid().ToString()
-                //            }
-                //        }
+                //        PackageType = Guid.NewGuid().ToString()
                 //    }
                 //};
 
-                context.ModuleDefinitions.AddRange(moduleDef1);
+                var package2 = new Package
+                {
+                    PackageTypeNavigation = new Package_Type
+                    {
+                        PackageType = Guid.NewGuid().ToString()
+                    }
+                };
+
+                context.Packages.AddRange(package2);
+
+                //var moduleDef1 = new ModuleDefinition
+                //{
+                //    ModuleDefId = 0,
+                //    DesktopModule = new DesktopModule
+                //    {
+                //        DesktopModuleId = 0,
+                //        FolderName = "SimpleForm",
+                //        FriendlyName = "SimpleForm",
+                //        ModuleName = "SimpleForm",
+                //        PackageId = package1.PackageId
+                //    }
+                //};
+                
+                var moduleDef2 = new ModuleDefinition
+                {
+                    DesktopModule = new DesktopModule
+                    {
+                        FolderName = "RazorPagesModule",
+                        FriendlyName = "RazorPagesModule",
+                        ModuleName = "RazorPagesModule",
+                        PackageId = package2.PackageId
+                    }
+                };
+
+                context.ModuleDefinitions.AddRange(moduleDef2);
 
                 var modules = new[] {
-                    new Module
-                    {
-                        ModuleDefId = moduleDef1.ModuleDefId,
-                        Icon = "tasks",
-                        Name = "Simple Form",
-                        Path = "Modules/SimpleForm"
-                    },
                     //new Module
                     //{
-                    //    ModuleDefId = moduleDef2.ModuleDefId,
-                    //    Icon = "pencil",
-                    //    Name = "HTML Editor",
+                    //    ModuleDefId = moduleDef1.ModuleDefId,
+                    //    Icon = "tasks",
+                    //    Name = "Simple Form",
                     //    Path = "Modules/SimpleForm"
-                    //}
+                    //},
+                    new Module
+                    {
+                        ModuleDefId = moduleDef2.ModuleDefId,
+                        Icon = "pencil",
+                        Name = "HTML Editor",
+                        Path = "Modules/RazorPagesModule/Pages/Index"
+                    }
                 };
                 context.Modules.AddRange(modules);
                 context.SaveChanges();
