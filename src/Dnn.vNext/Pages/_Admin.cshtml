@@ -83,6 +83,12 @@
 
                 $('.pane').each(function () { 
                     $(this).addClass('paneEditMode');
+
+                    var paneContent = $(this).html();
+                    if (paneContent == "") { 
+                        var paneID = $(this).attr('id');
+                        $(this).html("<div class=\"editModePaneLabel\">" + paneID + "</div");
+                    }
                 });
 
                 $.ajax({
@@ -110,7 +116,11 @@
                 $('#persona-cancel-edit-button').hide();
                 $('footer').remove();
 
+                $('.editModePaneLabel').remove();
 
+                $('.pane').each(function () {
+                    $(this).removeClass('paneEditMode');
+                });
             });
         });
 
@@ -187,6 +197,7 @@
         });
 
         //***************
+
 
     </script>
 

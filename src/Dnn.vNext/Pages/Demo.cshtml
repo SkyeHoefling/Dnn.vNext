@@ -9,12 +9,12 @@
 <h2>Dnn.vNext Demo</h2>
 
 <div class="row">
-    <div id="content_1" class="col-md-7 module pane"></div>
-    <div id="content_2" class="col-md-4 module pane"></div>
-    <div id="content_3" class="col-md-5 module pane"></div>
-    <div id="content_4" class="col-md-6 module pane"></div>
-    <div id="content_5" class="col-md-4 module pane"></div>
-    <div id="content_6" class="col-md-7 module pane"></div>
+    <div id="Row-One-Left-Pane-7" class="col-md-7 module pane"></div>
+    <div id="Row-One-Left-Pane-2" class="col-md-4 module pane"></div>
+    <div id="Row-Two-Left-Pane-5" class="col-md-5 module pane"></div>
+    <div id="Row-Two-Right-Pane-6" class="col-md-6 module pane"></div>
+    <div id="Row-Three-Left-Pane-4" class="col-md-4 module pane"></div>
+    <div id="Row-Three-Right-Pane-7" class="col-md-7 module pane"></div>
 </div>
 
 
@@ -36,7 +36,7 @@
                 </text>
             }
         }
-            $('.module').droppable({
+        $('.module').droppable({
             hoverClass: "paneEditModeActive",
             drop: function (e, u) {
                 $('#module-1').detach().css({ top: 0, left: 0, width: '100%', 'background-color': 'transparent', border: 'none' }).appendTo(this);
@@ -47,20 +47,26 @@
                     modulePath: "Modules/RazorPagesModule/Pages/Index"
                 };
 
+                var paneInjectedInto = data.elementId;
+
                 $.ajax({
                     url: '/api/page/AddModule',
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
                     headers: {
-                        'RequestVerificationToken':  $('input:hidden[name="__RequestVerificationToken"]').val()
+                        'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
                     },
                     data: JSON.stringify(data)
                 });
+
                 $.ajax({
                     url: '@Model.ModulePath',
                     type: 'GET',
                     success: function (data) {
                         $('#module-1').html(data);
+                        console.log(paneInjectedInto);
+                        $('#' + paneInjectedInto + '').find('.editModePaneLabel').remove();
+
                     }
                 });
             }
