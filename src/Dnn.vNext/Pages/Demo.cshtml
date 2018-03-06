@@ -47,20 +47,26 @@
                     modulePath: "Modules/SimpleForm"
                 };
 
+                var paneInjectedInto = data.elementId;
+
                 $.ajax({
                     url: '/api/page/AddModule',
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
                     headers: {
-                        'RequestVerificationToken':  $('input:hidden[name="__RequestVerificationToken"]').val()
+                        'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
                     },
                     data: JSON.stringify(data)
                 });
+
                 $.ajax({
                     url: '@Model.ModulePath',
                     type: 'GET',
                     success: function (data) {
                         $('#module-1').html(data);
+                        console.log(paneInjectedInto);
+                        $('#' + paneInjectedInto + '').find('.editModePaneLabel').remove();
+
                     }
                 });
             }
